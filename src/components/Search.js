@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 //import component
 import AreaDropdown from "./AreaDropdown";
@@ -9,8 +9,11 @@ import PropertyDropdown from "./PropertyDropdown";
 import { RiSearch2Line } from "react-icons/ri";
 
 //import context
+import { HouseContext } from "./HouseContext";
 
 const Search = () => {
+  const { houses } = useContext(HouseContext);
+  console.log(houses);
   return (
     <div
       className="px-[30px] py-6 max-w-[1170px]
