@@ -13,7 +13,6 @@ import { HouseContext } from "./HouseContext";
 
 const Search = () => {
   const { handleClick } = useContext(HouseContext);
-  // console.log(houses);
   return (
     <div
       className="px-[30px] py-6 max-w-[1170px]

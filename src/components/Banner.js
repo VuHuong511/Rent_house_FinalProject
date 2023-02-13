@@ -1,7 +1,7 @@
 import React from "react";
 
 // import image
-import Image from "../assets/img/banner.png";
+import Image from "../assets/img/banner2.jpg";
 
 //import component
 import Search from "../components/Search";
