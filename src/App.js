@@ -1,10 +1,12 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Header from "./components/Header";
 
 //import Component
 
 //import pages
+import "react-toastify/dist/ReactToastify.css";
 import About from "./pages/About";
 import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
@@ -23,6 +25,20 @@ const App = () => {
         <Route path="/login" element={<LogIn />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      {/* Same as */}
+      <ToastContainer />
     </div>
   );
 };

@@ -12,7 +12,7 @@ const Header = () => {
       <div className="container mx-auto flex justify-between items-center">
         {}
         <Link>
-          <img className="w-20" src={Logo} alt="" />
+          <img className="w-20  " src={Logo} alt="" />
         </Link>
         {}
         <div className="flex items-center gap-6">

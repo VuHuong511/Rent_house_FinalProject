@@ -32,9 +32,9 @@ export default function ForgotPassword() {
             <label>Email</label>
             <input
               className="rounded-lg bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"
-              type="text"
-              id="name"
-              value={name}
+              type="email"
+              id="email"
+              value={email}
               onChange={onChange}
             />
           </div>

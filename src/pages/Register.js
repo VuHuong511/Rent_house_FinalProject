@@ -1,20 +1,45 @@
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import login from "../assets/img/login.jpg";
+import { app, db } from "../firebase";
 
 export default function Register() {
-  const [formData, setformData] = useState({
+  const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
   });
   const { name, email, password } = formData;
   function onChange(e) {
-    setformData((prevState) => ({
+    setFormData((prevState) => ({
       ...prevState,
       [e.target.id]: e.target.value,
     }));
+  }
+  async function onSubmit(e) {
+    e.preventDefault();
+    try {
+      const auth = getAuth(app);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      const formDataCopy = { ...formData };
+      delete formDataCopy.password;
+      formDataCopy.timestamp = serverTimestamp();
+      await setDoc(doc(db, "users", user.uid), formDataCopy);
+      // toast.success("Register was successfully");
+      // Navigate("/");
+    } catch (error) {
+      toast.error("Something went wrong with the registration");
+    }
   }
   const [showPassword, setShowPassword] = useState(false);
   return (
@@ -23,8 +48,8 @@ export default function Register() {
         <img className="w-full h-screen object-cover" src={login} alt="" />
       </div>
 
-      <div className="bg-gray-800 flex flex-col justify-center">
-        <form className="max-w-[400px] w-full mx-auto bg-gray-900 p-8 px-8 rounded-lg ">
+      <form onSubmit={onSubmit}>
+        <div className="bg-gray-800 flex flex-col justify-center">
           <h2 className="text-4xl text-white font-bold text-center">
             REGISTER
           </h2>
@@ -33,9 +58,9 @@ export default function Register() {
             <label>User Name</label>
             <input
               className="rounded-lg bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"
-              type="email"
-              id="email"
-              value={email}
+              type="text"
+              id="name"
+              value={name}
               onChange={onChange}
             />
           </div>
@@ -43,9 +68,9 @@ export default function Register() {
             <label>Email</label>
             <input
               className="rounded-lg bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"
-              type="text"
-              id="name"
-              value={name}
+              type="email"
+              id="email"
+              value={email}
               onChange={onChange}
             />
           </div>
@@ -82,7 +107,7 @@ export default function Register() {
             </Link>
           </div>
           <button className="w-full my-5 py-2 bg-teal-500 text-white font-bold">
-            LOG IN
+            REGISTER
           </button>
 
           <div
@@ -97,8 +122,8 @@ export default function Register() {
             <FcGoogle className="text-2xl bg-white rounded-full mr-2" />
             CONTINUE WITH GOOGLE
           </button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 }
