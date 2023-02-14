@@ -2,10 +2,10 @@ import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import login from "../assets/img/login.jpg";
+import OAuth from "../components/OAuth";
 import { app, db } from "../firebase";
 
 export default function Register() {
@@ -109,19 +109,7 @@ export default function Register() {
           <button className="w-full my-5 py-2 bg-teal-500 text-white font-bold">
             REGISTER
           </button>
-
-          <div
-            className="flex items-center my-4 before:border-t 
-          before:flex-1 before:border-gray-300 after:border-gray-300
-          after:border-t after:flex-1
-          after:bordeer-gray-300"
-          >
-            <p className="text-center text-white font-semibold mx-4">OR</p>
-          </div>
-          <button className="w-full my-5 py-2 bg-red-500">
-            <FcGoogle className="text-2xl bg-white rounded-full mr-2" />
-            CONTINUE WITH GOOGLE
-          </button>
+          <OAuth />
         </div>
       </form>
     </div>
