@@ -1,30 +1,54 @@
 import React, { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import login from "../assets/img/login.jpg";
+import { signInWithEmailAndPassword, getAuth  } from "firebase/auth";
+import {toast } from "react-toastify"
+import { app, db } from "../firebase";
+
+import { wait } from "@testing-library/user-event/dist/utils";
 
 export default function LogIn() {
+
   const [formData, setformData] = useState({
     email: "",
     password: "",
   });
   const { email, password } = formData;
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
   function onChange(e) {
     setformData((prevState) => ({
       ...prevState,
       [e.target.id]: e.target.value,
     }));
   }
-  const [showPassword, setShowPassword] = useState(false);
+  function onSubmit(e){
+    e.preventDefault()
+    try{
+      const auth = getAuth(app);
+      const userCredential =  signInWithEmailAndPassword(auth, 
+        email, password);
+        
+        console.log(email)
+        const User = userCredential.user
+          toast.success("Login was successfully");
+          navigate("/")
+          console.log(User)
+      
+    } catch (error){
+      toast.error("Bad user credentials")
+ 
+    }
+  }
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full">
       <div className="hidden sm:block">
         <img className="w-full h-screen object-cover" src={login} alt="" />
       </div>
-
-      <div className="bg-gray-800 flex flex-col justify-center">
-        <form className="max-w-[400px] w-full mx-auto bg-gray-900 p-8 px-8 rounded-lg ">
+      <form onSubmit={onSubmit}>
+        <div className="bg-gray-800 flex flex-col justify-center">
           <h2 className="text-4xl text-white font-bold text-center">LOG IN</h2>
           <div className="flex flex-col text-gray-400 py-2">
             <label>Email</label>
@@ -89,8 +113,11 @@ export default function LogIn() {
             <FcGoogle className="text-2xl bg-white rounded-full mr-2" />
             CONTINUE WITH GOOGLE
           </button>
-        </form>
       </div>
+
+      </form>
+
+  
     </div>
   );
 }

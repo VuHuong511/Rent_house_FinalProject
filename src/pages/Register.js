@@ -1,14 +1,15 @@
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { collectionGroup, doc, serverTimestamp, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import login from "../assets/img/login.jpg";
 import OAuth from "../components/OAuth";
 import { app, db } from "../firebase";
 
 export default function Register() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -29,14 +30,14 @@ export default function Register() {
         auth,
         email,
         password
-      );
+        );
       const user = userCredential.user;
       const formDataCopy = { ...formData };
       delete formDataCopy.password;
       formDataCopy.timestamp = serverTimestamp();
       await setDoc(doc(db, "users", user.uid), formDataCopy);
-      // toast.success("Register was successfully");
-      // Navigate("/");
+      toast.success("Register was successfully");
+      navigate("/login");
     } catch (error) {
       toast.error("Something went wrong with the registration");
     }
