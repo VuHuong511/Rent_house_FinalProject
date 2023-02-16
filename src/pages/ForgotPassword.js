@@ -1,19 +1,26 @@
+import { sendPasswordResetEmail, getAuth } from "firebase/auth";
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import login from "../assets/img/login.jpg";
 
 export default function ForgotPassword() {
-  const [formData, setformData] = useState({
-    email: "",
-    password: "",
-  });
-  const { name, email, password } = formData;
+  const [email, setEmail] = useState();
   function onChange(e) {
-    setformData((prevState) => ({
-      ...prevState,
-      [e.target.id]: e.target.value,
-    }));
+    setEmail(e.target.value);
+   
+
+  }
+  async function onSubmit(e){
+    e.preventDefault()
+    try{
+      const auth = getAuth()
+      await sendPasswordResetEmail(auth, email)
+      toast.success("Email was sent")
+    }catch(error){
+      toast.error("could not send reset password ")
+    }
   }
   const [showPassword, setShowPassword] = useState(false);
   return (
@@ -22,8 +29,8 @@ export default function ForgotPassword() {
         <img className="w-full h-screen object-cover" src={login} alt="" />
       </div>
 
+        <form  onSubmit={onSubmit}>
       <div className="bg-gray-800 flex flex-col justify-center">
-        <form className="max-w-[400px] w-full mx-auto bg-gray-900 p-8 px-8 rounded-lg ">
           <h2 className="text-4xl text-white font-bold text-center">
             FORGOT PASSWORD
           </h2>
@@ -67,8 +74,8 @@ export default function ForgotPassword() {
             <FcGoogle className="text-2xl bg-white rounded-full mr-2" />
             CONTINUE WITH GOOGLE
           </button>
-        </form>
       </div>
+        </form>
     </div>
   );
 }
