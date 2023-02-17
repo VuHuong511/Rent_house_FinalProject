@@ -12,6 +12,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
 import LogIn from "./pages/LogIn";
 import Register from "./pages/Register";
+import Profile from "./pages/Profile";
+import PrivateRoute from "./components/PrivateRoute";
 
 const App = () => {
   return (
@@ -19,6 +21,9 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<PrivateRoute/>}>
+          <Route path="/profile" element={<Profile />} />
+        </Route>
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/register" element={<Register />} />
@@ -37,7 +42,6 @@ const App = () => {
         pauseOnHover
         theme="dark"
       />
-      {/* Same as */}
       <ToastContainer />
     </div>
   );

@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { collectionGroup, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
@@ -22,6 +22,7 @@ export default function Register() {
       [e.target.id]: e.target.value,
     }));
   }
+  console.log(name)
   async function onSubmit(e) {
     e.preventDefault();
     try {

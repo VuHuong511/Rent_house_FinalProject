@@ -5,41 +5,37 @@ import { Link, useNavigate } from "react-router-dom";
 import login from "../assets/img/login.jpg";
 import { signInWithEmailAndPassword, getAuth  } from "firebase/auth";
 import {toast } from "react-toastify"
-import { app, db } from "../firebase";
-
-import { wait } from "@testing-library/user-event/dist/utils";
 
 export default function LogIn() {
 
-  const [formData, setformData] = useState({
+  const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
   const { email, password } = formData;
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
   function onChange(e) {
-    setformData((prevState) => ({
+    setFormData((prevState) => ({
       ...prevState,
       [e.target.id]: e.target.value,
     }));
   }
-  function onSubmit(e){
+  async function onSubmit(e){
     e.preventDefault()
     try{
-      const auth = getAuth(app);
-      const userCredential =  signInWithEmailAndPassword(auth, 
+      const auth = getAuth();
+      const userCredential =  await signInWithEmailAndPassword(auth, 
         email, password);
-        
-        console.log(email)
-        const User = userCredential.user
+        if(userCredential.user){
+          navigate("/")
+        }
           toast.success("Login was successfully");
           navigate("/")
-          console.log(User)
-      
+        
     } catch (error){
       toast.error("Bad user credentials")
- 
+
     }
   }
   return (
@@ -70,12 +66,12 @@ export default function LogIn() {
               onChange={onChange}
             />
             {showPassword ? (
-              <AiFillEyeInvisible
+              <AiFillEye
                 className="absolute right-3 top-12 text-xl cursor-pointer"
                 onClick={() => setShowPassword((prevState) => !prevState)}
               />
             ) : (
-              <AiFillEye
+              <AiFillEyeInvisible
                 className="absolute right-3 top-12 text-xl cursor-pointer"
                 onClick={() => setShowPassword((prevState) => !prevState)}
               />
@@ -105,7 +101,7 @@ export default function LogIn() {
             className="flex items-center my-4 before:border-t 
           before:flex-1 before:border-gray-300 after:border-gray-300
           after:border-t after:flex-1
-          after:bordeer-gray-300"
+          after:border-gray-300"
           >
             <p className="text-center text-white font-semibold mx-4">OR</p>
           </div>
@@ -114,7 +110,6 @@ export default function LogIn() {
             CONTINUE WITH GOOGLE
           </button>
       </div>
-
       </form>
 
   

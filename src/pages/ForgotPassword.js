@@ -9,8 +9,6 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState();
   function onChange(e) {
     setEmail(e.target.value);
-   
-
   }
   async function onSubmit(e){
     e.preventDefault()
@@ -22,7 +20,7 @@ export default function ForgotPassword() {
       toast.error("could not send reset password ")
     }
   }
-  const [showPassword, setShowPassword] = useState(false);
+ 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full">
       <div className="hidden sm:block">
@@ -55,7 +53,7 @@ export default function ForgotPassword() {
             </p>
 
             <Link className="text-green-500" to="/login">
-              Sign in intead
+              Sign in instead
             </Link>
           </div>
           <button className="w-full my-5 py-2 bg-teal-500 text-white font-bold">
@@ -66,7 +64,7 @@ export default function ForgotPassword() {
             className="flex items-center my-4 before:border-t 
           before:flex-1 before:border-gray-300 after:border-gray-300
           after:border-t after:flex-1
-          after:bordeer-gray-300"
+          after:border-gray-300"
           >
             <p className="text-center text-white font-semibold mx-4">OR</p>
           </div>
