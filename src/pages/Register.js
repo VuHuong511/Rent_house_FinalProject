@@ -111,7 +111,7 @@ export default function Register() {
           <button className="w-full my-5 py-2 bg-teal-500 text-white font-bold">
             REGISTER
           </button>
-          <OAuth />
+         
         </div>
       </form>
     </div>

@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import login from "../assets/img/login.jpg";
 import { signInWithEmailAndPassword, getAuth  } from "firebase/auth";
 import {toast } from "react-toastify"
+import OAuth from "../components/OAuth";
 
 export default function LogIn() {
 
@@ -97,22 +98,18 @@ export default function LogIn() {
               </Link>
             </p>
           </div>
-          <div
+          {/* <div
             className="flex items-center my-4 before:border-t 
           before:flex-1 before:border-gray-300 after:border-gray-300
           after:border-t after:flex-1
           after:border-gray-300"
           >
             <p className="text-center text-white font-semibold mx-4">OR</p>
-          </div>
-          <button className="w-full my-5 py-2 bg-red-500">
-            <FcGoogle className="text-2xl bg-white rounded-full mr-2" />
-            CONTINUE WITH GOOGLE
-          </button>
-      </div>
-      </form>
+          </div> */}
 
-  
+          <OAuth />
+      </div>
+      </form>  
     </div>
   );
 }
