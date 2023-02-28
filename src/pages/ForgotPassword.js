@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+
 import login from "../assets/img/login.jpg";
 
 export default function ForgotPassword() {
@@ -20,7 +21,6 @@ export default function ForgotPassword() {
       toast.error("could not send reset password ")
     }
   }
- 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full">
       <div className="hidden sm:block">

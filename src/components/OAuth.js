@@ -36,8 +36,7 @@ export default function OAuth() {
       <div
         className="flex items-center my-4 before:border-t 
           before:flex-1 before:border-gray-300 after:border-gray-300
-          after:border-t after:flex-1
-          after:bordeer-gray-300"
+          after:border-t after:flex-1"
       >
         <p className="text-center text-white font-semibold mx-4">OR</p>
       </div>

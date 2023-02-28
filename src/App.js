@@ -1,50 +1,48 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import Header from "./components/Header";
+import "./App.css"
+import React from "react"
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
+import Pricing from "./components/Pricing/Pricing"
 
-//import Component
-
-//import pages
-import "react-toastify/dist/ReactToastify.css";
-import About from "./pages/About";
-import ForgotPassword from "./pages/ForgotPassword";
-import Home from "./pages/Home";
-import LogIn from "./pages/LogIn";
-import Register from "./pages/Register";
-import Profile from "./pages/Profile";
-import PrivateRoute from "./components/PrivateRoute";
+import Services from "./components/Service/Service"
+import About from "./components/About/About"
+import Blog from "./components/Blog/Blog"
+import Contact from "./components/Contact/Contact"
+import Header from "./components/Common/Header/Header"
+import Footer from "./components/Common/Footer/Footer"
+import Pages from "./components/Home"
+import LogIn from "./pages/Login/LogIn"
+import Register from "./pages/Register/Register"
+import ForgotPassword from "./pages/ForgotPassword"
+import Profile from "./pages/Profile/Profile"
+import PrivateRoute from "./components/PrivateRoute"
 
 const App = () => {
   return (
-    <div className="max-w-[1440px] mx-auto bg-white">
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/profile" element={<PrivateRoute/>}>
+    <>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path='/' element={<Pages/>} />
+          <Route path='/about' element={<About/>} />
+          <Route path = '/services' element={<Services/>} />
+          <Route path='/blog' element={<Blog/>} />
+          <Route path='/pricing' element={<Pricing/>} />
+          <Route path='/contact' element={<Contact/>} />
+          <Route path="/login" element={<LogIn/>} />
+          <Route path="/register" element={<Register/>} />
+          <Route path="/forgotpassword" element={<ForgotPassword/>} />
+          {/* <Route path="/profile" element={<Profile/>} /> */}
+
+          <Route path="/profile" element={<PrivateRoute/>}>
           <Route path="/profile" element={<Profile />} />
         </Route>
-        <Route path="/about" element={<About />} />
-        <Route path="/login" element={<LogIn />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<LogIn />} />
-        <Route path="/forgotpassword" element={<ForgotPassword />} />
-      </Routes>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
-      <ToastContainer />
-    </div>
-  );
-};
 
-export default App;
+
+        </Routes> 
+        <Footer />
+      </Router>
+    </>
+  )
+}
+
+export default App
