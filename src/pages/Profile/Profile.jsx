@@ -4,11 +4,12 @@ import React, { useState } from "react";
 import { db } from "../../firebase";
 import { toast } from "react-toastify";
 import "./Profile.css"
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const [changeProfile, setChangeProfile] = useState(false);
   const auth = getAuth();
-
+  const navigation = useNavigate
   const [formData, setFormData] = useState({
     name: auth.currentUser.displayName,
     email: auth.currentUser.email,
@@ -36,6 +37,10 @@ export default function Profile() {
     } catch (error) {
       toast.error("Could not update the profile");
     }
+  }
+  function onLogout(){
+    auth.signOut();
+    navigation("/");
   }
   return (
     //   <form>
@@ -116,6 +121,7 @@ export default function Profile() {
               >
                 {changeProfile ? "Change" : "Edit"}
               </div>
+              <p onClick={onLogout}>Logout</p>
               {/* <Link className="text-blue-500" to="/register">
             Register
           </Link> */}

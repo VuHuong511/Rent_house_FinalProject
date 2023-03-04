@@ -1,3 +1,90 @@
+
+
+ 
+header .imgUser{
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  height: 50px;
+  width: 50px;
+  overflow: hidden;
+  cursor: pointer;
+  
+}
+
+header .dropdown-menu{
+  position: absolute;
+  top: 100px;
+  right: 20px;
+  background-color: #39aca6;
+  border-radius: var(--border-radius);
+  padding:  10px 20px;
+  width: 200px;
+}
+
+header .dropdown-menu ul li {
+  padding:  10px 0;
+  border-top: 1px solid #219ebc(0,0,0,0.25);
+  font-weight:  400;;
+}
+
+
+header .dropdown-menu ul li {
+  padding:  10px 0;
+  border-top: 1px solid #219ebc(0,0,0,0.25);
+  font-weight:  400;;
+}
+
+header .dropdown-menu ul li:hover a {
+  color: rgba(212,33, 9);
+  cursor: pointer;
+}
+
+header .dropdownItem{
+  display: flex;
+  margin: 10px auto;
+}
+
+header .dropdownItem img{
+  max-width: 20px;
+  margin-right: 10px;
+  opacity: 0.5;
+  transition: var(--speed);
+}
+
+header .dropdownItem a{
+  max-width: 100px;
+  margin-left: 10px;
+  transition: var(--speed);
+}
+
+
+ header .dropdown-menu::before{
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: 20px;
+  height: 20px;
+  width: 20px;
+  background: var(--secondary-bg);
+  transform: rotate(45deg);
+}
+
+header .dropdown-menu.active{
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: var(--speed) ease;
+}
+
+header .dropdown-menu.inactive{
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: var(--speed) ease;
+}
+
+
 header {
   background-color: #fff;
   height: 10vh;
@@ -9,6 +96,7 @@ header {
 }
 header img {
   width: 170px;
+
 }
 header a {
   margin-left: 30px;

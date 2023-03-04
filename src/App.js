@@ -15,6 +15,8 @@ import Register from "./pages/Register/Register"
 import ForgotPassword from "./pages/ForgotPassword"
 import Profile from "./pages/Profile/Profile"
 import PrivateRoute from "./components/PrivateRoute"
+import Homelogin from "./pages/HomeLogin"
+import CreateListing from "./pages/Create/Create"
 
 const App = () => {
   return (
@@ -23,6 +25,7 @@ const App = () => {
         <Header />
         <Routes>
           <Route path='/' element={<Pages/>} />
+          <Route path="/homelogin" element={<Homelogin />} />
           <Route path='/about' element={<About/>} />
           <Route path = '/services' element={<Services/>} />
           <Route path='/blog' element={<Blog/>} />
@@ -30,11 +33,13 @@ const App = () => {
           <Route path='/contact' element={<Contact/>} />
           <Route path="/login" element={<LogIn/>} />
           <Route path="/register" element={<Register/>} />
+          <Route path="/create" element={<CreateListing/>} />
           <Route path="/forgotpassword" element={<ForgotPassword/>} />
           {/* <Route path="/profile" element={<Profile/>} /> */}
 
           <Route path="/profile" element={<PrivateRoute/>}>
           <Route path="/profile" element={<Profile />} />
+          
         </Route>
 
 
