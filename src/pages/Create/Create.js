@@ -93,7 +93,7 @@ export default function Create() {
       location = data.status === "ZERO_RESULTS" && undefined;
 
       if (location === undefined) {
-        setLoading(false);
+        setLoading(true);
         toast.error("please enter a correct address");
         return;
       }

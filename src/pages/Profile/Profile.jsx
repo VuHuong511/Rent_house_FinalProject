@@ -1,9 +1,9 @@
 import { getAuth, updateProfile } from "firebase/auth";
-import { collection, doc, getDocs, orderBy, query, updateDoc, where } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import { toast } from "react-toastify";
-import "./Profile.css"
+import "./Profile.css";
 import { useNavigate } from "react-router-dom";
 import ListingItem from "../../components/ListingItem";
 
@@ -40,11 +40,7 @@ export default function Profile() {
     }
   }
 
-
-  
-
   return (
-
     <div className="profile">
       <form className="contentBox">
         <div className="formBox">
@@ -74,8 +70,6 @@ export default function Profile() {
               >
                 {changeProfile ? "Change" : "Edit"}
               </div>
-
-           
               {/* <Link className="text-blue-500" to="/register">
             Register
           </Link> */}
@@ -87,12 +81,6 @@ export default function Profile() {
       </button> */}
         </div>
       </form>
-
-
     </div>
-    
-
-
-
   );
 }
