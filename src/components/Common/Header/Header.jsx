@@ -46,14 +46,17 @@ const Header = () => {
         );
       } else {
         setPageState(
-          <Link to="/login"   >
-          <div  className="button flex">
-            <button  onClick={() => {
-            setOpen(false);
-          }}  className="btn1">
-              <i className="fa fa-sign-in"></i> Sign In
-            </button>
-          </div>
+          <Link to="/login">
+            <div className="button flex">
+              <button
+                onClick={() => {
+                  setOpen(false);
+                }}
+                className="btn1"
+              >
+                <i className="fa fa-sign-in"></i> Sign In
+              </button>
+            </div>
           </Link>
         );
       }
@@ -64,8 +67,6 @@ const Header = () => {
       return true;
     }
   }
-
-  
 
   const [open, setOpen] = useState(false);
 
@@ -86,14 +87,10 @@ const Header = () => {
     };
   });
 
-
-  function onLogout(){
+  function onLogout() {
     auth.signOut();
     navigate("/");
   }
-
-
-  
 
   return (
     <>
@@ -128,6 +125,10 @@ const Header = () => {
                 </ul>
 
                 <ul onClick={() => navigate("/create")}>
+                  <DropDownItem img={Offer} text={"Add new room"} />
+                </ul>
+
+                <ul onClick={() => navigate("/listing")}>
                   <DropDownItem img={Offer} text={"Offer"} />
                 </ul>
 
@@ -142,9 +143,9 @@ const Header = () => {
             className={` ${matchRoute("/login") || matchRoute("/profile")}`}
             onClick={() => {
               setOpen(!open);
-            }}          >
+            }}
+          >
             {pageState}
-            
           </div>
 
           {/* <li className={'${ (matchRoute("/login") || matchRoute("/profile"))}'}
@@ -177,7 +178,5 @@ function DropDownItem(props) {
     </li>
   );
 }
-
-
 
 export default Header;

@@ -11,9 +11,11 @@ import Header from "./components/Common/Header/Header";
 import Footer from "./components/Common/Footer/Footer";
 import Pages from "./components/Home";
 import LogIn from "./pages/Login/LogIn";
+import Listing from "./pages/Listing/Listing";
 import Register from "./pages/Register/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import Profile from "./pages/Profile/Profile";
+
 import PrivateRoute from "./components/PrivateRoute";
 import Homelogin from "./pages/HomeLogin";
 import CreateListing from "./pages/Create/Create";
@@ -37,6 +39,8 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/create" element={<CreateListing />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/listing" element={<Listing />} />
+
 
           <Route path="/profile" element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
