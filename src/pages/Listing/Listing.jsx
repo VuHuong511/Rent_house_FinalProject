@@ -54,7 +54,7 @@ export default function Listing() {
     }
   }
   function onEdit(ListingId) {
-    navigate('/edit-listing/${listingId')
+    navigate(`/edit/${ListingId}`)
   }
   return (
     <div className="max-w-6xl px-3 mt-6 mx-auto">

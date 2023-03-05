@@ -1,0 +1,92 @@
+.edit{
+  max-width:  448px;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.edit h1{
+  font-size:  30px;
+  line-height: 36px;
+  text-align: center;
+  margin-top: 24px;
+  font-weight: 700;
+}
+
+.edit .form p{
+  font-size: 18px;
+  line-height: 28px;
+  margin-top: 24px;
+  font-weight: 600
+}
+
+.edit .form  .button{
+  display: flex;
+}
+
+
+
+
+
+
+.create .form .button button{
+  margin-right: 12px;
+  padding-left: 28px;
+  padding-right: 28px;
+  padding-top: 2px;
+  padding-bottom: 12px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height:20px;
+  text-transform: uppercase;
+  border-radius: 4px;
+  background-color: rgb(174, 198, 202);
+  color: black;
+  transition-duration: 150ms;
+  width: 100%;
+  font-weight: bold;
+}
+
+.create .form .button button:hover{
+  background-color: rgb(68, 166, 227);
+  color: white;
+  font-weight: bold;
+}
+
+.create .form input{
+  width: 100%;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 15px;
+  line-height: 28px;
+  color: rgb(55 65 81);
+  background-color: rgb(174, 198, 202);
+  border-color: rgb(0, 102, 255);
+  border-radius: 4px;
+  transition-duration: 150ms;
+}
+
+.create .form textarea{
+  width: 100%;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 15px;
+  line-height: 28px;
+  color: rgb(55 65 81);
+  background-color: rgb(174, 198, 202);
+  border-color: rgb(0, 102, 255);
+  border-radius: 4px;
+  transition-duration: 150ms;
+}
+
+.create .form .price {
+  display: flex;
+}
+
+
+
+
+
