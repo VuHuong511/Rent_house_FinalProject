@@ -11,7 +11,7 @@ import Header from "./components/Common/Header/Header";
 import Footer from "./components/Common/Footer/Footer";
 import Pages from "./components/Home";
 import LogIn from "./pages/Login/LogIn";
-import Listing from "./pages/Listing/Listing";
+import MyListing from "./pages/MyListing/MyListing";
 import Register from "./pages/Register/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import Profile from "./pages/Profile/Profile";
@@ -22,6 +22,7 @@ import CreateListing from "./pages/Create/Create";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditListing from "./pages/Edit/Edit";
+import Listing from "./pages/Listing/Listing";
 
 const App = () => {
   return (
@@ -40,8 +41,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/create" element={<CreateListing />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
-          <Route path="/listing" element={<Listing />} />
-
+          <Route path="/myListing" element={<MyListing />} />
 
           <Route path="/profile" element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
@@ -54,8 +54,13 @@ const App = () => {
           <Route path="/edit" element={<PrivateRoute />}>
             <Route path="/edit/:listingId" element={<EditListing />} />
           </Route>
+
+          <Route
+            path="/category/:listingName/:listingId"
+            element={<Listing />}
+          />
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </Router>
 
       <ToastContainer

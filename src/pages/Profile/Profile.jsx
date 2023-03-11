@@ -5,7 +5,6 @@ import { db } from "../../firebase";
 import { toast } from "react-toastify";
 import "./Profile.css";
 import { useNavigate } from "react-router-dom";
-import ListingItem from "../../components/ListingItem";
 
 export default function Profile() {
   const [changeProfile, setChangeProfile] = useState(false);

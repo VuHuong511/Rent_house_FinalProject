@@ -1,0 +1,32 @@
+.mylisting {
+  max-width: 1152px;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-top: 24px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mylisting h1 {
+  font-size: 24px;
+  line-height: 32px;
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.mylisting ul {
+  margin-top: 24px;
+}
+
+@media (min-width: 640px) {
+  .sm\:grid {
+    display: grid;
+  }
+  .sm\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

@@ -128,7 +128,7 @@ const Header = () => {
                   <DropDownItem img={Offer} text={"Add new room"} />
                 </ul>
 
-                <ul onClick={() => navigate("/listing")}>
+                <ul onClick={() => navigate("/myListing")}>
                   <DropDownItem img={Offer} text={"Offer"} />
                 </ul>
 
