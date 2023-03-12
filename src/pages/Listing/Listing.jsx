@@ -43,6 +43,7 @@ export default function Listing() {
   if (loading) {
     return <ImSpinner />;
   }
+
   return (
     <main>
       {/* <Swiper
@@ -136,7 +137,6 @@ export default function Listing() {
             <Contact userRef={listing.userRef} listing={listing} />
           )}
         </div>
-        <div className="bg-blue-300"></div>
       </div>
     </main>
   );

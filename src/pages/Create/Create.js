@@ -1,13 +1,18 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import Spinner from "../../components/Spinner/Spinner";
 import "./Create.css";
 import { getAuth } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../../firebase";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Create() {
   const navigate = useNavigate();
@@ -140,25 +145,24 @@ export default function Create() {
       });
     }
     const imgUrls = await Promise.all(
-      [...images]
-        .map((image) => storeImage(image)))
-        .catch((error) => {
-          setLoading(false);
-          toast.error("image not uploaded");
-          return;
-        });
-    const formDataCopy={
+      [...images].map((image) => storeImage(image))
+    ).catch((error) => {
+      setLoading(false);
+      toast.error("image not uploaded");
+      return;
+    });
+    const formDataCopy = {
       ...formData,
       imgUrls,
-      timestamp:serverTimestamp(),
+      timestamp: serverTimestamp(),
       userRef: auth.currentUser.uid,
     };
     delete formDataCopy.images;
 
     !formDataCopy.offer && delete formDataCopy.discountedPrice;
     const docRef = await addDoc(collection(db, "listings"), formDataCopy);
-    setLoading(false)
-    toast.success("create successfully")
+    setLoading(false);
+    toast.success("create successfully");
     navigate(`/category/${formDataCopy.type}/${docRef.id}`);
   }
 

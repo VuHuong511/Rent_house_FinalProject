@@ -23,6 +23,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditListing from "./pages/Edit/Edit";
 import Listing from "./pages/Listing/Listing";
+import HomeLogin from "./pages/HomeLogin";
 
 const App = () => {
   return (
@@ -59,8 +60,10 @@ const App = () => {
             path="/category/:listingName/:listingId"
             element={<Listing />}
           />
+
+          <Route path="/homeLogin" element={<HomeLogin />} />
         </Routes>
-        {/* <Footer /> */}
+        <Footer />
       </Router>
 
       <ToastContainer

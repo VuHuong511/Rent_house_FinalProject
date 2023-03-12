@@ -15,14 +15,14 @@
 
 // export default Home;
 
-import React from "react"
-import Awards from "../components/Home/Awards/Awards"
-import Featured from "../components/Home/Featured/FeatureCard"
-import Hero from "../components/Home/Hero/Hero"
-import Location from "./Location/Location"
-import Price from "./Price/Price"
-import Recent from "./Recent/Recent"
-import Team from "./Team/Team"
+import React from "react";
+import Awards from "../components/Home/Awards/Awards";
+import Featured from "../components/Home/Featured/FeatureCard";
+import Hero from "../components/Home/Hero/Hero";
+import Location from "./Location/Location";
+import Price from "./Price/Price";
+import Recent from "./Recent/Recent";
+import Team from "./Team/Team";
 
 const Home = () => {
   return (
@@ -35,7 +35,7 @@ const Home = () => {
       <Team />
       <Price />
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
