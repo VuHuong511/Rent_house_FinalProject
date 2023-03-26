@@ -13,7 +13,7 @@ import Pages from "./components/Home";
 import LogIn from "./pages/Login/LogIn";
 import MyListing from "./pages/MyListing/MyListing";
 import Register from "./pages/Register/Register";
-import ForgotPassword from "./pages/ForgotPassword";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Profile from "./pages/Profile/Profile";
 
 import PrivateRoute from "./components/PrivateRoute";
@@ -68,7 +68,7 @@ const App = () => {
 
       <ToastContainer
         position="bottom-center"
-        autoClose={5000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
