@@ -1,15 +1,14 @@
-
-.register{
+.register {
   display: flex;
-
 }
-.register .imgBox{
+.register .imgBox {
   width: 50%;
   height: 90vh;
 }
 
-.register .contentBox{
+.register .contentBox {
   display: flex;
+  height: 90vh;
   align-items: center;
   width: 50%;
   height: 100%;
@@ -17,16 +16,14 @@
   align-items: center;
 }
 
-.register .contentBox .formBox{
-  margin: 50px;
+.register .contentBox .formBox {
   width: 50%;
 }
 
-.register .contentBox .formBox h2{
-  color:rgb(0, 0, 0);
+.register .contentBox .formBox h2 {
+  color: rgb(0, 0, 0);
   font-weight: 600;
   font-size: 1.5em;
-  text-transform: uppercase;
   margin-bottom: 20px;
   border-bottom: 4px solid #219ebc;
   display: inline-block;
@@ -34,33 +31,31 @@
 }
 
 .register .contentBox .formBox .inputBox {
-  
   margin-bottom: 10px;
 }
 
 .register .contentBox .formBox .inputBox span {
-  font-size: 16px;
   margin-bottom: 5px;
   display: inline-block;
   color: rgb(0, 0, 0);
   font-weight: 300;
   font-size: 16px;
+  font-weight: 400;
   letter-spacing: 1px;
 }
 
 .register .contentBox .formBox .inputBox input {
   width: 100%;
-  padding:  10px 20px;
-  outline:  none;
+  padding: 10px 20px;
+  outline: none;
   font-weight: 400;
   border: 1px solid rgb(0, 0, 0);
-  font-size:  16px;
+  font-size: 16px;
   letter-spacing: 1px;
   color: rgb(0, 0, 0);
   background-color: transparent;
   border-radius: 30px;
 }
-
 
 .register .contentBox .formBox .inputBox input[type="submit"] {
   background-color: #219ebc;
@@ -69,51 +64,9 @@
   border: none;
   font-weight: 800;
   cursor: pointer;
+  margin-top: 50px;
 }
 
-.register .contentBox .formBox .remember {
-  margin-bottom: 10px;
-  color: #fff;
-  font-weight: 400;
-  font-size: 14px;
-  display: flex ;
-  justify-content: space-between;
-  padding-top: 20px;
-  padding-bottom: 20px;
+.register .contentBox .formBox .inputBox p a {
+  color: #219ebc;
 }
-
-.register .contentBox .formBox .inputBox p {
-  color: rgb(0, 0, 0);
-}
-
-
-.register .contentBox .formBox .inputBox p a{
-  color: rgb(37, 12, 177);
-}
-
-.register .contentBox .formBox button
-{
-  width: 100%;
-  padding:  10px 20px;
-  outline:  none;
-  font-weight: 700;
-  border: 1px solid rgb(255, 0, 0);
-  font-size:  16px;
-  letter-spacing: 1px;
-  
-  color: rgb(255, 0, 0);
-  background-color: transparent;
-  border-radius: 30px;
-  transition: all 0.4s;
-}
-
-
-.register .contentBox .formBox button:hover{
-  background-color: red;
-  color: #fff;
-}
-
-
-
-
-
