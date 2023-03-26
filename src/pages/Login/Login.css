@@ -1,13 +1,12 @@
-.login{
+.login {
   display: flex;
-
 }
-.login .imgBox{
+.login .imgBox {
   width: 50%;
   height: 90vh;
 }
 
-.login .contentBox{
+.login .contentBox {
   display: flex;
   align-items: center;
   width: 50%;
@@ -16,13 +15,12 @@
   align-items: center;
 }
 
-.login .contentBox .formBox{
-  margin: 50px;
+.login .contentBox .formBox {
   width: 50%;
 }
 
-.login .contentBox .formBox h2{
-  color:rgb(0, 0, 0);
+.login .contentBox .formBox h2 {
+  color: rgb(0, 0, 0);
   font-weight: 600;
   font-size: 1.5em;
   text-transform: uppercase;
@@ -33,34 +31,31 @@
 }
 
 .login .contentBox .formBox .inputBox {
-  
   margin-bottom: 10px;
 }
 
 .login .contentBox .formBox .inputBox span {
-  font-size: 16px;
   margin-bottom: 5px;
   display: inline-block;
   color: rgb(0, 0, 0);
   font-weight: 300;
   font-size: 16px;
+  font-weight: 400;
   letter-spacing: 1px;
 }
 
 .login .contentBox .formBox .inputBox input {
   width: 100%;
-  padding:  10px 20px;
-  outline:  none;
+  padding: 10px 20px;
+  outline: none;
   font-weight: 400;
   border: 1px solid rgb(0, 0, 0);
-  font-size:  16px;
+  font-size: 16px;
   letter-spacing: 1px;
   color: rgb(0, 0, 0);
   background-color: transparent;
   border-radius: 30px;
 }
-
-
 
 .login .contentBox .formBox .inputBox input[type="submit"] {
   background-color: #219ebc;
@@ -75,45 +70,29 @@
   margin-bottom: 10px;
   color: #fff;
   font-weight: 400;
-  font-size: 14px;
-  display: flex ;
+  font-size: 15px;
+  display: flex;
   justify-content: space-between;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  margin-bottom: 50px;
 }
 
 .login .contentBox .formBox .inputBox p {
   color: rgb(0, 0, 0);
 }
 
-
-.login .contentBox .formBox .inputBox p a{
-  color: rgb(37, 12, 177);
+.login .contentBox .formBox .inputBox p a {
+  color: #219ebc;
+  font-size: 15;
 }
 
-.login .contentBox .formBox button
-{
+.login .contentBox .formBox button {
   width: 100%;
-  padding:  10px 20px;
-  outline:  none;
+  outline: none;
   font-weight: 700;
-  border: 1px solid rgb(255, 0, 0);
-  font-size:  16px;
+  font-size: 16px;
   letter-spacing: 1px;
-  
-  color: rgb(255, 0, 0);
-  background-color: transparent;
+  color: rgb(255, 255, 255);
+  background-color: #219ebc;
   border-radius: 30px;
   transition: all 0.4s;
 }
-
-
-.login .contentBox .formBox button:hover{
-  background-color: red;
-  color: #fff;
-}
-
-
-
-
-

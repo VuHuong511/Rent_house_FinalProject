@@ -28,25 +28,25 @@ export default function OAuth() {
       navigate("/");
     } catch (error) {
       toast.error("Could not authorize with Google");
-      console.log(error);
     }
   }
   return (
     <div>
       <div
         className="flex items-center my-4 before:border-t 
-          before:flex-1 before:border-gray-300 after:border-gray-300
+          before:flex-1 before:border-black after:border-black
           after:border-t after:flex-1"
       >
-        <p className="text-center text-white font-semibold mx-4">OR</p>
+        <p className="text-center text-black font-semibold mx-4">OR</p>
       </div>
       <button
+        style={{ backgroundColor: "red" }}
         type="button"
         onClick={onGoogleClick}
-        className="w-full my-5 py-2 bg-red-500"
+        className="flex uppercase"
       >
-        <FcGoogle className="text-2xl bg-white rounded-full mr-2" />
-        CONTINUE WITH GOOGLE
+        <FcGoogle className="text-2xl  bg-white rounded-full" />
+        Continue with Google
       </button>
     </div>
   );
