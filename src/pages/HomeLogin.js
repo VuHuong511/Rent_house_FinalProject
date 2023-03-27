@@ -10,7 +10,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ListingItem from "../components/ListingItem/ListingItem";
-import Slider from "../components/Slider";
+import Search from "../components/Search/Search";
 import { db } from "../firebase";
 
 export default function HomeLogin() {
@@ -112,7 +112,7 @@ export default function HomeLogin() {
   }, []);
   return (
     <div>
-      <Slider />
+      <Search />
       <div className="max-w-6xl mx-auto pt-4 space-y-6">
         {offerListings && offerListings.length > 0 && (
           <div className="m-2 mb-6">
@@ -122,7 +122,7 @@ export default function HomeLogin() {
                 Show more offers
               </p>
             </Link>
-            <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
+            <ul className="sm:grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5">
               {offerListings.map((listing) => (
                 <ListingItem
                   key={listing.id}
@@ -144,7 +144,7 @@ export default function HomeLogin() {
                 Show more discounts
               </p>
             </Link>
-            <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
+            <ul className="sm:grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5">
               {discountListings.map((listing) => (
                 <ListingItem
                   key={listing.id}
@@ -166,7 +166,7 @@ export default function HomeLogin() {
                 Show more New Room
               </p>
             </Link>
-            <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
+            <ul className="sm:grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5">
               {newRoomListings.map((listing) => (
                 <ListingItem
                   key={listing.id}
