@@ -139,7 +139,7 @@ export default function HomeLogin() {
             <h2 className="px-3 text-2xl mt-6 font-semibold">
               Recent Discounts
             </h2>
-            <Link to="/discounts">
+            <Link to="/category/:categoryName">
               <p className="px-3 text-sm text-blue-600 hover:text-blue-800 transition duration-150 ease-in-out">
                 Show more discounts
               </p>
@@ -161,7 +161,7 @@ export default function HomeLogin() {
             <h2 className="px-3 text-2xl mt-6 font-semibold">
               Recent New Room
             </h2>
-            <Link to="/newroom">
+            <Link to="/category/:categoryName">
               <p className="px-3 text-sm text-blue-600 hover:text-blue-800 transition duration-150 ease-in-out">
                 Show more New Room
               </p>

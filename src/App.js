@@ -24,6 +24,8 @@ import "react-toastify/dist/ReactToastify.css";
 import EditListing from "./pages/Edit/Edit";
 import Listing from "./pages/Listing/Listing";
 import HomeLogin from "./pages/HomeLogin";
+import Offer from "./pages/Offer";
+import Type from "./pages/Type";
 
 const App = () => {
   return (
@@ -43,6 +45,8 @@ const App = () => {
           <Route path="/create" element={<CreateListing />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/myListing" element={<MyListing />} />
+          <Route path="/offers" element={<Offer />} />
+          <Route path="/category/:categoryName" element={<Type />} />
 
           <Route path="/profile" element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
