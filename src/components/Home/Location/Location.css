@@ -3,6 +3,8 @@
   border-radius: 5px;
 }
 .location img {
+  width: 400px;
+  height: 200px;
   border-radius: 5px;
 }
 .location .overlay {
@@ -13,7 +15,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: 250px;
+  height: 190px;
   width: 100%;
   color: #fff;
   z-index: 222;
@@ -21,7 +23,6 @@
 .location h5 {
   font-size: 24px;
   font-weight: bold;
-  
 }
 .location label {
   color: #ffffff;
