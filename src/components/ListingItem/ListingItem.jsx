@@ -6,20 +6,16 @@ import { FaTrash } from "react-icons/fa";
 
 export default function ListingItem({ listing, id, onEdit, onDelete }) {
   return (
-    <li
-      className="relative bg-white flex flex-col justify-between items-center
-    shadow-md hover:shadow-xl rounded-md overflow-hidden transition-shadow duration-150
-    "
-    >
+    <li className="w-[250px] relative bg-white flex flex-col justify-between items-center shadow-md hover:shadow-xl rounded-md overflow-hidden transition-shadow m-[10px]">
       <Link className="contents" to={`/category/${listing.type}/${id}`}>
         <img
-          className="h-[170px] w-full object-cover hover:scale-150 transition-scale duration-200 ease-in"
+          className="h-[170px] w-full object-cover duration-300 ease-in"
           loading="lazy"
           src={listing.imgUrls[0]}
           alt=""
         />
         <Moment
-          className="absolute tip-2 left-2 bg-blue-700 text-white
+          className="absolute top-2 left-2 bg-blue-700 text-white
         uppercase text-xs font-semibold rounded-md px-2 py-1 shadow-lg"
           fromNow
         >
@@ -27,7 +23,7 @@ export default function ListingItem({ listing, id, onEdit, onDelete }) {
         </Moment>
         <div className="w-full p-[10px]">
           <div className="flex items-center space-x-1">
-            <MdLocationOn className="h-4 w-4 text-green-600" />
+            <MdLocationOn className="h-4 w-4 text-blue-600" />
             <p className="font-semibold text-sm mb-[2px] text-gray-600 truncate">
               {listing.address}
             </p>
@@ -60,8 +56,18 @@ export default function ListingItem({ listing, id, onEdit, onDelete }) {
           </div>
         </div>
       </Link>
-      {onDelete && <FaTrash onClick={() => onDelete(listing.id)} />}
-      {onEdit && <MdEdit onClick={() => onEdit(listing.id)} />}
+      {onDelete && (
+        <FaTrash
+          className="absolute bottom-2 right-2 h-[14px] cursor-pointer text-red-500"
+          onClick={() => onDelete(listing.id)}
+        />
+      )}
+      {onEdit && (
+        <MdEdit
+          className="absolute bottom-2 right-7 h-4 cursor-pointer "
+          onClick={() => onEdit(listing.id)}
+        />
+      )}
     </li>
   );
 }

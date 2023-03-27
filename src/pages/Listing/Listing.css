@@ -4,6 +4,10 @@
   width: 100%;
 }
 
-.listing .cart {
-  display: flex;
+.card {
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 1rem;
+  border: transparent;
+  margin-top: 30px;
+  margin-bottom: 10px;
 }
