@@ -61,23 +61,17 @@ export default function Profile() {
           <div className="inputBox">
             <p>
               Do you want to edit profile?
-              <div
+              <h1
+                style={{ paddingLeft: 175 }}
                 onClick={() => {
                   changeProfile && onsubmit();
                   setChangeProfile((prevState) => !prevState);
                 }}
               >
                 {changeProfile ? "Change" : "Edit"}
-              </div>
-              {/* <Link className="text-blue-500" to="/register">
-            Register
-          </Link> */}
+              </h1>
             </p>
           </div>
-          {/* <button onClick={() => {changeProfile && onsubmit() 
-      setChangeProfile((prevState) => !prevState )}}>
-        {changeProfile ? "Change": "Edit"}
-      </button> */}
         </div>
       </form>
     </div>
