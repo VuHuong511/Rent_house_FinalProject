@@ -9,28 +9,12 @@ import Offer from "../../../assets/img/question.png";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const Header = () => {
-  // const [open, setOpen] = useState(false);
-
-  // let menuRef = useRef();
-
-  // useEffect(() => {
-  //   let handler = (e)=>{
-  //     if(!menuRef.current.contains(e.target)){
-  //       setOpen(false);
-  //       console.log(menuRef.current);
-  //     }
-  //   };
-
-  //   document.addEventListener("mousedown", handler);
-
-  //   return() =>{
-  //     document.removeEventListener("mousedown", handler);
-  //   }
-
-  // });
-
-  const [navList, setNavList] = useState(false);
   const [pageState, setPageState] = useState("login");
+  const [homeState, setHomeState] = useState("login");
+  const [aboutState, setAboutState] = useState("login");
+  const [addState, setAddState] = useState("login");
+  const [listState, setListState] = useState("login");
+
   const location = useLocation();
 
   const navigate = useNavigate();
@@ -39,36 +23,97 @@ const Header = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setPageState(
-          // <div className="menu-trigger" onClick={()=>{setOpen(!open)}}>
-
-          <img className="imgUser" src={User}></img>
-          // </div>
+          <button
+            onClick={onLogout}
+            style={{ marginLeft: 265 }}
+            className="btn1"
+          >
+            <i className="fa fa-sign-out"></i> Log out
+          </button>
+        );
+        setHomeState(
+          <Link
+            className="ml-4 text-lg text-black hover:text-blue-800 duration-500"
+            to="/homeLogin"
+          >
+            Home
+          </Link>
+        );
+        setAboutState(
+          <Link
+            className="ml-4 text-lg text-black hover:text-blue-800 duration-500"
+            to="/offers"
+          >
+            Offers
+          </Link>
+        );
+        setAddState(
+          <Link
+            className="ml-4 text-lg text-black hover:text-blue-800 duration-500"
+            to="/create"
+          >
+            Create room
+          </Link>
+        );
+        setListState(
+          <Link
+            className="ml-4 text-lg text-black hover:text-blue-800 duration-500"
+            to="/myListing"
+          >
+            My Rooms
+          </Link>
         );
       } else {
         setPageState(
           <Link to="/login">
-            <div className="button flex">
-              <button
-                onClick={() => {
-                  setOpen(false);
-                }}
-                className="btn1"
-              >
-                <i className="fa fa-sign-in"></i> Sign In
-              </button>
-            </div>
+            <button style={{ marginLeft: 265 }} className="btn1">
+              <i className="fa fa-sign-in"></i> Sign In
+            </button>
+          </Link>
+        );
+        setHomeState(
+          <Link
+            className="ml-4 text-lg text-black hover:text-blue-800 duration-500"
+            to="/"
+          >
+            Home
+          </Link>
+        );
+        setAboutState(
+          <Link
+            className="ml-4 text-lg text-black hover:text-blue-800 duration-500"
+            to="/about"
+          >
+            About
+          </Link>
+        );
+        setAddState(
+          <Link
+            className="ml-4 text-lg text-black hover:text-blue-800 duration-500"
+            to="/services"
+          >
+            Service
+          </Link>
+        );
+        setListState(
+          <Link
+            className="ml-4 text-lg text-black hover:text-blue-800 duration-500"
+            to="/property"
+          >
+            Property
           </Link>
         );
       }
     });
   }, [auth]);
+
   function matchRoute(route) {
     if (route === location.pathname) {
       return true;
     }
   }
 
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   let menuRef = useRef();
 
@@ -91,92 +136,68 @@ const Header = () => {
     auth.signOut();
     navigate("/");
   }
+  let [open, setOpen] = useState(true);
 
   return (
-    <>
-      <header>
-        <div className="container flex">
-          <div className="logo">
-            <img className="" src={Logo} alt="" />
-          </div>
-          <div className="nav">
-            {/* <li className={"${matchRoute("/")}"}
-             onClick={() => navigate("/")}
-            > */}
-            <ul className={navList ? "small" : "flex"}>
-              {nav.map((list, index) => (
-                <li key={index}>
-                  <Link to={list.path}>{list.text}</Link>
-                </li>
-              ))}
-            </ul>
-            {/* </li> */}
-          </div>
-
-          <div className="App">
-            <div className="menu-container" ref={menuRef}>
-              {/* <div className='menu-trigger' onClick={()=>{setOpen(!open)}}>
-          <img src={User}></img>
-        </div> */}
-
-              <div className={`dropdown-menu ${open ? "active" : "inactive"}`}>
-                <ul onClick={() => navigate("/profile")}>
-                  <DropDownItem img={User} text={"My Profile"} />
-                </ul>
-
-                <ul onClick={() => navigate("/create")}>
-                  <DropDownItem img={Offer} text={"Add new room"} />
-                </ul>
-
-                <ul onClick={() => navigate("/myListing")}>
-                  <DropDownItem img={Offer} text={"Offer"} />
-                </ul>
-
-                <ul onClick={onLogout}>
-                  <DropDownItem img={Logout} text={"Logout"} />
-                </ul>
-              </div>
+    <div className="shadow-md w-full top-0 left-0">
+      <div className="md:flex items-center justify-between bg-white py-2 px-10">
+        <div
+          className=" flex items-center font-[Poppins]
+      text-gray-800"
+        >
+          <span className="text-3xl text-indigo-600 mr-1 pt-2">
+            <div className="logo">
+              <img src={Logo} alt="logo" />
             </div>
-          </div>
-
-          <div
-            className={` ${matchRoute("/login") || matchRoute("/profile")}`}
-            onClick={() => {
-              setOpen(!open);
-            }}
-          >
-            {pageState}
-          </div>
-
-          {/* <li className={'${ (matchRoute("/login") || matchRoute("/profile"))}'}
-            onClick={() => navigate("/profile")} >   {pageState}
-        
-              </li> */}
-
-          {/* <div className='toggle'>
-            <button onClick={() => setNavList(!navList)}>{navList ? <i className='fa fa-times'></i> : <i className='fa fa-bars'></i>}</button>
-          </div>
-         
-          <div className={`dropdown-menu ${open? 'active' : 'inactive'}`} >
-            <ul>
-              <DropDownItem img = {User} text = {"My profile"}/>
-              <DropDownItem img = {Offer} text = {"Offer"}/>
-              <DropDownItem img = {Logout} text = {"Logout"}/>
-            </ul>
-          </div> */}
+          </span>
         </div>
-      </header>
-    </>
+        <div
+          onClick={() => setOpen(!open)}
+          className="text-3xl absolute right-8 top-6 cursor-pointer md:hidden"
+        >
+          <ion-icon name={open ? "close" : "menu"}></ion-icon>
+        </div>
+        <div style={{ marginLeft: 185 }} className="nav">
+          <ul
+            className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
+              open ? "top-20 " : "top-[-490px]"
+            }`}
+          >
+            {homeState}
+            {aboutState}
+
+            {addState}
+            {listState}
+
+            <Link
+              className="ml-2 text-lg text-black hover:text-blue-800 duration-500"
+              to="/Contact"
+            >
+              Contact
+            </Link>
+
+            <div
+              className={` ${matchRoute("/login") || matchRoute("/profile")}`}
+              onClick={() => {
+                setOpen(!open);
+              }}
+            >
+              {pageState}
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
   );
 };
 
-function DropDownItem(props) {
-  return (
-    <li className="dropdownItem">
-      <img src={props.img}></img>
-      <a>{props.text}</a>
-    </li>
-  );
-}
+// function DropDownItem(props) {
+//   return (
+//     <li className="dropdownItem">
+//       <img src={props.img}></img>
+//       <a>{props.text}</a>
+//     </li>
+//   );
+// }
 
 export default Header;
