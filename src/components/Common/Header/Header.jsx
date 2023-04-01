@@ -6,6 +6,7 @@ import User from "../../../assets/img/user.png";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { SET_ACTIVE_USER } from "../../../redux/slice/authSlice";
+import { REMOVE_ACTIVE_USER } from "../../../redux/slice/authSlice";
 
 const Header = () => {
   const [pageState, setPageState] = useState("login");
@@ -83,6 +84,7 @@ const Header = () => {
           })
         );
       } else {
+        dispatch(REMOVE_ACTIVE_USER);
         setPageState(
           <Link to="/login" style={{ fontWeight: 600 }}>
             <button style={{ marginLeft: 265 }} className="btn1">
