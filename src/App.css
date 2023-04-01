@@ -14,7 +14,6 @@ body {
 }
 .flex {
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 a {
@@ -80,7 +79,7 @@ h4 {
   margin-top: 10px;
 }
 .shadow {
-  box-shadow: 0 0 20px 0 rgb(112 121 138 / 18%);
+  box-shadow: 0 0 20px 0 rgb(209 209 209);
 }
 .padding {
   padding: 80px 0;
@@ -99,7 +98,6 @@ img {
   border-radius: 50px;
   font-size: 20px;
   padding: 10px 20px;
-  
 }
 .grid4 {
   display: grid;

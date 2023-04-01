@@ -35,7 +35,6 @@ const App = () => {
     <>
       <Router>
         <Header />
-        <AdminOnlyRoute />
         <Routes>
           <Route
             path="/admin/*"
