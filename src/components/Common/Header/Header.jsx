@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Header.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { nav } from "../../data";
 import Logo from "../../../assets/img/Logo.png";
 import User from "../../../assets/img/user.png";
-import Logout from "../../../assets/img/log-out.png";
-import Offer from "../../../assets/img/question.png";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { SET_ACTIVE_USER } from "../../../redux/slice/authSlice";
 
 const Header = () => {
   const [pageState, setPageState] = useState("login");
@@ -14,26 +13,27 @@ const Header = () => {
   const [aboutState, setAboutState] = useState("login");
   const [addState, setAddState] = useState("login");
   const [listState, setListState] = useState("login");
+  const [contactState, setContactState] = useState("login");
 
+  const [openProfile, setOpenProfile] = useState(false);
+  const dispatch = useDispatch();
   const location = useLocation();
-
   const navigate = useNavigate();
   const auth = getAuth();
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setPageState(
-          <button
-            onClick={onLogout}
-            style={{ marginLeft: 265 }}
-            className="btn1"
-          >
-            <i className="fa fa-sign-out"></i> Log out
-          </button>
+          <img
+            className="w-[50px] h-[50px] ml-[300px]"
+            onClick={() => setOpenProfile((prev) => !prev)}
+            src={User}
+          ></img>
         );
         setHomeState(
           <Link
-            className="ml-4 text-lg text-black hover:text-blue-800 duration-500"
+            style={{ fontWeight: 600 }}
+            className="cursor-pointer ml-4 text-lg text-black hover:text-blue-800 focus:text-blue-800 duration-500"
             to="/homeLogin"
           >
             Home
@@ -41,7 +41,8 @@ const Header = () => {
         );
         setAboutState(
           <Link
-            className="ml-4 text-lg text-black hover:text-blue-800 duration-500"
+            style={{ fontWeight: 600 }}
+            className="cursor-pointer ml-4 text-lg text-black hover:text-blue-800 focus:text-blue-800 duration-500"
             to="/offers"
           >
             Offers
@@ -49,7 +50,8 @@ const Header = () => {
         );
         setAddState(
           <Link
-            className="ml-4 text-lg text-black hover:text-blue-800 duration-500"
+            style={{ fontWeight: 600 }}
+            className="ml-4 text-lg text-black hover:text-blue-800 focus:text-blue-800 duration-500"
             to="/create"
           >
             Create room
@@ -57,15 +59,32 @@ const Header = () => {
         );
         setListState(
           <Link
-            className="ml-4 text-lg text-black hover:text-blue-800 duration-500"
+            style={{ fontWeight: 600 }}
+            className="ml-4 text-lg text-black hover:text-blue-800 focus:text-blue-800 duration-500"
             to="/myListing"
           >
             My Rooms
           </Link>
         );
+        setContactState(
+          <Link
+            style={{ fontWeight: 600 }}
+            className="ml-4 text-xl text-black hover:text-blue-800 focus:text-blue-800 duration-500"
+            to="/contact"
+          >
+            Contact
+          </Link>
+        );
+        dispatch(
+          SET_ACTIVE_USER({
+            username: user.displayName,
+            email: user.email,
+            useID: user.uid,
+          })
+        );
       } else {
         setPageState(
-          <Link to="/login">
+          <Link to="/login" style={{ fontWeight: 600 }}>
             <button style={{ marginLeft: 265 }} className="btn1">
               <i className="fa fa-sign-in"></i> Sign In
             </button>
@@ -73,7 +92,8 @@ const Header = () => {
         );
         setHomeState(
           <Link
-            className="ml-4 text-lg text-black hover:text-blue-800 duration-500"
+            style={{ fontWeight: 600 }}
+            className="ml-4 text-lg text-black hover:text-blue-800 focus:text-blue-800 duration-500"
             to="/"
           >
             Home
@@ -81,7 +101,8 @@ const Header = () => {
         );
         setAboutState(
           <Link
-            className="ml-4 text-lg text-black hover:text-blue-800 duration-500"
+            style={{ fontWeight: 600 }}
+            className="ml-4 text-lg text-black hover:text-blue-800 focus:text-blue-800 duration-500"
             to="/about"
           >
             About
@@ -89,7 +110,8 @@ const Header = () => {
         );
         setAddState(
           <Link
-            className="ml-4 text-lg text-black hover:text-blue-800 duration-500"
+            style={{ fontWeight: 600 }}
+            className="ml-4 text-lg text-black hover:text-blue-800 focus:text-blue-800 duration-500"
             to="/services"
           >
             Service
@@ -97,10 +119,20 @@ const Header = () => {
         );
         setListState(
           <Link
-            className="ml-4 text-lg text-black hover:text-blue-800 duration-500"
+            style={{ fontWeight: 600 }}
+            className="ml-4 text-lg text-black hover:text-blue-800 focus:text-blue-800 duration-500"
             to="/property"
           >
             Property
+          </Link>
+        );
+        setContactState(
+          <Link
+            style={{ fontWeight: 600 }}
+            className="ml-4 text-lg text-black hover:text-blue-800 focus:text-blue-800 duration-500"
+            to="/contact"
+          >
+            Contact
           </Link>
         );
       }
@@ -113,30 +145,12 @@ const Header = () => {
     }
   }
 
-  // const [open, setOpen] = useState(false);
-
-  let menuRef = useRef();
-
-  useEffect(() => {
-    let handler = (e) => {
-      if (!menuRef.current.contains(e.target)) {
-        setOpen(false);
-        console.log(menuRef.current);
-      }
-    };
-
-    document.addEventListener("mousedown", handler);
-
-    return () => {
-      document.removeEventListener("mousedown", handler);
-    };
-  });
+  const [open, setOpen] = useState(false);
 
   function onLogout() {
     auth.signOut();
     navigate("/");
   }
-  let [open, setOpen] = useState(true);
 
   return (
     <div className="shadow-md w-full top-0 left-0">
@@ -165,39 +179,41 @@ const Header = () => {
           >
             {homeState}
             {aboutState}
-
             {addState}
             {listState}
-
-            <Link
-              className="ml-2 text-lg text-black hover:text-blue-800 duration-500"
-              to="/Contact"
-            >
-              Contact
-            </Link>
-
+            {contactState}
             <div
               className={` ${matchRoute("/login") || matchRoute("/profile")}`}
-              onClick={() => {
-                setOpen(!open);
-              }}
             >
               {pageState}
             </div>
           </ul>
+          {openProfile && (
+            <div className="flex flex-col dropDownProfile">
+              <ul className="flex flex-col gap-4 ">
+                <Link
+                  onClick={() => setOpenProfile(false)}
+                  className="hover:text-blue-800"
+                  to="/profile"
+                >
+                  Profile
+                </Link>
+                <Link
+                  onClick={() => {
+                    setOpenProfile(false);
+                    onLogout();
+                  }}
+                  className="hover:text-blue-800"
+                  to="/"
+                >
+                  Log out
+                </Link>
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 };
-
-// function DropDownItem(props) {
-//   return (
-//     <li className="dropdownItem">
-//       <img src={props.img}></img>
-//       <a>{props.text}</a>
-//     </li>
-//   );
-// }
-
 export default Header;
