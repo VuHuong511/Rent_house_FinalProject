@@ -28,14 +28,23 @@ import Offer from "./pages/Offer";
 import Type from "./pages/Type";
 import Property from "./components/Property/Property";
 import AdminOnlyRoute from "./components/AdminOnlyRoute/AdminOnlyRoute";
+import Admin from "./pages/Admin/Admin";
 
 const App = () => {
   return (
     <>
       <Router>
         <Header />
+        <AdminOnlyRoute />
         <Routes>
-          <AdminOnlyRoute />
+          <Route
+            path="/admin/*"
+            element={
+              <AdminOnlyRoute>
+                <Admin />
+              </AdminOnlyRoute>
+            }
+          />
           <Route path="/" element={<Pages />} />
           <Route path="/homelogin" element={<Homelogin />} />
           <Route path="/about" element={<About />} />
