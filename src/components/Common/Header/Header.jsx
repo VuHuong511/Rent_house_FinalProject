@@ -7,6 +7,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { SET_ACTIVE_USER } from "../../../redux/slice/authSlice";
 import { REMOVE_ACTIVE_USER } from "../../../redux/slice/authSlice";
+import AdminOnlyRoute from "../../AdminOnlyRoute/AdminOnlyRoute";
 
 const Header = () => {
   const [pageState, setPageState] = useState("login");
@@ -179,6 +180,11 @@ const Header = () => {
               open ? "top-20 " : "top-[-490px]"
             }`}
           >
+            <li>
+              <AdminOnlyRoute>
+                <button>Admin</button>
+              </AdminOnlyRoute>
+            </li>
             {homeState}
             {aboutState}
             {addState}

@@ -5,7 +5,7 @@ import Pricing from "./components/Pricing/Pricing";
 
 import Services from "./components/Service/Service";
 import About from "./components/About/About";
-import Blog from "./components/Blog/Blog";
+import Blog from "./components/Property/Property";
 import Contact from "./components/Contact/Contact";
 import Header from "./components/Common/Header/Header";
 import Footer from "./components/Common/Footer/Footer";
@@ -26,6 +26,8 @@ import Listing from "./pages/Listing/Listing";
 import HomeLogin from "./pages/HomeLogin";
 import Offer from "./pages/Offer";
 import Type from "./pages/Type";
+import Property from "./components/Property/Property";
+import AdminOnlyRoute from "./components/AdminOnlyRoute/AdminOnlyRoute";
 
 const App = () => {
   return (
@@ -33,12 +35,12 @@ const App = () => {
       <Router>
         <Header />
         <Routes>
+          <AdminOnlyRoute />
           <Route path="/" element={<Pages />} />
           <Route path="/homelogin" element={<Homelogin />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/property" element={<Property />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/register" element={<Register />} />
@@ -47,24 +49,19 @@ const App = () => {
           <Route path="/myListing" element={<MyListing />} />
           <Route path="/offers" element={<Offer />} />
           <Route path="/category/:categoryName" element={<Type />} />
-
           <Route path="/profile" element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
           </Route>
-
           <Route path="/create" element={<PrivateRoute />}>
             <Route path="/create" element={<CreateListing />} />
           </Route>
-
           <Route path="/edit" element={<PrivateRoute />}>
             <Route path="/edit/:listingId" element={<EditListing />} />
           </Route>
-
           <Route
             path="/category/:listingName/:listingId"
             element={<Listing />}
           />
-
           <Route path="/homeLogin" element={<HomeLogin />} />
         </Routes>
         <Footer />
