@@ -1,40 +1,26 @@
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { db } from "../../../firebase/firebase";
-import { toast } from "react-toastify";
 import "./All-room.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { STORE_ROOMS, selectRooms } from "../../../redux/slice/roomSlice";
+import useEffectCollection from "../../../hooks/useFetchCollection";
 
 function All_room() {
-  const [listing, setListing] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { data } = useEffectCollection("listings");
+  const rooms = useSelector(selectRooms);
   const dispatch = useDispatch();
-  const getRoom = () => {
-    setLoading(true);
-    try {
-      const roomRef = collection(db, "listings");
-      const q = query(roomRef, orderBy("timestamp", "desc"));
-      onSnapshot(q, (snapshot) => {
-        const allRooms = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        console.log(allRooms);
-        setListing(allRooms);
-      });
-    } catch (error) {
-      setLoading(false);
-      toast.error(error.message);
-    }
-  };
   useEffect(() => {
-    getRoom();
-  });
+    dispatch(
+      STORE_ROOMS({
+        rooms: data,
+      })
+    );
+  }, [dispatch, data]);
+
   return (
     <>
       <div className="table">
         <h2>All Products</h2>
-        {listing.length === 0 ? (
+        {rooms.length === 0 ? (
           <p>No room found</p>
         ) : (
           <table>
@@ -46,12 +32,11 @@ function All_room() {
                 <th>Type</th>
                 <th>Regular Price</th>
                 <th>Discounted Price</th>
-
                 <th>Address</th>
               </tr>
             </thead>
             <tbody>
-              {listing.map((room, index) => {
+              {rooms.map((room, index) => {
                 const {
                   id,
                   imgUrls,
