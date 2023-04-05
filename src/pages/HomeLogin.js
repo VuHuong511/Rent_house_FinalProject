@@ -9,10 +9,14 @@ import {
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ListingItem from "../components/ListingItem/ListingItem";
-import Search from "../components/Search/Search";
 import { db } from "../firebase/firebase";
+import Search from "../components/Search/Search";
+import Filter from "../components/Filter/Filter";
+import { BiSearch } from "react-icons/bi";
+import "./HomeLogin.css";
 
 export default function HomeLogin() {
+  const [search, setSearch] = useState(true);
   const url = window.location.href;
   const scrollToRooms = () => {
     if (url.includes("/homeLogin")) {
@@ -124,7 +128,17 @@ export default function HomeLogin() {
   }, []);
   return (
     <div>
-      <Search />
+      <Filter />
+
+      <div className="search">
+        <BiSearch size={18} className="icon" />
+        <input
+          type="text"
+          placeholder="Search by name"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        ></input>
+      </div>
       <div className="max-w-6xl mx-auto pt-4 space-y-6">
         {offerListings && offerListings.length > 0 && (
           <div className="m-2 mb-6">
@@ -132,27 +146,6 @@ export default function HomeLogin() {
               <h2 className=" px-3 text-2xl mt-6 font-semibold">
                 Recent offers
               </h2>
-
-              {/* <div class="search-container mt-6">
-                <input
-                  onChange={handleSearch}
-                  value={searchQuery}
-                  type="text"
-                  placeholder="Search here"
-                />
-                <span class="search-icon">
-                  <i class="fa fa-search"></i>
-                </span>
-                {searchResults.length === 0 ? (
-                  <p>No results found.</p>
-                ) : (
-                  searchResults.map((listing) => (
-                    <div key={listing.key}>
-                      <h2>{listing.name}</h2>
-                    </div>
-                  ))
-                )}
-              </div> */}
             </div>
             <Link to="/offers">
               <p className="px-3 text-sm text-blue-600 hover:text-blue-800 transition duration-150 ease-in-out">
