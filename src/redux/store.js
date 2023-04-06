@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   room: roomReducer,
   filter: filterReducer,
-  wishlist: wishListReducer,
+  wishList: wishListReducer,
 });
 const store = configureStore({
   reducer: rootReducer,
