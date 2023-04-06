@@ -69,6 +69,13 @@ const filterSlice = createSlice({
       }
       state.filteredRooms = tempRooms;
     },
+    FILTER_BY_PRICE(state, action) {
+      const { rooms, price } = action.payload;
+      let tempRooms = [];
+      tempRooms = rooms.filter((room) => room.regularPrice <= price);
+
+      state.filteredRooms = tempRooms;
+    },
   },
 });
 
@@ -77,6 +84,7 @@ export const {
   SORT_ROOMS,
   FILTER_BY_TYPE,
   FILTER_BY_LOCATION,
+  FILTER_BY_PRICE,
 } = filterSlice.actions;
 export const selectFilteredRooms = (state) => state.filter.filteredRooms;
 export default filterSlice.reducer;

@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./Filter.css";
-import { selectRooms } from "../../redux/slice/roomSlice";
+import {
+  selectMaxPrice,
+  selectMinPrice,
+  selectRooms,
+} from "../../redux/slice/roomSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   FILTER_BY_LOCATION,
+  FILTER_BY_PRICE,
   FILTER_BY_TYPE,
 } from "../../redux/slice/filterSlice";
 export default function Filter() {
@@ -11,12 +16,14 @@ export default function Filter() {
   function handleFilter(event) {
     setPlace(event.target.value);
   }
+  const minPrice = useSelector(selectMinPrice);
+  const maxPrice = useSelector(selectMaxPrice);
+  const [price, setPrice] = useState(12345678);
+
   const rooms = useSelector(selectRooms);
   const dispatch = useDispatch();
   const allTypes = ["All", ...new Set(rooms.map((room) => room.type))];
-  console.log(allTypes);
   const allLocation = ["All", ...new Set(rooms.map((room) => room.address))];
-  console.log(allLocation);
   const [type, setType] = useState("All");
   const [location, setLocation] = useState("All");
 
@@ -28,6 +35,10 @@ export default function Filter() {
   useEffect(() => {
     dispatch(FILTER_BY_LOCATION({ rooms, location }));
   }, [dispatch, rooms, location]);
+
+  useEffect(() => {
+    dispatch(FILTER_BY_PRICE({ rooms, price }));
+  }, [dispatch, rooms, price]);
   return (
     <>
       <section className="fillter">
@@ -64,18 +75,17 @@ export default function Filter() {
                   );
                 })}
               </select>
-              <span>Select place</span>
-              <div className="filter">
-                <select onChange={handleFilter} value={place}>
-                  <option value="Select place">Select place</option>
-                  <option value="NguHanhSon">Ngu Hanh Son</option>
-                  <option value="LienChieu">Lien Chieu</option>
-                </select>
-              </div>
               <h4>Price</h4>
-              <p>5000</p>
+              <p>{`$${price}`}</p>
               <div className="Price">
-                <input type="range" name="proce" min={100} max="1000"></input>
+                <input
+                  type="range"
+                  name="proce"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  min={minPrice}
+                  max={maxPrice}
+                ></input>
               </div>
               <button>Clear filter</button>
             </div>
