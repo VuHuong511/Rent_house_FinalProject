@@ -27,6 +27,12 @@ export default function Filter() {
   const [type, setType] = useState("All");
   const [location, setLocation] = useState("All");
 
+  const clearFilter = () => {
+    setType("All");
+    setPlace("All");
+    setPrice(maxPrice);
+  };
+
   const filterRooms = (cat) => {
     setType(cat);
     dispatch(FILTER_BY_TYPE({ rooms, type: cat }));
@@ -61,7 +67,6 @@ export default function Filter() {
                 })}
                 <button>All</button>
               </div>
-
               <h4>Location</h4>
               <select
                 value={location}
@@ -87,7 +92,7 @@ export default function Filter() {
                   max={maxPrice}
                 ></input>
               </div>
-              <button>Clear filter</button>
+              <button onClick={clearFilter}>Clear filter</button>
             </div>
           </form>
         </div>
