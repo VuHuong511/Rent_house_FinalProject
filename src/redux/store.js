@@ -1,8 +1,12 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authReducer from "./slice/authSlice";
 import roomReducer from "./slice/roomSlice";
-
-const rootReducer = combineReducers({ auth: authReducer, room: roomReducer });
+import filterReducer from "./slice/filterSlice";
+const rootReducer = combineReducers({
+  auth: authReducer,
+  room: roomReducer,
+  filter: filterReducer,
+});
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
