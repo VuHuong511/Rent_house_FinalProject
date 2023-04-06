@@ -36,9 +36,18 @@ const wishListSlice = createSlice({
         JSON.stringify(state.wishListItems)
       );
     },
+    REMOVE_FROM_WISHLIST(state, action) {
+      const newWishItem = state.wishListItems.filter(
+        (item) => item.id !== action.payload.id
+      );
+      state.wishListItems = newWishItem;
+      toast.success(`${action.payload.name} removed from wish list`, {
+        position: "top-left",
+      });
+    },
   },
 });
 export const selectWishItems = (state) => state.wishList.wishListItems;
 
-export const { ADD_TO_WISHLIST } = wishListSlice.actions;
+export const { ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST } = wishListSlice.actions;
 export default wishListSlice.reducer;

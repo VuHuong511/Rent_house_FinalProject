@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
-  ADD_TO_WISHLIST,
+  REMOVE_FROM_WISHLIST,
   selectWishItems,
 } from "../../redux/slice/wishListSlice";
 import { FaTrashAlt } from "react-icons/fa";
 const WishList = () => {
+  const dispatch = useDispatch();
   const wishItems = useSelector(selectWishItems);
-
+  const removeFromWishList = (wishList) => {
+    dispatch(REMOVE_FROM_WISHLIST(wishList));
+  };
   return (
     <section>
       <div className="">
@@ -37,7 +40,7 @@ const WishList = () => {
                 </tr>
               </thead>
               <tbody>
-                {wishItems.map((cart, index) => {
+                {wishItems.map((wishList, index) => {
                   const {
                     id,
                     name,
@@ -45,7 +48,7 @@ const WishList = () => {
                     regularPrice,
                     discountedPrice,
                     imgUrls,
-                  } = cart;
+                  } = wishList;
                   return (
                     <tr key={id}>
                       <td>{index + 1}</td>
@@ -64,7 +67,11 @@ const WishList = () => {
                       <td>{discountedPrice}</td>
                       <td>{{ regularPrice } - { discountedPrice }}</td>
                       <td>
-                        <FaTrashAlt size={19} color="red" />
+                        <FaTrashAlt
+                          size={19}
+                          color="red"
+                          onClick={() => removeFromWishList(wishList)}
+                        />
                       </td>
                     </tr>
                   );
