@@ -48,9 +48,35 @@ const filterSlice = createSlice({
       }
       state.filteredRooms = tempRooms;
     },
+    FILTER_BY_TYPE(state, action) {
+      const { rooms, type } = action.payload;
+      let tempRooms = [];
+      if (type === "All") {
+        tempRooms = rooms;
+      } else {
+        tempRooms = rooms.filter((room) => room.type === type);
+      }
+      state.filteredRooms = tempRooms;
+    },
+
+    FILTER_BY_LOCATION(state, action) {
+      const { rooms, location } = action.payload;
+      let tempRooms = [];
+      if (location === "All") {
+        tempRooms = rooms;
+      } else {
+        tempRooms = rooms.filter((room) => room.address === location);
+      }
+      state.filteredRooms = tempRooms;
+    },
   },
 });
 
-export const { FILTER_BY_SEARCH, SORT_ROOMS } = filterSlice.actions;
+export const {
+  FILTER_BY_SEARCH,
+  SORT_ROOMS,
+  FILTER_BY_TYPE,
+  FILTER_BY_LOCATION,
+} = filterSlice.actions;
 export const selectFilteredRooms = (state) => state.filter.filteredRooms;
 export default filterSlice.reducer;
