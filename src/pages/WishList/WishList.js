@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
 import {
+  CLEAR_WISH_LIST,
   REMOVE_FROM_WISHLIST,
   selectWishItems,
 } from "../../redux/slice/wishListSlice";
@@ -12,6 +13,9 @@ const WishList = () => {
   const wishItems = useSelector(selectWishItems);
   const removeFromWishList = (wishList) => {
     dispatch(REMOVE_FROM_WISHLIST(wishList));
+  };
+  const clearWishList = () => {
+    dispatch(CLEAR_WISH_LIST());
   };
   return (
     <section>
@@ -80,7 +84,7 @@ const WishList = () => {
             </table>
 
             <div>
-              <button>Clear Wish list</button>
+              <button onClick={clearWishList}>Clear Wish list</button>
               <div>
                 <div>
                   <Link to="/#homeLogin"> Continue to view your wish list</Link>

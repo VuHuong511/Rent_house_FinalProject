@@ -44,10 +44,25 @@ const wishListSlice = createSlice({
       toast.success(`${action.payload.name} removed from wish list`, {
         position: "top-left",
       });
+      localStorage.setItem(
+        "wishListItems",
+        JSON.stringify(state.wishListItems)
+      );
+    },
+    CLEAR_WISH_LIST(state, action) {
+      state.wishListItems = [];
+      toast.info(`Clear wish list`, {
+        position: "top-left",
+      });
+      localStorage.setItem(
+        "wishListItems",
+        JSON.stringify(state.wishListItems)
+      );
     },
   },
 });
 export const selectWishItems = (state) => state.wishList.wishListItems;
 
-export const { ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST } = wishListSlice.actions;
+export const { ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST, CLEAR_WISH_LIST } =
+  wishListSlice.actions;
 export default wishListSlice.reducer;
