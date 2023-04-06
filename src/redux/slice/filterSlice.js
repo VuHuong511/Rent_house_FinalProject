@@ -11,15 +11,46 @@ const filterSlice = createSlice({
     FILTER_BY_SEARCH(state, action) {
       const { rooms, search } = action.payload;
       if (Array.isArray(rooms)) {
-        const tempRooms = rooms.filter((room) =>
-          room.name.toLowerCase().includes(search.toLowerCase())
+        const tempRooms = rooms.filter(
+          (room) =>
+            room.name.toLowerCase().includes(search.toLowerCase()) ||
+            room.address.toLowerCase().includes(search.toLowerCase()) ||
+            room.type.toLowerCase().includes(search.toLowerCase())
         );
         state.filteredRooms = tempRooms;
       }
     },
+    SORT_ROOMS(state, action) {
+      const { rooms, sort } = action.payload;
+      let tempRooms = [];
+      if (sort === "latest") {
+        tempRooms = rooms;
+      }
+      if (sort === "lowest-price") {
+        tempRooms = rooms.slice().sort((a, b) => {
+          return a.regularPrice - b.regularPrice;
+        });
+      }
+      if (sort === "highest-price") {
+        tempRooms = rooms.slice().sort((a, b) => {
+          return b.regularPrice - a.regularPrice;
+        });
+      }
+      if (sort === "a-z") {
+        tempRooms = rooms.slice().sort((a, b) => {
+          return a.name.localeCompare(b.name);
+        });
+      }
+      if (sort === "z-a") {
+        tempRooms = rooms.slice().sort((a, b) => {
+          return b.name.localeCompare(a.name);
+        });
+      }
+      state.filteredRooms = tempRooms;
+    },
   },
 });
 
-export const { FILTER_BY_SEARCH } = filterSlice.actions;
+export const { FILTER_BY_SEARCH, SORT_ROOMS } = filterSlice.actions;
 export const selectFilteredRooms = (state) => state.filter.filteredRooms;
 export default filterSlice.reducer;

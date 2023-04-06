@@ -2,10 +2,13 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authReducer from "./slice/authSlice";
 import roomReducer from "./slice/roomSlice";
 import filterReducer from "./slice/filterSlice";
+import wishListReducer from "./slice/wishListSlice";
+
 const rootReducer = combineReducers({
   auth: authReducer,
   room: roomReducer,
   filter: filterReducer,
+  wishlist: wishListReducer,
 });
 const store = configureStore({
   reducer: rootReducer,
