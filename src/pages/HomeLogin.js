@@ -1,16 +1,5 @@
-import {
-  collection,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import ListingItem from "../components/ListingItem/ListingItem";
-import { db } from "../firebase/firebase";
-import Search from "../components/Search/Search";
 import Filter from "../components/Filter/Filter";
 import { BiSearch } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,10 +9,15 @@ import {
   SORT_ROOMS,
   selectFilteredRooms,
 } from "../redux/slice/filterSlice";
-import { STORE_ROOMS, selectRooms } from "../redux/slice/roomSlice";
+import {
+  GET_PRICE_RANGE,
+  STORE_ROOMS,
+  selectRooms,
+} from "../redux/slice/roomSlice";
 import useEffectCollection from "../hooks/useFetchCollection";
 import Moment from "react-moment";
 import { MdLocationOn } from "react-icons/md";
+import { ADD_TO_WISHLIST } from "../redux/slice/wishListSlice";
 export default function HomeLogin() {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("latest");
@@ -34,6 +28,11 @@ export default function HomeLogin() {
   useEffect(() => {
     dispatch(
       STORE_ROOMS({
+        rooms: data,
+      })
+    );
+    dispatch(
+      GET_PRICE_RANGE({
         rooms: data,
       })
     );
@@ -61,6 +60,9 @@ export default function HomeLogin() {
   useEffect(() => {
     scrollToRooms();
   }, []);
+  const addToWishList = (room) => {
+    dispatch(ADD_TO_WISHLIST(room));
+  };
 
   return (
     <div>
@@ -149,6 +151,7 @@ export default function HomeLogin() {
                       </div>
                     </div>
                   </Link>
+                  <button onClick={() => addToWishList(room)}>Add </button>
                 </li>
               );
             })}
