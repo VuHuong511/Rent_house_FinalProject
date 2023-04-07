@@ -6,10 +6,12 @@ import {
   CLEAR_WISH_LIST,
   REMOVE_FROM_WISHLIST,
   selectWishItems,
+  selectWishListTotalQuantity,
 } from "../../redux/slice/wishListSlice";
 import { FaTrashAlt } from "react-icons/fa";
 const WishList = () => {
   const dispatch = useDispatch();
+  const cartTotalQuantity = useSelector(selectWishListTotalQuantity);
   const wishItems = useSelector(selectWishItems);
   const removeFromWishList = (wishList) => {
     dispatch(REMOVE_FROM_WISHLIST(wishList));
@@ -17,6 +19,7 @@ const WishList = () => {
   const clearWishList = () => {
     dispatch(CLEAR_WISH_LIST());
   };
+
   return (
     <section>
       <div className="">
@@ -69,7 +72,7 @@ const WishList = () => {
                       <td>{type}</td>
                       <td>{regularPrice}</td>
                       <td>{discountedPrice}</td>
-                      <td>{{ regularPrice } - { discountedPrice }}</td>
+                      <td>{regularPrice - discountedPrice}</td>
                       <td>
                         <FaTrashAlt
                           size={19}
@@ -91,7 +94,9 @@ const WishList = () => {
                 </div>
                 <br />
                 <cart>
-                  <h4>Total:</h4>
+                  <p>
+                    <b> {`Cart item(s): ${cartTotalQuantity}`}</b>
+                  </p>
                 </cart>
               </div>
             </div>
