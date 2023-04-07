@@ -1,7 +1,7 @@
 import React from "react";
 
 const Deposit = () => {
-  return <div></div>;
+  return <div>deposit</div>;
 };
 
 export default Deposit;

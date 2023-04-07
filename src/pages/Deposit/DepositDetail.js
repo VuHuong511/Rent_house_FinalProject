@@ -1,5 +1,7 @@
 import { useState } from "react";
-
+import { SAVE_BILLING_ADDRESS } from "../../redux/slice/depositSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const initialAddressState = {
   name: "",
   email: "",
@@ -8,9 +10,11 @@ const initialAddressState = {
 };
 
 const DepositDetail = () => {
+  const navigate = useNavigate();
   const [billingAddress, setBillingAddress] = useState({
     ...initialAddressState,
   });
+  const dispatch = useDispatch();
 
   const handleBilling = (e) => {
     const { name, value } = e.target;
@@ -22,7 +26,12 @@ const DepositDetail = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(billingAddress);
+    dispatch(
+      SAVE_BILLING_ADDRESS({
+        billingAddress,
+      })
+    );
+    navigate("/deposit");
   };
 
   return (
