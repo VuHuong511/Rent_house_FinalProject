@@ -2,6 +2,8 @@ import { useState } from "react";
 import { SAVE_BILLING_ADDRESS } from "../../redux/slice/depositSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Deposit from "./Deposit";
+import DepositSummary from "../../components/DepositSummary/DepositSummary";
 const initialAddressState = {
   name: "",
   email: "",
@@ -81,6 +83,9 @@ const DepositDetail = () => {
 
             <button type="submit">Proceed To Checkout</button>
           </div>
+          <card>
+            <DepositSummary />
+          </card>
         </form>
       </div>
     </section>

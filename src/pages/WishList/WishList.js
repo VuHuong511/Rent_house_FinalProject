@@ -79,6 +79,7 @@ const WishList = () => {
                       <td>{type}</td>
                       <td>{regularPrice}</td>
                       <td>{discountedPrice}</td>
+
                       <td>{regularPrice - discountedPrice}</td>
                       <td>
                         <FaTrashAlt
