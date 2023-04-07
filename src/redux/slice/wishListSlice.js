@@ -18,7 +18,7 @@ const wishListSlice = createSlice({
       );
       if (roomIndex >= 0) {
         // item already exists in the wish list
-        state.wishListItems[roomIndex].wishListQuantity += 1;
+        state.wishListItems[roomIndex].wishListQuantity += 0;
         toast.error("This room already added to wish list", {
           position: "top-left",
         });
@@ -73,6 +73,31 @@ const wishListSlice = createSlice({
       }, 0);
       state.wishListTotalQuantity = totalQuantity;
     },
+
+    CALCULATE_TOTAL_QUANTITY(state, action) {
+      const array = [];
+      state.wishListItems.map((item) => {
+        const { wishListQuantity } = item;
+        const quantity = wishListQuantity;
+        return array.push(quantity);
+      });
+      const totalQuantity = array.reduce((a, b) => {
+        return a + b;
+      }, 0);
+      state.wishListTotalQuantity = totalQuantity;
+    },
+    CALCULATE_PRICE(state, action) {
+      const array = [];
+      state.wishListItems.map((item) => {
+        const { price, wishListQuantity } = item;
+        const cartItemAmount = price * wishListQuantity;
+        return array.push(cartItemAmount);
+      });
+      const totalAmount = array.reduce((a, b) => {
+        return a + b;
+      }, 0);
+      state.wishListTotalAmount = totalAmount;
+    },
   },
 });
 export const selectWishItems = (state) => state.wishList.wishListItems;
@@ -84,5 +109,6 @@ export const {
   CALCULATE_TOTAL_QUANTITY,
   REMOVE_FROM_WISHLIST,
   CLEAR_WISH_LIST,
+  CALCULATE_PRICE,
 } = wishListSlice.actions;
 export default wishListSlice.reducer;

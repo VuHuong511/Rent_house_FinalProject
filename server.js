@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
-
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -12,21 +11,36 @@ app.get("/", (req, res) => {
 });
 
 const calculateOrderAmount = (items) => {
-  // Replace this constant with a calculation of the order's amount
-  // Calculate the order total on the server to prevent
-  // people from directly manipulating the amount on the client
-  return 1400;
+  let totalAmount = 0;
+  items.forEach((item) => {
+    const { regularPrice, discountedPrice } = item;
+    const priceDifference = regularPrice - discountedPrice;
+    console.log(`Price: ${priceDifference}`);
+    totalAmount += priceDifference;
+  });
+  return totalAmount * 100;
 };
 
 app.post("/create-payment-intent", async (req, res) => {
-  const { items } = req.body;
+  const { items, billing, description } = req.body;
 
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
     amount: calculateOrderAmount(items),
-    currency: "gbp",
+    currency: "usd",
     automatic_payment_methods: {
       enabled: true,
+    },
+    description,
+    billing: {
+      address: {
+        name: billing.name,
+        email: billing.email,
+        phone_number: billing.phone,
+        address: billing.address,
+      },
+      name: billing.name,
+      phone: billing.phone,
     },
   });
 
