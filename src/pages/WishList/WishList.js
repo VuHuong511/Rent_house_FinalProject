@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
 import {
+  CALCULATE_TOTAL_QUANTITY,
   CLEAR_WISH_LIST,
   REMOVE_FROM_WISHLIST,
   selectWishItems,
@@ -19,6 +20,9 @@ const WishList = () => {
   const clearWishList = () => {
     dispatch(CLEAR_WISH_LIST());
   };
+  useEffect(() => {
+    dispatch(CALCULATE_TOTAL_QUANTITY());
+  }, [wishItems, dispatch]);
 
   return (
     <section>
@@ -29,7 +33,7 @@ const WishList = () => {
             <p>Your cart is currently empty.</p>
             <br />
             <div>
-              <Link to="/#homeLogin">&larr; Continue shopping</Link>
+              <Link to="/homeLogin">&larr; Continue shopping</Link>
             </div>
           </>
         ) : (
@@ -44,6 +48,9 @@ const WishList = () => {
                   <th>Discount</th>
                   <th>Price</th>
                   <th>Action</th>
+                  <th>Checkout</th>
+
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -79,6 +86,11 @@ const WishList = () => {
                           color="red"
                           onClick={() => removeFromWishList(wishList)}
                         />
+                      </td>
+                      <td>
+                        <Link to="/deposit-details">
+                          <button>Check out</button>
+                        </Link>
                       </td>
                     </tr>
                   );
