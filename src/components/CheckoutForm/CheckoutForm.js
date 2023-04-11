@@ -45,7 +45,7 @@ const CheckoutForm = () => {
       reservationStatus: "Reservation Placed...",
       wishListItems,
       billingAddress,
-      createdAt: Timestamp.now().toDate(),
+      timestamp: Timestamp.now().toDate(),
     };
 
     try {

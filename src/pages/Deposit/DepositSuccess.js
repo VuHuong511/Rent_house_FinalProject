@@ -7,7 +7,7 @@ const DepositSuccess = () => {
       <div className="container">
         <h2>Checkout Successfully</h2>
         <br />
-        <Link to="/deposit-history">
+        <Link to="/reservation-history">
           <button>View Deposit Status</button>
         </Link>
       </div>
