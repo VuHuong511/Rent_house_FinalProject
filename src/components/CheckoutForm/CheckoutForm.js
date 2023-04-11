@@ -7,15 +7,55 @@ import {
 import "./CheckoutForm.css";
 import DepositSummary from "../DepositSummary/DepositSummary";
 import { toast } from "react-toastify";
-
+import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { selectEmail, selectUserID } from "../../redux/slice/authSlice";
+import {
+  CLEAR_WISH_LIST,
+  selectWishItems,
+  selectWishListTotalAmount,
+} from "../../redux/slice/wishListSlice";
+import { selectBillingAddress } from "../../redux/slice/depositSlice";
+import { db } from "../../firebase/firebase";
 const CheckoutForm = () => {
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+  const userID = useSelector(selectUserID);
+  const userEmail = useSelector(selectEmail);
+  const wishListItems = useSelector(selectWishItems);
+  const billingAddress = useSelector(selectBillingAddress);
+  const wishListTotalPrice = useSelector(selectWishListTotalAmount);
 
   const save = () => {
-    console.log("Saved");
+    const today = new Date();
+    const date = today.toDateString();
+    const time = today.toLocaleTimeString();
+    const reservationConfig = {
+      // userID,
+      userEmail,
+      reservationDate: date,
+      reservationTime: time,
+      reservationAmount: wishListTotalPrice,
+      reservationStatus: "Reservation Placed...",
+      wishListItems,
+      billingAddress,
+      createdAt: Timestamp.now().toDate(),
+    };
+
+    try {
+      addDoc(collection(db, "reservation"), reservationConfig);
+      toast.success("Reservation Saved");
+      dispatch(CLEAR_WISH_LIST());
+      navigate("/deposit-success");
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
   useEffect(() => {
     if (!stripe) {
@@ -47,7 +87,7 @@ const CheckoutForm = () => {
         confirmParams: {
           return_url: "http://localhost:3000/deposit-success",
         },
-        redirect_url: "if_required",
+        redirect: "if_required",
       })
       .then((result) => {
         // ok - payment intent is bad - error

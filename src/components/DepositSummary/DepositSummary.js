@@ -36,7 +36,7 @@ const DepositSummary = () => {
               return (
                 <card key={id} cardClass="card">
                   <p>Room: {name}</p>
-                  {/* <img src={imgUrls} alt={name} style={{ width: "100px" }} /> */}
+                  <img src={imgUrls} alt={name} style={{ width: "100px" }} />
                   <p> regularPrice: {regularPrice}</p>
                   <p> discount: {discountedPrice}</p>
                   <p> type: {type}</p>
