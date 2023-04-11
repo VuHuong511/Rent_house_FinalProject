@@ -20,6 +20,10 @@ const ReservationHistory = () => {
   const handleClick = (id) => {
     navigate(`/reservation-details/${id}`);
   };
+  const filtered = reservation.filter(
+    (reservation) => reservation.userID === userID
+  );
+
   return (
     <section>
       <div className="reservation"></div>
@@ -28,7 +32,7 @@ const ReservationHistory = () => {
       <>
         {isLoading}
         <div className="table">
-          {reservation.length === 0 ? (
+          {filtered.length === 0 ? (
             <p>No reservation found</p>
           ) : (
             <table>
@@ -43,7 +47,7 @@ const ReservationHistory = () => {
                 </tr>
               </thead>
               <tbody>
-                {reservation.map((reservation, index) => {
+                {filtered.map((reservation, index) => {
                   const {
                     id,
                     reservationDate,
