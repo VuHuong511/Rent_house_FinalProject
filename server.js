@@ -2,46 +2,30 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
+
 const app = express();
-app.use(cors());
+app.use(cors("*"));
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Welcome");
+  res.send("Welcome to RentRoom.");
 });
 
-const calculateOrderAmount = (items) => {
-  let totalAmount = 0;
-  items.forEach((item) => {
-    const { regularPrice, discountedPrice } = item;
-    const priceDifference = regularPrice - discountedPrice;
-    console.log(`Price: ${priceDifference}`);
-    totalAmount += priceDifference;
-  });
-  return totalAmount * 100;
+const calculateOrderAmount = () => {
+  return 1400 * 100;
 };
 
 app.post("/create-payment-intent", async (req, res) => {
-  const { items, billing, description } = req.body;
+  const { description } = req.body;
 
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: calculateOrderAmount(items),
-    currency: "usd",
+    amount: calculateOrderAmount(),
+    currency: "gbp",
     automatic_payment_methods: {
       enabled: true,
     },
     description,
-    billing: {
-      address: {
-        name: billing.name,
-        email: billing.email,
-        phone_number: billing.phone,
-        address: billing.address,
-      },
-      name: billing.name,
-      phone: billing.phone,
-    },
   });
 
   res.send({
@@ -49,5 +33,4 @@ app.post("/create-payment-intent", async (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 4242;
-app.listen(PORT, () => console.log(`Node server listening on port ${PORT}`));
+app.listen(4242, () => console.log("Node server listening on port 4242!"));

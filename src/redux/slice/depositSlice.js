@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  shippingAddress: {},
   billingAddress: {},
 };
 
@@ -16,5 +17,6 @@ const depositSlice = createSlice({
 });
 
 export const { SAVE_BILLING_ADDRESS } = depositSlice.actions;
+
 export const selectBillingAddress = (state) => state.deposit.billingAddress;
 export default depositSlice.reducer;

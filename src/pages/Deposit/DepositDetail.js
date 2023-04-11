@@ -1,22 +1,23 @@
 import { useState } from "react";
-import { SAVE_BILLING_ADDRESS } from "../../redux/slice/depositSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Deposit from "./Deposit";
 import DepositSummary from "../../components/DepositSummary/DepositSummary";
+import { SAVE_BILLING_ADDRESS } from "../../redux/slice/depositSlice";
+
 const initialAddressState = {
   name: "",
   email: "",
-  phone_number: "",
   address: "",
+  phone_number: "",
 };
 
-const DepositDetail = () => {
-  const navigate = useNavigate();
+const CheckoutDetails = () => {
   const [billingAddress, setBillingAddress] = useState({
     ...initialAddressState,
   });
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleBilling = (e) => {
     const { name, value } = e.target;
@@ -28,68 +29,67 @@ const DepositDetail = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(
-      SAVE_BILLING_ADDRESS({
-        billingAddress,
-      })
-    );
+    dispatch(SAVE_BILLING_ADDRESS(billingAddress));
     navigate("/deposit");
   };
 
   return (
     <section>
-      <div className="">
-        <h2>Deposit Details</h2>
+      <div>
+        <h2>Checkout Details</h2>
         <form onSubmit={handleSubmit}>
           <div>
-            <>
+            {/* BILLING ADDRESS */}
+            <card>
               <h3>Billing Address</h3>
-              <label>Full name</label>
+              <label>Recipient Name</label>
               <input
                 type="text"
-                placeholder="Full name"
+                placeholder="Name"
                 required
                 name="name"
                 value={billingAddress.name}
                 onChange={(e) => handleBilling(e)}
               />
-              <label>Email</label>
               <input
                 type="email"
-                placeholder="Email address"
+                placeholder="Email"
                 required
                 name="email"
                 value={billingAddress.email}
                 onChange={(e) => handleBilling(e)}
               />
-              <label>Phone number</label>
               <input
                 type="tel"
-                placeholder="Phone number"
+                placeholder="Phone Number"
+                required
                 name="phone_number"
                 value={billingAddress.phone_number}
                 onChange={(e) => handleBilling(e)}
               />
-              <label>Address</label>
+
               <input
                 type="text"
                 placeholder="Address"
                 required
                 name="address"
-                value={billingAddress.address}
+                value={billingAddress.country}
                 onChange={(e) => handleBilling(e)}
               />
-            </>
-
-            <button type="submit">Proceed To Checkout</button>
+              <button type="submit" className="text-black">
+                Proceed To Checkout
+              </button>
+            </card>
           </div>
-          <card>
-            <DepositSummary />
-          </card>
+          <div>
+            <card>
+              <DepositSummary />
+            </card>
+          </div>
         </form>
       </div>
     </section>
   );
 };
 
-export default DepositDetail;
+export default CheckoutDetails;

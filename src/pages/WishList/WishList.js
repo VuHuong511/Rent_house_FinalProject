@@ -7,12 +7,16 @@ import {
   CLEAR_WISH_LIST,
   REMOVE_FROM_WISHLIST,
   selectWishItems,
+  selectWishListTotalAmount,
   selectWishListTotalQuantity,
+  CALCULATE_PRICE,
 } from "../../redux/slice/wishListSlice";
 import { FaTrashAlt } from "react-icons/fa";
 const WishList = () => {
   const dispatch = useDispatch();
   const cartTotalQuantity = useSelector(selectWishListTotalQuantity);
+  const wishListTotalPrice = useSelector(selectWishListTotalAmount);
+
   const wishItems = useSelector(selectWishItems);
   const removeFromWishList = (wishList) => {
     dispatch(REMOVE_FROM_WISHLIST(wishList));
@@ -22,6 +26,7 @@ const WishList = () => {
   };
   useEffect(() => {
     dispatch(CALCULATE_TOTAL_QUANTITY());
+    dispatch(CALCULATE_PRICE());
   }, [wishItems, dispatch]);
 
   return (
@@ -109,6 +114,7 @@ const WishList = () => {
                 <cart>
                   <p>
                     <b> {`Cart item(s): ${cartTotalQuantity}`}</b>
+                    <b> {`Price: ${wishListTotalPrice}`}</b>
                   </p>
                 </cart>
               </div>

@@ -73,25 +73,12 @@ const wishListSlice = createSlice({
       }, 0);
       state.wishListTotalQuantity = totalQuantity;
     },
-
-    CALCULATE_TOTAL_QUANTITY(state, action) {
-      const array = [];
-      state.wishListItems.map((item) => {
-        const { wishListQuantity } = item;
-        const quantity = wishListQuantity;
-        return array.push(quantity);
-      });
-      const totalQuantity = array.reduce((a, b) => {
-        return a + b;
-      }, 0);
-      state.wishListTotalQuantity = totalQuantity;
-    },
     CALCULATE_PRICE(state, action) {
       const array = [];
       state.wishListItems.map((item) => {
-        const { price, wishListQuantity } = item;
-        const cartItemAmount = price * wishListQuantity;
-        return array.push(cartItemAmount);
+        const { regularPrice, discountedPrice } = item;
+        const wishListItemAmount = regularPrice - discountedPrice;
+        return array.push(wishListItemAmount);
       });
       const totalAmount = array.reduce((a, b) => {
         return a + b;
@@ -101,6 +88,8 @@ const wishListSlice = createSlice({
   },
 });
 export const selectWishItems = (state) => state.wishList.wishListItems;
+export const selectWishListTotalAmount = (state) =>
+  state.wishList.wishListTotalAmount;
 export const selectWishListTotalQuantity = (state) =>
   state.wishList.wishListTotalQuantity;
 
