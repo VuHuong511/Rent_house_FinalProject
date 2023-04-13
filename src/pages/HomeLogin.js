@@ -18,6 +18,7 @@ import useEffectCollection from "../hooks/useFetchCollection";
 import Moment from "react-moment";
 import { MdLocationOn } from "react-icons/md";
 import { ADD_TO_WISHLIST } from "../redux/slice/wishListSlice";
+import Pagination from "../components/Pagination.js/Pagination";
 export default function HomeLogin() {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("latest");
@@ -64,6 +65,14 @@ export default function HomeLogin() {
     dispatch(ADD_TO_WISHLIST(room));
   };
 
+  // pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [roomsPerPage] = useState(12);
+  // get current rooms
+  const indexOfLastRoom = currentPage * roomsPerPage;
+  const indexOfFirstRoom = indexOfLastRoom - roomsPerPage;
+  const currentRooms = filteredRooms.slice(indexOfFirstRoom, indexOfLastRoom);
+
   return (
     <div>
       <Filter />
@@ -92,7 +101,7 @@ export default function HomeLogin() {
           <p>No product found.</p>
         ) : (
           <>
-            {filteredRooms.map((room) => {
+            {currentRooms.map((room) => {
               const {
                 listing,
                 id,
@@ -158,6 +167,12 @@ export default function HomeLogin() {
           </>
         )}
       </ul>
+      <Pagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        roomsPerPage={roomsPerPage}
+        totalRoom={filteredRooms.length}
+      />
     </div>
   );
 }
