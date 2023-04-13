@@ -1,7 +1,17 @@
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../../firebase/firebase";
 import "./All-user.css";
+import { FaTrashAlt } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { ref } from "firebase/storage";
 
 const All_user = () => {
   const [users, setUsers] = useState([]);
@@ -24,6 +34,19 @@ const All_user = () => {
       console.log(e);
     }
   };
+
+  const deleteProduct = async (id, imageURL) => {
+    try {
+      if (window.confirm("Are you sure you want to delete")) {
+        await deleteDoc(doc(db, "users", id));
+
+        toast.success("Users deleted successfully.");
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   return (
     <>
       <div className="table">
@@ -37,6 +60,7 @@ const All_user = () => {
               <th>Id</th>
               <th>Email</th>
               <th>name</th>
+              <th>Action</th>
             </tr>
             {users.map((user, index) => {
               const { id, email, name } = user;
@@ -46,6 +70,13 @@ const All_user = () => {
                   <td>{id}</td>
                   <td>{email}</td>
                   <td>{name}</td>
+                  <td>
+                    <FaTrashAlt
+                      size={18}
+                      color="red"
+                      onClick={() => deleteProduct(id)}
+                    />
+                  </td>
                 </tr>
               );
             })}
