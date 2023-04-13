@@ -25,7 +25,7 @@ const Navbar = () => {
             <NavLink to="all-Reservation">All Reservation</NavLink>
           </li>
           <li>
-            <NavLink to="all-seller">All Seller</NavLink>
+            <NavLink to="all-user">All User</NavLink>
           </li>
         </ul>
       </nav>
