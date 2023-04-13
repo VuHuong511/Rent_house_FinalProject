@@ -78,7 +78,7 @@ const ReservationDetail = () => {
                       <td>{regularPrice - discountedPrice}</td>
                       <td>{address}</td>
                       <td className="icons">
-                        <Link to={`/review-product/${id}`}>
+                        <Link to={`/review-room/${id}`}>
                           <button className="--btn --btn-primary">
                             Review Product
                           </button>

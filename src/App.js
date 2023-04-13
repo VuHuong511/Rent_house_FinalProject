@@ -29,6 +29,14 @@ import Type from "./pages/Type";
 import Property from "./components/Property/Property";
 import AdminOnlyRoute from "./components/AdminOnlyRoute/AdminOnlyRoute";
 import Admin from "./pages/Admin/Admin";
+import WishList from "./pages/WishList/WishList";
+import DepositDetail from "./pages/Deposit/DepositDetail";
+import Deposit from "./pages/Deposit/Deposit";
+import DepositSuccess from "./pages/Deposit/DepositSuccess";
+import ReservationHistory from "./pages/ReservationHistory/ReservationHistory";
+import ReservationDetail from "./pages/ReservationDetail/ReservationDetail";
+import MyReservation from "./pages/MyReservation/MyReservation";
+import Review from "./components/Review/Review";
 
 const App = () => {
   return (
@@ -71,7 +79,25 @@ const App = () => {
             element={<Listing />}
           />
           <Route path="/homeLogin" element={<HomeLogin />} />
+          <Route path="/wishlist" element={<WishList />} />
+          <Route path="/deposit-details" element={<DepositDetail />} />
+          <Route path="/deposit" element={<Deposit />} />
+          <Route path="/deposit-success" element={<DepositSuccess />} />
+          <Route path="/reservation-history" element={<ReservationHistory />} />
+          <Route path="/reservation-history" element={<ReservationHistory />} />
+          <Route path="/my-reservation" element={<MyReservation />} />
+          <Route path="/review-room/:id" element={<Review />} />
+
+          <Route
+            path="/reservation-details/:id"
+            element={<ReservationDetail />}
+          />
+          {/* <Route
+            path="/review-room/:id"
+            element={<ReviewRoom />}
+          /> */}
         </Routes>
+
         <Footer />
       </Router>
 
