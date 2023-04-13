@@ -22,7 +22,7 @@ const Navbar = () => {
             <NavLink to="all-room">All Room</NavLink>
           </li>
           <li>
-            <NavLink to="all-customer">All Customer</NavLink>
+            <NavLink to="all-Reservation">All Reservation</NavLink>
           </li>
           <li>
             <NavLink to="all-seller">All Seller</NavLink>
