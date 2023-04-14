@@ -3,10 +3,27 @@ import "./All-room.css";
 import { useDispatch, useSelector } from "react-redux";
 import { STORE_ROOMS, selectRooms } from "../../../redux/slice/roomSlice";
 import useEffectCollection from "../../../hooks/useFetchCollection";
-
+import {
+  FILTER_BY_SEARCH,
+  selectFilteredRooms,
+} from "../../../redux/slice/filterSlice";
+import Pagination from "../../Pagination.js/Pagination";
+import Search from "../../Search/Search";
+import { BiSearch } from "react-icons/bi";
 function All_room() {
-  const { data } = useEffectCollection("listings");
-  const rooms = useSelector(selectRooms);
+  const [search, setSearch] = useState("");
+  const { data, isLoading } = useEffectCollection("listings");
+  const filteredRooms = useSelector(selectFilteredRooms);
+
+  // pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [roomsPerPage] = useState(10);
+  // get current rooms
+  const indexOfLastRoom = currentPage * roomsPerPage;
+  const indexOfFirstRoom = indexOfLastRoom - roomsPerPage;
+  const currentRooms = filteredRooms.slice(indexOfFirstRoom, indexOfLastRoom);
+
+  const rooms = useSelector(selectRooms) || [];
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(
@@ -15,12 +32,24 @@ function All_room() {
       })
     );
   }, [dispatch, data]);
+  useEffect(() => {
+    dispatch(FILTER_BY_SEARCH({ rooms, search }));
+  }, [dispatch, rooms, search]);
 
   return (
     <>
       <div className="table">
         <h2>All Products</h2>
-        {rooms.length === 0 ? (
+        <div className="search">
+          <BiSearch size={18} className="icon" />
+          <input
+            type="text"
+            placeholder="Search by name"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          ></input>
+        </div>
+        {filteredRooms.lenght === 0 ? (
           <p>No room found</p>
         ) : (
           <table>
@@ -32,11 +61,12 @@ function All_room() {
                 <th>Type</th>
                 <th>Regular Price</th>
                 <th>Discounted Price</th>
+                <th>Price</th>
                 <th>Address</th>
               </tr>
             </thead>
             <tbody>
-              {rooms.map((room, index) => {
+              {currentRooms.map((room, index) => {
                 const {
                   id,
                   imgUrls,
@@ -60,6 +90,8 @@ function All_room() {
                     <td>{type}</td>
                     <td>{`$${regularPrice}`}</td>
                     <td>{`$${discountedPrice}`}</td>
+                    <td>{`$${regularPrice - discountedPrice}`}</td>
+
                     <td>{address}</td>
                   </tr>
                 );
@@ -67,6 +99,12 @@ function All_room() {
             </tbody>
           </table>
         )}
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          roomsPerPage={roomsPerPage}
+          totalRoom={filteredRooms.length}
+        />
       </div>
     </>
   );
