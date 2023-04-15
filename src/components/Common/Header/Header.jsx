@@ -110,7 +110,7 @@ const Header = () => {
           SET_ACTIVE_USER({
             userName: user.displayName ? user.displayName : displayName,
             email: user.email,
-            useID: user.uid,
+            userID: user.uid,
           })
         );
       } else {

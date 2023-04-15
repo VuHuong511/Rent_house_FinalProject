@@ -10,7 +10,11 @@ import { toast } from "react-toastify";
 import { addDoc, collection, Timestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectEmail, selectUserID } from "../../redux/slice/authSlice";
+import {
+  selectEmail,
+  selectUserID,
+  selectUsername,
+} from "../../redux/slice/authSlice";
 import {
   CLEAR_WISH_LIST,
   selectWishItems,
@@ -18,6 +22,8 @@ import {
 } from "../../redux/slice/wishListSlice";
 import { selectBillingAddress } from "../../redux/slice/depositSlice";
 import { db } from "../../firebase/firebase";
+import { getAuth } from "firebase/auth";
+
 const CheckoutForm = () => {
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,18 +32,21 @@ const CheckoutForm = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+  const userName = useSelector(selectUsername);
   const userID = useSelector(selectUserID);
+
   const userEmail = useSelector(selectEmail);
   const wishListItems = useSelector(selectWishItems);
   const billingAddress = useSelector(selectBillingAddress);
   const wishListTotalPrice = useSelector(selectWishListTotalAmount);
-
+  // const auth = getAuth();
   const save = () => {
     const today = new Date();
     const date = today.toDateString();
     const time = today.toLocaleTimeString();
     const reservationConfig = {
-      // userID,
+      userID,
+      userName,
       userEmail,
       reservationDate: date,
       reservationTime: time,
@@ -46,6 +55,7 @@ const CheckoutForm = () => {
       wishListItems,
       billingAddress,
       timestamp: Timestamp.now().toDate(),
+      // userRef: auth.currentUser.uid,
     };
 
     try {
@@ -92,6 +102,7 @@ const CheckoutForm = () => {
       .then((result) => {
         // ok - payment intent is bad - error
         if (result.error) {
+          console.log(result.error.message);
           toast.error(result.error.message);
           setMessage(result.error.message);
           return;
