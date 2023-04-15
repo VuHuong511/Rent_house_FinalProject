@@ -4,13 +4,17 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../../../assets/img/Logo.png";
 import User from "../../../assets/img/user.png";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SET_ACTIVE_USER } from "../../../redux/slice/authSlice";
 import { REMOVE_ACTIVE_USER } from "../../../redux/slice/authSlice";
 import AdminOnlyRoute, {
   AdminOnlyLink,
 } from "../../AdminOnlyRoute/AdminOnlyRoute";
-
+import { FaShoppingCart } from "react-icons/fa";
+import {
+  CALCULATE_TOTAL_QUANTITY,
+  selectWishListTotalQuantity,
+} from "../../../redux/slice/wishListSlice";
 const Header = () => {
   const [pageState, setPageState] = useState("login");
   const [homeState, setHomeState] = useState("login");
@@ -18,15 +22,37 @@ const Header = () => {
   const [addState, setAddState] = useState("login");
   const [listState, setListState] = useState("login");
   const [contactState, setContactState] = useState("login");
-
   const [openProfile, setOpenProfile] = useState(false);
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const auth = getAuth();
+  const [displayName, setDisplayName] = useState("");
+  const wishListTotalQuantity = useSelector(selectWishListTotalQuantity);
+
+  useEffect(() => {
+    dispatch(CALCULATE_TOTAL_QUANTITY());
+  }, []);
+  const wishList = (
+    <span className="wishList">
+      <p className="text-black">{wishListTotalQuantity}</p>
+      <Link to="/wishlist">
+        Wish List
+        <FaShoppingCart size={20} />
+      </Link>
+    </span>
+  );
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        if (user.displayName == null) {
+          const u1 = user.email.substring(0, user.email.indexOf("@"));
+          const uName = u1.charAt(0).toUpperCase() + u1.slice(1);
+          setDisplayName(uName);
+        } else {
+          setDisplayName(user.displayName);
+        }
+        console.log(user);
         setPageState(
           <img
             className="w-[50px] h-[50px] ml-[300px]"
@@ -53,23 +79,24 @@ const Header = () => {
           </Link>
         );
         setAddState(
-          <Link
+          <div
             style={{ fontWeight: 600 }}
             className="ml-4 text-lg text-black hover:text-blue-800 focus:text-blue-800 duration-500"
-            to="/create"
           >
-            Create room
-          </Link>
+            {wishList}
+          </div>
         );
+
         setListState(
           <Link
             style={{ fontWeight: 600 }}
-            className="ml-4 text-lg text-black hover:text-blue-800 focus:text-blue-800 duration-500"
-            to="/myListing"
+            className="ml-4 text-xl text-black hover:text-blue-800 focus:text-blue-800 duration-500"
+            to="/reservation-history"
           >
-            My Rooms
+            Reservation history
           </Link>
         );
+
         setContactState(
           <Link
             style={{ fontWeight: 600 }}
@@ -81,17 +108,18 @@ const Header = () => {
         );
         dispatch(
           SET_ACTIVE_USER({
-            username: user.displayName,
+            userName: user.displayName ? user.displayName : displayName,
             email: user.email,
             useID: user.uid,
           })
         );
       } else {
+        setDisplayName("");
         dispatch(REMOVE_ACTIVE_USER);
         setPageState(
           <Link to="/login" style={{ fontWeight: 600 }}>
-            <button style={{ marginLeft: 265 }} className="btn1">
-              <i className="fa fa-sign-in"></i> Sign In
+            <button style={{ marginLeft: 265 }}>
+              <i className="fa fa-sign-in"></i>Sign In
             </button>
           </Link>
         );
@@ -142,7 +170,7 @@ const Header = () => {
         );
       }
     });
-  }, [auth]);
+  }, [auth, dispatch, displayName]);
 
   function matchRoute(route) {
     if (route === location.pathname) {
@@ -182,23 +210,18 @@ const Header = () => {
               open ? "top-20 " : "top-[-490px]"
             }`}
           >
-            <li>
-              <AdminOnlyLink>
-                <Link to="/admin/dashboard">
-                  <button>Admin</button>
-                </Link>
-              </AdminOnlyLink>
-            </li>
+            <AdminOnlyLink>
+              <Link to="/admin/dashboard">
+                <button>Admin</button>
+              </Link>
+            </AdminOnlyLink>
+
             {homeState}
             {aboutState}
             {addState}
             {listState}
             {contactState}
-            <div
-              className={` ${matchRoute("/login") || matchRoute("/profile")}`}
-            >
-              {pageState}
-            </div>
+            {pageState}
           </ul>
           {openProfile && (
             <div className="flex flex-col dropDownProfile">
