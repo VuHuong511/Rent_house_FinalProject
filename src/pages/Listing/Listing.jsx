@@ -24,14 +24,24 @@ import Contact from "../../components/Contact";
 import { getAuth } from "firebase/auth";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-
-export default function Listing() {
+import useEffectCollection from "../../hooks/useFetchCollection";
+import StarsRating from "react-star-rate";
+const Listing = () => {
   const auth = getAuth();
   const [shareLinkCopied, setShareLinkCopied] = useState(false);
   const params = useParams();
   const [listing, setListing] = useState(null);
+  const { data } = useEffectCollection("reviews");
+
   const [loading, setLoading] = useState(true);
   const [contactLandlord, setContactLandlord] = useState(true);
+
+  const { id } = useParams();
+  const filteredReviews = data.filter(
+    (review) => review.roomID === params.listingId
+  );
+  console.log(filteredReviews);
+
   SwiperCore.use([Autoplay, Navigation, Pagination]);
   useEffect(() => {
     async function fetchListing() {
@@ -44,6 +54,7 @@ export default function Listing() {
     }
     fetchListing();
   }, [params.listingId]);
+
   if (loading) {
     return <ImSpinner />;
   }
@@ -130,6 +141,7 @@ export default function Listing() {
                   </p>
                 )}
               </div>
+
               <p style={{ marginLeft: 20 }} className="mt-3 mb-3">
                 <span className="font-semibold">Description - </span>
                 {listing.description}
@@ -193,8 +205,36 @@ export default function Listing() {
               <Contact userRef={listing.userRef} listing={listing} />
             )}
           </div>
+          <card className="card">
+            <h3>Product Reviews</h3>
+            <div>
+              {filteredReviews.length === 0 ? (
+                <p>There are no reviews for this product yet.</p>
+              ) : (
+                <>
+                  {filteredReviews.map((item, index) => {
+                    const { rate, review, reviewDate, userName } = item;
+                    return (
+                      <div key={index} className="review">
+                        <StarsRating value={rate} />
+                        <p>{review}</p>
+                        <span>
+                          <b>{reviewDate}</b>
+                        </span>
+                        <br />
+                        <span>
+                          <b>by: {userName}</b>
+                        </span>
+                      </div>
+                    );
+                  })}
+                </>
+              )}
+            </div>
+          </card>
         </div>
       </div>
     </div>
   );
-}
+};
+export default Listing;
