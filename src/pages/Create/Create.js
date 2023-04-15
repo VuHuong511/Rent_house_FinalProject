@@ -11,7 +11,7 @@ import "./Create.css";
 import { getAuth } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
 
 export default function Create() {
@@ -162,7 +162,7 @@ export default function Create() {
     };
     delete formDataCopy.images;
 
-    !formDataCopy.offer && delete formDataCopy.discountedPrice;
+    // !formDataCopy.offer && delete formDataCopy.discountedPrice;
     const docRef = await addDoc(collection(db, "listings"), formDataCopy);
     setLoading(false);
     toast.success("create successfully");
@@ -317,7 +317,32 @@ export default function Create() {
                       </p>
                     </div>
                   </div>
-                  {offer && (
+
+                  <div>
+                    <p style={{ marginTop: 5 }} className="font-semibold">
+                      Discount price
+                    </p>
+                    <div className="flex w-full justify-center items-center space-x-6">
+                      <input
+                        type="number"
+                        id="discountedPrice"
+                        value={discountedPrice}
+                        onChange={onChange}
+                        min="0"
+                        required
+                        style={{ width: 100 }}
+                        className="px-4 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
+                      />
+                      <p
+                        className="whitespace-nowrap"
+                        style={{ marginLeft: 10, width: 190 }}
+                      >
+                        $ / Month
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* {offer && (
                     <div className="">
                       <p className="text-lg font-semibold">Discounted price</p>
                       <div className="flex w-full justify-center items-center space-x-6">
@@ -340,8 +365,9 @@ export default function Create() {
                         </p>
                       </div>
                     </div>
-                  )}
+                  )} */}
                 </div>
+
                 <div className="mb-5">
                   <p className="text-lg font-semibold">
                     Images (maximum 5 images)
@@ -464,7 +490,7 @@ export default function Create() {
                   style={{ height: 50, marginTop: 10 }}
                   className=" w-full px-7 bg-blue-700 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                 >
-                  Create Listing
+                  Create Room
                 </button>
               </div>
             </div>
