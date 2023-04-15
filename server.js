@@ -11,17 +11,26 @@ app.get("/", (req, res) => {
   res.send("Welcome to RentRoom.");
 });
 
-const calculateOrderAmount = () => {
-  return 1400 * 100;
+const array = [];
+const calculateOrderAmount = (items) => {
+  items.map((item) => {
+    const { regularPrice, discountedPrice } = item;
+    const wishListItemAmount = regularPrice - discountedPrice;
+    return array.push(wishListItemAmount);
+  });
+  const totalAmount = array.reduce((a, b) => {
+    return a + b;
+  }, 0);
+  return totalAmount * 100000;
 };
 
 app.post("/create-payment-intent", async (req, res) => {
-  const { description } = req.body;
+  const { items, description } = req.body;
 
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: calculateOrderAmount(),
-    currency: "gbp",
+    amount: calculateOrderAmount(items),
+    currency: "vnd",
     automatic_payment_methods: {
       enabled: true,
     },
