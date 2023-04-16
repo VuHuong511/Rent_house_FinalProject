@@ -37,6 +37,7 @@ import ReservationHistory from "./pages/ReservationHistory/ReservationHistory";
 import ReservationDetail from "./pages/ReservationDetail/ReservationDetail";
 import MyReservation from "./pages/MyReservation/MyReservation";
 import Review from "./components/Review/Review";
+import MyReservationDetail from "./components/MyReservationDetail/MyReservationDetail";
 
 const App = () => {
   return (
@@ -87,6 +88,10 @@ const App = () => {
           <Route path="/reservation-history" element={<ReservationHistory />} />
           <Route path="/my-reservation" element={<MyReservation />} />
           <Route path="/review-room/:id" element={<Review />} />
+          <Route
+            path="/my-reservation-details/:id"
+            element={<MyReservationDetail />}
+          />
 
           <Route
             path="/reservation-details/:id"

@@ -22,7 +22,6 @@ import {
 } from "../../redux/slice/wishListSlice";
 import { selectBillingAddress } from "../../redux/slice/depositSlice";
 import { db } from "../../firebase/firebase";
-import { getAuth } from "firebase/auth";
 
 const CheckoutForm = () => {
   const [message, setMessage] = useState(null);
@@ -39,7 +38,6 @@ const CheckoutForm = () => {
   const wishListItems = useSelector(selectWishItems);
   const billingAddress = useSelector(selectBillingAddress);
   const wishListTotalPrice = useSelector(selectWishListTotalAmount);
-  // const auth = getAuth();
   const save = () => {
     const today = new Date();
     const date = today.toDateString();
@@ -55,7 +53,6 @@ const CheckoutForm = () => {
       wishListItems,
       billingAddress,
       timestamp: Timestamp.now().toDate(),
-      // userRef: auth.currentUser.uid,
     };
 
     try {

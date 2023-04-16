@@ -5,6 +5,7 @@ import {
   selectReservationHistory,
 } from "../../redux/slice/reservationSlice";
 import useFetchDocument from "../../hooks/useFetchDocument";
+import ChangeReservationStatus from "../ChangeReservationStatus/ChangeReservationStatus";
 
 const MyReservationDetail = () => {
   const [reservation, setReservation] = useState(null);
@@ -19,16 +20,18 @@ const MyReservationDetail = () => {
   return (
     <>
       <div className="table">
-        <h2>Order Details</h2>
+        <h2>My reservation Details</h2>
         <div>
-          <Link to="/my-reservation"> Back To Orders</Link>
+          <Link to="/my-reservation"> Back To Reservations</Link>
         </div>
         <br />
         {reservation === null ? (
           <img src="" alt="Loading..." style={{ width: "50px" }} />
         ) : (
           <>
-            <p>{/* <b>Reservation ID</b> {reservation.id} */}</p>
+            <p>
+              <b>Reservation ID</b> {id}
+            </p>
             <p>
               <b>Reservation Amount</b> ${reservation.reservationAmount}
             </p>
@@ -48,11 +51,11 @@ const MyReservationDetail = () => {
             <table>
               <thead>
                 <tr>
-                  <th>s/n</th>
                   <th>Name</th>
                   <th>Room</th>
                   <th>Price</th>
                   <th>Address</th>
+                  <th>Update status</th>
                 </tr>
               </thead>
               <tbody>
@@ -67,9 +70,6 @@ const MyReservationDetail = () => {
                   } = wishList;
                   return (
                     <tr key={id}>
-                      <td>
-                        <b>{index + 1}</b>
-                      </td>
                       <td>{name}</td>
                       <td>
                         <img
@@ -80,6 +80,12 @@ const MyReservationDetail = () => {
                       </td>
                       <td>{regularPrice - discountedPrice}</td>
                       <td>{address}</td>
+                      <td>
+                        <ChangeReservationStatus
+                          reservation={reservation}
+                          id={id}
+                        />
+                      </td>
                     </tr>
                   );
                 })}
