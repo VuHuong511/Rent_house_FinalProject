@@ -50,7 +50,6 @@ const ChangeReservationStatus = ({ reservation, id }) => {
                 <option value="" disabled>
                   -- Choose one --
                 </option>
-                <option value="Reserved">Reserved</option>
                 <option value="Rented">Rented</option>
                 <option value="Check out">Checked out</option>
               </select>

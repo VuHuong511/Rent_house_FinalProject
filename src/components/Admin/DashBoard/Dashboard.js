@@ -13,6 +13,7 @@ import {
   selectReservationHistory,
 } from "../../../redux/slice/reservationSlice";
 import useEffectCollection from "../../../hooks/useFetchCollection";
+import Chart from "../../Chart/Chart";
 const earningIcon = <AiFillDollarCircle size={30} color="#b624ff" />;
 const productIcon = <BsCart4 size={30} color="#1f93ff" />;
 const ordersIcon = <FaCartArrowDown size={30} color="orangered" />;
@@ -58,6 +59,9 @@ const Dashboard = () => {
         count={reservations.length}
         icon={ordersIcon}
       />
+      <div>
+        <Chart />
+      </div>
     </div>
   );
 };
