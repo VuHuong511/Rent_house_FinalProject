@@ -1,31 +1,31 @@
-.create{
-  max-width:  448px;
+.create {
+  max-width: 448px;
   padding-left: 8px;
   padding-right: 8px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.create h1{
-  font-size:  30px;
+.create h1 {
+  font-size: 30px;
   line-height: 36px;
   text-align: center;
   margin-top: 24px;
   font-weight: 700;
 }
 
-.create .form p{
+.create .form p {
   font-size: 18px;
   line-height: 28px;
   margin-top: 24px;
-  font-weight: 600
+  font-weight: 600;
 }
 
-.create .form  .button{
+.create .form .button {
   display: flex;
 }
 
-.create .form .button button{
+.create .form .button button {
   margin-right: 12px;
   padding-left: 28px;
   padding-right: 28px;
@@ -33,7 +33,7 @@
   padding-bottom: 12px;
   font-weight: 500;
   font-size: 14px;
-  line-height:20px;
+  line-height: 20px;
   text-transform: uppercase;
   border-radius: 4px;
   background-color: rgb(174, 198, 202);
@@ -43,13 +43,13 @@
   font-weight: bold;
 }
 
-.create .form .button button:hover{
+.create .form .button button:hover {
   background-color: rgb(68, 166, 227);
   color: white;
   font-weight: bold;
 }
 
-.create .form input{
+.create .form input {
   width: 100%;
   padding-right: 16px;
   padding-top: 8px;
@@ -63,7 +63,7 @@
   transition-duration: 150ms;
 }
 
-.create .form textarea{
+.create .form textarea {
   width: 100%;
   padding-right: 16px;
   padding-top: 8px;
@@ -80,8 +80,3 @@
 .create .form .price {
   display: flex;
 }
-
-
-
-
-

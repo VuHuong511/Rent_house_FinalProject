@@ -1,4 +1,4 @@
-import { Timestamp, collection, doc, setDoc } from "firebase/firestore";
+import { Timestamp, doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../firebase/firebase";
@@ -6,13 +6,9 @@ import { toast } from "react-toastify";
 
 const ChangeReservationStatus = ({ reservation, id }) => {
   const [status, setStatus] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  console.log(reservation);
-
   const editReservation = (e, id) => {
     e.preventDefault();
-
     const reservationConfig = {
       userID: reservation.userID,
       userName: reservation.userName,
@@ -26,24 +22,22 @@ const ChangeReservationStatus = ({ reservation, id }) => {
       timestamp: reservation.timestamp,
       editedAt: Timestamp.now().toDate(),
     };
-
     try {
       setDoc(doc(db, "reservation", id), reservationConfig);
       toast.success("Reservation status changes successfully");
-      navigate("/deposit-success");
+      navigate("/my-reservation");
     } catch (error) {
       toast.error(error.message);
     }
   };
-
   return (
     <>
       <div className="status">
         <card className="card">
-          <h4>Update Status</h4>
           <form onSubmit={(e) => editReservation(e, id)}>
             <span>
               <select
+                style={{ width: "100%" }}
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
               >
@@ -54,8 +48,10 @@ const ChangeReservationStatus = ({ reservation, id }) => {
                 <option value="Check out">Checked out</option>
               </select>
             </span>
-            <span>
-              <button>Update Status</button>
+            <span className="ml-1">
+              <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                Update
+              </button>
             </span>
           </form>
         </card>

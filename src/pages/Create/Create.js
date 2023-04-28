@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 export default function Create() {
   const navigate = useNavigate();
   const auth = getAuth();
-  const [geolocationEnabled, setGeolocationEnable] = useState(true);
+  const [geolocationEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     type: "discount",
@@ -87,29 +87,6 @@ export default function Create() {
       toast.error("Maximum 5 images are allowed");
       return;
     }
-    let geolocation = {};
-    let location;
-    if (geolocationEnabled) {
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`
-      );
-      const data = await response.json();
-      console.log(data);
-      geolocation.lat = data.results[0]?.geometry.location.lat ?? 0;
-      geolocation.lng = data.results[0]?.geometry.location.lng ?? 0;
-
-      location = data.status === "ZERO_RESULTS" && undefined;
-
-      if (location === undefined) {
-        setLoading(true);
-        toast.error("Please enter a correct address");
-        return;
-      }
-    } else {
-      geolocation.lat = latitude;
-      geolocation.lng = longitude;
-    }
-
     async function storeImage(image) {
       return new Promise((resolve, reject) => {
         const storage = getStorage();
@@ -139,7 +116,6 @@ export default function Create() {
           },
           () => {
             // Handle successful uploads on complete
-            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
               resolve(downloadURL);
             });
@@ -161,14 +137,11 @@ export default function Create() {
       userRef: auth.currentUser.uid,
     };
     delete formDataCopy.images;
-
-    // !formDataCopy.offer && delete formDataCopy.discountedPrice;
     const docRef = await addDoc(collection(db, "listings"), formDataCopy);
     setLoading(false);
     toast.success("create successfully");
     navigate(`/category/${formDataCopy.type}/${docRef.id}`);
   }
-
   if (loading) {
     return <Spinner />;
   }
@@ -209,7 +182,6 @@ export default function Create() {
                     new room
                   </button>
                 </div>
-
                 <p>Parking spot</p>
                 <div className="flex">
                   <button
@@ -317,7 +289,6 @@ export default function Create() {
                       </p>
                     </div>
                   </div>
-
                   <div>
                     <p style={{ marginTop: 5 }} className="font-semibold">
                       Discount price
@@ -341,33 +312,7 @@ export default function Create() {
                       </p>
                     </div>
                   </div>
-
-                  {/* {offer && (
-                    <div className="">
-                      <p className="text-lg font-semibold">Discounted price</p>
-                      <div className="flex w-full justify-center items-center space-x-6">
-                        <input
-                          type="number"
-                          id="discountedPrice"
-                          value={discountedPrice}
-                          onChange={onChange}
-                          min="50"
-                          required={offer}
-                          style={{ width: 100 }}
-                          className="px-4 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
-                        />
-
-                        <p
-                          style={{ marginLeft: 10, width: 190 }}
-                          className="whitespace-nowrap"
-                        >
-                          $ / Month
-                        </p>
-                      </div>
-                    </div>
-                  )} */}
                 </div>
-
                 <div className="mb-5">
                   <p className="text-lg font-semibold">
                     Images (maximum 5 images)
@@ -484,7 +429,6 @@ export default function Create() {
                   style={{ border: "1px solid #ccc" }}
                   className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
                 />
-
                 <button
                   type="submit"
                   style={{ height: 50, marginTop: 10 }}

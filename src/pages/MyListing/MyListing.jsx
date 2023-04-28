@@ -10,7 +10,7 @@ import {
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { db } from "../../firebase";
+import { db } from "../../firebase/firebase";
 import ListingItem from "../../components/ListingItem/ListingItem";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -24,7 +24,6 @@ export default function Listing() {
   useEffect(() => {
     async function fetchUserListing() {
       const listingRef = collection(db, "listings");
-
       const q = query(
         listingRef,
         where("userRef", "==", auth.currentUser.uid),
@@ -43,7 +42,7 @@ export default function Listing() {
     }
     fetchUserListing();
   }, [auth.currentUser.uid]);
-
+  console.log(listings);
   async function onDelete(ListingId) {
     if (window.confirm("Are you sure you want to delete")) {
       await deleteDoc(doc(db, "listings", ListingId));
@@ -58,14 +57,13 @@ export default function Listing() {
     navigate(`/edit/${ListingId}`);
   }
   return (
-    <div className="mylisting">
+    <div className="max-w-6xl px-3 mt-6 mx-auto">
       {!loading && listings.length > 0 && (
         <>
-          <h1>My listings</h1>
-          <ul
-            className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols4
-          2xl-grid-cols-5 mt-6 bm-6"
-          >
+          <h1 className="text-2xl text-center font-semibold mb-6">
+            My list room
+          </h1>
+          <ul className="sm:grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5">
             {listings.map((listing) => (
               <ListingItem
                 key={listing.id}

@@ -17,12 +17,9 @@ const Reservation = () => {
   const handleClick = (detailId) => {
     navigate(`/reservation-details/${detailId}`);
   };
-
   return (
     <section>
       <div className="reservation"></div>
-      <h2>Your Reservation History</h2>
-      <br />
       <>
         {isLoading}
         <div className="table">
@@ -47,7 +44,6 @@ const Reservation = () => {
                     reservationTime,
                     reservationAmount,
                     reservationStatus,
-                    address,
                   } = reservation;
                   return (
                     <tr key={id} onClick={() => handleClick(id)}>

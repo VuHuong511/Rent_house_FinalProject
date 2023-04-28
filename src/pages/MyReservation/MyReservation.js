@@ -1,96 +1,105 @@
-import { getAuth } from "firebase/auth";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import { db } from "../../firebase/firebase";
-import ListingItem from "../../components/ListingItem/ListingItem";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import "./MyReservation.css";
+import { selectUserID } from "../../redux/slice/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import useEffectCollection from "../../hooks/useFetchCollection";
+import {
+  STORE_RESERVATION,
+  selectReservationHistory,
+} from "../../redux/slice/reservationSlice";
 
 export default function MyReservation() {
-  const auth = getAuth();
+  const { data, isLoading } = useEffectCollection("reservation");
+  const reservation = useSelector(selectReservationHistory);
+  const userID = useSelector(selectUserID);
   const navigate = useNavigate();
-  const [reservation, setReservation] = useState(null);
-  const [loading, setLoading] = useState(true);
-
+  const dispatch = useDispatch();
   useEffect(() => {
-    async function fetchReservation() {
-      const reservationRef = collection(db, "reservation");
-
-      const q = query(
-        reservationRef,
-        where("userRef", "==", auth.currentUser.uid),
-        orderBy("timestamp", "desc")
-      );
-      const querySnap = await getDocs(q);
-      let reservation = [];
-      querySnap.forEach((doc) => {
-        return reservation.push({
-          id: doc.id,
-          data: doc.data(),
-        });
-      });
-      setReservation(reservation);
-      setLoading(false);
-    }
-    fetchReservation();
-  }, [auth.currentUser.uid]);
+    dispatch(STORE_RESERVATION(data));
+  }, [dispatch, data]);
+  console.log(data);
+  const filtered = reservation.filter((reservation) =>
+    reservation.wishListItems.some((item) => item.userRef === userID)
+  );
+  console.log(filtered);
   const handleClick = (id) => {
     navigate(`/my-reservation-details/${id}`);
   };
-  console.log(reservation);
-
   return (
-    <div className="max-w-6xl px-3 mt-6 mx-auto">
-      {!loading && reservation.length > 0 && (
-        <>
-          <h1 className="text-2xl text-center font-semibold mb-6">
-            My list room
-          </h1>
-          <table>
-            <thead>
-              <tr>
-                <th>No.</th>
-                <th>Date</th>
-                <th>ID</th>
-                <th>Price</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reservation.map((r, index) => (
-                <tr key={r.id} onClick={() => handleClick(r.id)}>
-                  <td>{index + 1}</td>
-                  <td>
-                    {r.data.reservationDate} at {r.data.reservationTime}
-                  </td>
-                  <td>{r.id}</td>
-                  <td>${r.data.reservationAmount}</td>
-                  <td>
-                    <p
-                      className={
-                        r.data.reservationStatus !== "Rented out"
-                          ? "Pending"
-                          : "Rented out"
-                      }
-                    >
-                      {r.data.reservationStatus}
-                    </p>
-                  </td>
+    <section>
+      <div className="reservation"></div>
+      <h2 class="mt-3 text-xl font-bold mb-4 w-max m-auto">My Reservations</h2>
+      <br />
+      <>
+        {isLoading}
+        <div className="table">
+          {filtered.length === 0 ? (
+            <p>No reservation found</p>
+          ) : (
+            <table>
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Date</th>
+                  <th>ID</th>
+                  <th>Image</th>
+                  <th>Price</th>
+                  <th>Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </>
-      )}
-    </div>
+              </thead>
+              <tbody>
+                {filtered.map((reservation, index) => {
+                  const {
+                    id,
+                    reservationDate,
+                    reservationTime,
+                    reservationAmount,
+                    reservationStatus,
+                  } = reservation;
+                  return (
+                    <tr key={id} onClick={() => handleClick(id)}>
+                      <td>{index + 1}</td>
+                      <td>
+                        {reservationDate} at {reservationTime}
+                      </td>
+                      <td>{id}</td>
+                      <td>
+                        {reservation.wishListItems.map((item, index) => (
+                          <td key={index}>
+                            {item.imgUrls.map((url, index) => (
+                              <img
+                                style={{ width: "100px" }}
+                                src={url}
+                                alt={`Item ${index}`}
+                              />
+                            ))}
+                          </td>
+                        ))}
+                      </td>
+                      <td>
+                        {"$"}
+                        {reservationAmount}
+                      </td>
+                      <td>
+                        <p
+                          className={
+                            reservationStatus !== "Rented out"
+                              ? "Pending"
+                              : "Rented out"
+                          }
+                        >
+                          {reservationStatus}
+                        </p>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </>
+    </section>
   );
 }

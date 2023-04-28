@@ -1,19 +1,19 @@
 import { getAuth, updateProfile } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { db } from "../../firebase/firebase";
 import { toast } from "react-toastify";
 import "./Profile.css";
-import { Link, useNavigate } from "react-router-dom";
-import { FcHome } from "react-icons/fc";
+import { Link } from "react-router-dom";
 import { selectUsername } from "../../redux/slice/authSlice";
 import { useSelector } from "react-redux";
-
+import useFetchCollection from "../../hooks/useFetchCollection";
 export default function Profile() {
   const userName = useSelector(selectUsername);
   const [changeProfile, setChangeProfile] = useState(false);
   const auth = getAuth();
-
+  const { data } = useFetchCollection("reviews");
+  console.log(data);
   const [formData, setFormData] = useState({
     name: userName,
     email: auth.currentUser.email,
@@ -25,7 +25,6 @@ export default function Profile() {
       [e.target.id]: e.target.value,
     }));
   }
-
   async function onsubmit() {
     try {
       if (userName !== name) {
@@ -76,22 +75,36 @@ export default function Profile() {
               </h1>
             </p>
           </div>
-          <div className="w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800">
-            <Link to="/create" className="flex justify-center items-center">
-              <FcHome className="mr-2 text-3xl bg-red-200 rounded-full p-1 border-2" />
-              Rent your room
-            </Link>
-            <Link to="/myListing" className="flex justify-center items-center">
-              <FcHome className="mr-2 text-3xl bg-red-200 rounded-full p-1 border-2" />
-              My Rooms
-            </Link>
-            <Link
-              to="/my-reservation"
-              className="flex justify-center items-center"
-            >
-              <FcHome className="mr-2 text-3xl bg-red-200 rounded-full p-1 border-2" />
-              My Reservation
-            </Link>
+          <div className="inputBox">
+            <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-4">
+              <Link
+                to="/create"
+                className="group p-2 bg-black rounded-full hover:bg-black transition duration-1000 ease-out flex"
+              >
+                <i className="fas fa-plus text-white"></i>
+                <span className="hidden group-hover:block text-white">
+                  Create Room
+                </span>
+              </Link>
+              <Link
+                to="/myListing"
+                className="group p-2 bg-black rounded-full hover:bg-black transition duration-1000 ease-out flex"
+              >
+                <i className="fas fa-bed text-white"></i>
+                <span className="hidden group-hover:block text-white">
+                  My Rooms
+                </span>
+              </Link>
+              <Link
+                to="/my-reservation"
+                className="group p-2 bg-black rounded-full hover:bg-black transition duration-1000 ease-out flex"
+              >
+                <i className="fas fa-calendar-check text-white"></i>
+                <span className="hidden group-hover:block text-white">
+                  Reservations
+                </span>
+              </Link>
+            </div>
           </div>
         </div>
       </form>

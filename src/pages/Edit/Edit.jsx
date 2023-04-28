@@ -1,18 +1,23 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import Spinner from "../../components/Spinner/Spinner";
 import "../Create/Create.css";
 import { getAuth } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
-import { addDoc, collection, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase";
-import {  useNavigate, useParams } from "react-router-dom";
+import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase/firebase";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function EditListing() {
   const navigate = useNavigate();
   const auth = getAuth();
-  const [geolocationEnabled, setGeolocationEnable] = useState(true);
+  const [geolocationEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [listing, setListing] = useState(null);
 
@@ -48,8 +53,7 @@ export default function EditListing() {
     longitude,
     images,
   } = formData;
-  const params = useParams()
-
+  const params = useParams();
 
   useEffect(() => {
     if (listing && listing.userRef !== auth.currentUser.uid) {
@@ -58,32 +62,30 @@ export default function EditListing() {
     }
   }, [auth.currentUser.uid, listing, navigate]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setLoading(true);
-    async function fetchListing(){
-      const docRef = doc(db, "listings", params.listingId)
+    async function fetchListing() {
+      const docRef = doc(db, "listings", params.listingId);
       const docSnap = await getDoc(docRef);
-      if(docSnap.exists()){
+      if (docSnap.exists()) {
         setListing(docSnap.data());
-        setFormData({...docSnap.data(), })
+        setFormData({ ...docSnap.data() });
         setLoading(false);
-      }else {
-        navigate("/")
-        toast.error("listing do not exists")
+      } else {
+        navigate("/");
+        toast.error("listing do not exists");
       }
     }
-    fetchListing()
+    fetchListing();
   }, [navigate, params.listingId]);
-
-
-
-
-
 
   function onChange(e) {
     let boolean = null;
     if (e.target.value === "false") {
       boolean = true;
+    }
+    if (e.target.value === "false") {
+      boolean = false;
     }
     // Files
     if (e.target.files) {
@@ -123,9 +125,7 @@ export default function EditListing() {
       console.log(data);
       geolocation.lat = data.results[0]?.geometry.location.lat ?? 0;
       geolocation.lng = data.results[0]?.geometry.location.lng ?? 0;
-
       location = data.status === "ZERO_RESULTS" && undefined;
-
       if (location === undefined) {
         setLoading(true);
         toast.error("please enter a correct address");
@@ -135,7 +135,6 @@ export default function EditListing() {
       geolocation.lat = latitude;
       geolocation.lng = longitude;
     }
-
     async function storeImage(image) {
       return new Promise((resolve, reject) => {
         const storage = getStorage();
@@ -174,17 +173,16 @@ export default function EditListing() {
       });
     }
     const imgUrls = await Promise.all(
-      [...images]
-        .map((image) => storeImage(image)))
-        .catch((error) => {
-          setLoading(false);
-          toast.error("image not uploaded");
-          return;
-        });
-    const formDataCopy={
+      [...images].map((image) => storeImage(image))
+    ).catch((error) => {
+      setLoading(false);
+      toast.error("image not uploaded");
+      return;
+    });
+    const formDataCopy = {
       ...formData,
       imgUrls,
-      timestamp:serverTimestamp(),
+      timestamp: serverTimestamp(),
       userRef: auth.currentUser.uid,
     };
     delete formDataCopy.images;
@@ -192,7 +190,6 @@ export default function EditListing() {
     delete formDataCopy.latitude;
     delete formDataCopy.longitude;
     const docRef = doc(db, "listings", params.listingId);
-
     await updateDoc(docRef, formDataCopy);
     setLoading(false);
     toast.success("Listing Edited");
@@ -203,222 +200,299 @@ export default function EditListing() {
   }
   return (
     <main className="create">
-      <h1>Edit a Listing</h1>
+      <h1>Create Room</h1>
       <form className="form" onSubmit={onSubmit}>
-        <p>Discount / New room</p>
-        <div className="button">
-          <button type="button" id="type" value="discount" onClick={onChange}>
-            Discount
-          </button>
-          <button type="button" id="type" value="newRoom" onClick={onChange}>
-            New Room
-          </button>
-        </div>
-        <p>Name</p>
-        <input
-          type="text"
-          id="name"
-          value={name}
-          onChange={onChange}
-          placeholder="Name"
-          maxLength="32"
-          minLength="3"
-          required
-        />
-        <div className="button">
-          <div>
-            <p>Beds</p>
-            <input
-              type="number"
-              id="bedrooms"
-              value={bedrooms}
-              onChange={onChange}
-              min="1"
-              max="50"
-              required
-            />
-          </div>
-          <div>
-            <p className="text-lg font-semibold">Baths</p>
-            <input
-              style={{ marginLeft: 10 }}
-              type="number"
-              id="bathrooms"
-              value={bathrooms}
-              onChange={onChange}
-              min="1"
-              max="50"
-              required
-            />
-          </div>
-        </div>
-        <p className="form">Parking spot</p>
-        <div className="button">
-          <button type="button" id="parking" value={true} onClick={onChange}>
-            Yes
-          </button>
-          <button
-            type="button"
-            id="parking"
-            value={false}
-            onClick={onChange}
-            className={` ${
-              parking ? "bg-white text-black" : "bg-slate-600 text-white"
-            }`}
-          >
-            no
-          </button>
-        </div>
-        <p>Furnished</p>
-        <div className="button">
-          <button
-            type="button"
-            id="furnished"
-            value={true}
-            onClick={onChange}
-            className={` ${
-              !furnished ? "bg-white text-black" : "bg-slate-600 text-white"
-            }`}
-          >
-            yes
-          </button>
-          <button
-            type="button"
-            id="furnished"
-            value={false}
-            onClick={onChange}
-            className={` ${
-              furnished ? "bg-white text-black" : "bg-slate-600 text-white"
-            }`}
-          >
-            no
-          </button>
-        </div>
-        <p>Address</p>
-        <textarea
-          type="text"
-          id="address"
-          value={address}
-          onChange={onChange}
-          placeholder="Address"
-          required
-        />
-        {!geolocationEnabled && (
-          <div className="flex space-x-6 justify-start mb-6">
-            <div className="">
-              <p className="text-lg font-semibold">Latitude</p>
-              <input
-                type="number"
-                id="latitude"
-                value={latitude}
-                onChange={onChange}
-                required
-                min="-90"
-                max="90"
-              />
-            </div>
-            <div>
-              <p>Longitude</p>
-              <input
-                type="number"
-                id="longitude"
-                value={longitude}
-                onChange={onChange}
-                required
-                min="-180"
-                max="180"
-              />
-            </div>
-          </div>
-        )}
-
-        <p className="text-lg font-semibold">Description</p>
-        <textarea
-          type="text"
-          id="description"
-          value={description}
-          onChange={onChange}
-          placeholder="Description"
-          required
-        />
-        <p className="form">Offer</p>
-        <div className="button">
-          <button
-            type="button"
-            id="offer"
-            value={true}
-            onClick={onChange}
-            className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
-              !offer ? "bg-white text-black" : "bg-slate-600 text-white"
-            }`}
-          >
-            yes
-          </button>
-          <button
-            type="button"
-            id="offer"
-            value={false}
-            onClick={onChange}
-            className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
-              offer ? "bg-white text-black" : "bg-slate-600 text-white"
-            }`}
-          >
-            no
-          </button>
-        </div>
-        <div className="flex items-center mb-6">
-          <div className="">
-            <p>Regular price</p>
-            <div className="flex w-full justify-center items-center space-x-6">
-              <input
-                type="number"
-                id="regularPrice"
-                value={regularPrice}
-                onChange={onChange}
-                min="50"
-                max="400000000"
-                required
-              />
-              $ / Month
-            </div>
-          </div>
-        </div>
-        {offer && (
-          <div className="flex items-center mb-6">
-            <div className="">
-              <p className="text-lg font-semibold">Discounted price</p>
-              <div className="flex w-full justify-center items-center space-x-6">
+        <div className="container-xl">
+          <div className="card mb-4 bg-slate-300">
+            <div className="row" style={{ display: "flex" }}>
+              <div className="w-2/4 mx-9">
+                <p>Discount / New Room</p>
+                <div className="flex">
+                  <button
+                    type="button"
+                    id="type"
+                    value="discount"
+                    onClick={onChange}
+                    className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
+                      type === "newroom"
+                        ? "bg-white text-black"
+                        : "bg-slate-600 text-white"
+                    }`}
+                  >
+                    discount
+                  </button>
+                  <button
+                    type="button"
+                    id="type"
+                    value="newroom"
+                    onClick={onChange}
+                    className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
+                      type === "discount"
+                        ? "bg-white text-black"
+                        : "bg-slate-600 text-white"
+                    }`}
+                  >
+                    new room
+                  </button>
+                </div>
+                <p>Parking spot</p>
+                <div className="flex">
+                  <button
+                    type="button"
+                    id="parking"
+                    value={true}
+                    onClick={onChange}
+                    className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
+                      !parking
+                        ? "bg-white text-black"
+                        : "bg-slate-600 text-white"
+                    }`}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    type="button"
+                    id="parking"
+                    value={false}
+                    onClick={onChange}
+                    className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
+                      parking
+                        ? "bg-white text-black"
+                        : "bg-slate-600 text-white"
+                    }`}
+                  >
+                    no
+                  </button>
+                </div>
+                <p>Furnished</p>
+                <div className="flex">
+                  <button
+                    type="button"
+                    id="furnished"
+                    value={true}
+                    onClick={onChange}
+                    className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
+                      !furnished
+                        ? "bg-white text-black"
+                        : "bg-slate-600 text-white"
+                    }`}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    type="button"
+                    id="furnished"
+                    value={false}
+                    onClick={onChange}
+                    className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
+                      furnished
+                        ? "bg-white text-black"
+                        : "bg-slate-600 text-white"
+                    }`}
+                  >
+                    No
+                  </button>
+                </div>
+                <p className="text-lg font-semibold">Offer</p>
+                <div className="flex mb-1">
+                  <button
+                    type="button"
+                    id="offer"
+                    value={true}
+                    onClick={onChange}
+                    className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
+                      !offer ? "bg-white text-black" : "bg-slate-600 text-white"
+                    }`}
+                  >
+                    yes
+                  </button>
+                  <button
+                    type="button"
+                    id="offer"
+                    value={false}
+                    onClick={onChange}
+                    className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
+                      offer ? "bg-white text-black" : "bg-slate-600 text-white"
+                    }`}
+                  >
+                    no
+                  </button>
+                </div>
+                <div className="flex items-center">
+                  <div>
+                    <p style={{ marginTop: 5 }} className="font-semibold">
+                      Regular price
+                    </p>
+                    <div className="flex w-full justify-center items-center space-x-6">
+                      <input
+                        type="number"
+                        id="regularPrice"
+                        value={regularPrice}
+                        onChange={onChange}
+                        min="50"
+                        required
+                        style={{ width: 100 }}
+                        className="px-4 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
+                      />
+                      <p
+                        className="whitespace-nowrap"
+                        style={{ marginLeft: 10, width: 190 }}
+                      >
+                        $ / Month
+                      </p>
+                    </div>
+                  </div>
+                  {offer && (
+                    <div className="">
+                      <p className="text-lg font-semibold">Discounted price</p>
+                      <div className="flex w-full justify-center items-center space-x-6">
+                        <input
+                          type="number"
+                          id="discountedPrice"
+                          value={discountedPrice}
+                          onChange={onChange}
+                          min="50"
+                          required={offer}
+                          style={{ width: 100 }}
+                          className="px-4 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
+                        />
+                        <p
+                          style={{ marginLeft: 10, width: 190 }}
+                          className="whitespace-nowrap"
+                        >
+                          $ / Month
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="mb-5">
+                  <p className="text-lg font-semibold">
+                    Images (maximum 5 images)
+                  </p>
+                  <input
+                    type="file"
+                    id="images"
+                    onChange={onChange}
+                    accept=".jpg,.png,.jpeg"
+                    multiple
+                    required
+                    className="w-full px-3 text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:border-slate-600"
+                  />
+                </div>
+              </div>
+              <div className="w-2/4 mx-9">
+                <p>Name</p>
                 <input
-                  type="number"
-                  id="discountedPrice"
-                  value={discountedPrice}
+                  type="text"
+                  id="name"
+                  value={name}
                   onChange={onChange}
-                  min="50"
-                  max="400000000"
-                  required={offer}
+                  placeholder="Name"
+                  maxLength="20"
+                  minLength="5"
+                  required
+                  className="text-gray-700 bg-white border-gray-300 transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600"
+                  style={{ marginTop: 0 }}
                 />
-                {type === "rent" && <p>$ / Month</p>}
+                <div className="flex space-x-6">
+                  <div>
+                    <p className="text-lg font-semibold">Beds</p>
+                    <input
+                      type="number"
+                      id="bedrooms"
+                      value={bedrooms}
+                      onChange={onChange}
+                      min="1"
+                      max="50"
+                      required
+                      style={{ marginTop: 0, width: 100 }}
+                      className="px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
+                    />
+                  </div>
+                  <div>
+                    <p
+                      style={{ marginLeft: 50 }}
+                      className="text-lg font-semibold"
+                    >
+                      Baths
+                    </p>
+                    <input
+                      type="number"
+                      id="bathrooms"
+                      value={bathrooms}
+                      onChange={onChange}
+                      min="1"
+                      max="50"
+                      required
+                      style={{ marginTop: 0, marginLeft: 50, width: 100 }}
+                      className="px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
+                    />
+                  </div>
+                </div>
+                <p>Address</p>
+                <textarea
+                  type="text"
+                  id="address"
+                  value={address}
+                  onChange={onChange}
+                  placeholder="Address"
+                  required
+                  style={{ border: "1px solid #ccc" }}
+                  className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
+                />
+                {!geolocationEnabled && (
+                  <div className="flex space-x-6 justify-start mb-6">
+                    <div className="">
+                      <p className="text-lg font-semibold">Latitude</p>
+                      <input
+                        type="number"
+                        id="latitude"
+                        value={latitude}
+                        onChange={onChange}
+                        required
+                        min="-90"
+                        max="90"
+                        className="text-gray-700 bg-white border border-gray-300 transition ease-in-out focus:bg-white focus:text-gray-700 focus:border-slate-600"
+                      />
+                    </div>
+                    <div className="">
+                      <p className="text-lg font-semibold">Longitude</p>
+                      <input
+                        type="number"
+                        id="longitude"
+                        value={longitude}
+                        onChange={onChange}
+                        required
+                        min="-180"
+                        max="180"
+                        className="text-gray-700 bg-white border border-gray-300 transition ease-in-out focus:bg-white focus:text-gray-700 focus:border-slate-600"
+                      />
+                    </div>
+                  </div>
+                )}
+                <p>Description</p>
+                <textarea
+                  type="text"
+                  id="description"
+                  value={description}
+                  onChange={onChange}
+                  placeholder="Description"
+                  required
+                  style={{ border: "1px solid #ccc" }}
+                  className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
+                />
+                <button
+                  type="submit"
+                  style={{ height: 50, marginTop: 10 }}
+                  className=" w-full px-7 bg-blue-700 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                >
+                  Edit Room
+                </button>
               </div>
             </div>
           </div>
-        )}
-        <div className="mb-6">
-          <p className="text-lg font-semibold">Images</p>
-          <input
-            type="file"
-            id="images"
-            onChange={onChange}
-            accept=".jpg,.png,.jpeg"
-            multiple
-            required
-          />
         </div>
-        <button
-          style={{ marginTop: "20px", width: "100%", marginBottom: "20px" }}
-          type="submit"
-        >
-          Edit Listing
-        </button>
       </form>
     </main>
   );
