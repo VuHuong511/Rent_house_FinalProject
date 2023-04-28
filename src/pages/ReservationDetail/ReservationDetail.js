@@ -1,42 +1,39 @@
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { db } from "../../firebase/firebase";
 import { Link, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { selectWishItems } from "../../redux/slice/wishListSlice";
 import useFetchDocument from "../../hooks/useFetchDocument";
-import { toast } from "react-toastify";
-import { selectRooms } from "../../redux/slice/roomSlice";
-import { selectUserID } from "../../redux/slice/authSlice";
+
 const ReservationDetail = () => {
   const [rooms, setRooms] = useState(null);
   const { id } = useParams();
   const { document } = useFetchDocument("reservation", id);
-
   useEffect(() => {
     setRooms(document);
   }, [document]);
   return (
     <section>
       <div className="table">
-        <h2>Reservation Details</h2>
-        <div>
-          <Link to="/reservation-history"> Back To Orders</Link>
-        </div>
+        <button>
+          <Link className="text-white" to="/reservation-history">
+            &larr;Back To Orders
+          </Link>
+        </button>
+        <h1 className="text-3xl text-center mt-6 font-bold">
+          Reservation Details
+        </h1>
         <br />
         {rooms === null ? (
           <img src="" alt="Loading..." style={{ width: "50px" }} />
         ) : (
           <>
             <p>
-              <b>Order ID</b>
-              {rooms.id}
+              <b style={{ marginRight: 5 }}>Order ID: </b>
+              {id}
             </p>
             <p>
-              <b>Order Amount</b> ${rooms.reservationAmount}
+              <b>Order Amount: </b> ${rooms.reservationAmount}
             </p>
             <p>
-              <b>Order Status</b> {rooms.reservationStatus}
+              <b>Order Status: </b> {rooms.reservationStatus}
             </p>
             <br />
             <table>
@@ -80,7 +77,7 @@ const ReservationDetail = () => {
                       <td className="icons">
                         <Link to={`/review-room/${id}`}>
                           <button className="--btn --btn-primary">
-                            Review Product
+                            Review Room
                           </button>
                         </Link>
                       </td>
