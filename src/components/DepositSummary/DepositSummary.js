@@ -1,5 +1,4 @@
 import React from "react";
-import "./DepositSummary.css";
 import { Link } from "react-router-dom";
 import { selectWishItems } from "../../redux/slice/wishListSlice";
 import { useSelector } from "react-redux";

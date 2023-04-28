@@ -4,7 +4,6 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import "./CheckoutForm.css";
 import DepositSummary from "../DepositSummary/DepositSummary";
 import { toast } from "react-toastify";
 import { addDoc, collection, Timestamp } from "firebase/firestore";

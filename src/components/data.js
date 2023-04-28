@@ -5,14 +5,6 @@ import hero3 from "../assets/img/hero/h3.png";
 import hero4 from "../assets/img/hero/h4.png";
 import hero5 from "../assets/img/hero/h5.png";
 
-// import list
-import List1 from "../assets/img/list/list1.jpg";
-import List2 from "../assets/img/list/list2.jpg";
-import List3 from "../assets/img/list/list3.jpg";
-import List4 from "../assets/img/list/list4.jpg";
-import List5 from "../assets/img/list/list5.jpg";
-import List6 from "../assets/img/list/list6.jpg";
-
 // import location
 import Location1 from "../assets/img/location/location1.jpg";
 import Location2 from "../assets/img/location/location2.jpg";
@@ -80,56 +72,7 @@ export const featured = [
     total: "24 Property",
   },
 ];
-export const list = [
-  {
-    id: 1,
-    cover: List1,
-    name: "Normal Apartments",
-    location: "210 Ngu Hanh Son",
-    price: "1.500.000",
-    type: "Apartment",
-  },
-  {
-    id: 2,
-    cover: List2,
-    name: "A detached house",
-    location: "14 Lien Chieu",
-    price: "1.500.000",
-    type: "Apartment",
-  },
-  {
-    id: 3,
-    cover: List3,
-    name: "Normal Apartments",
-    location: "210 Ngu Hanh Son",
-    price: "1.500.000",
-    type: "Apartment",
-  },
-  {
-    id: 4,
-    cover: List4,
-    name: "Normal Apartments",
-    location: "210 Ngu Hanh Son",
-    price: "1.500.000",
-    type: "Apartment",
-  },
-  {
-    id: 5,
-    cover: List5,
-    name: "Normal Apartments",
-    location: "210 Ngu Hanh Son",
-    price: "1.500.000",
-    type: "Apartment",
-  },
-  {
-    id: 6,
-    cover: List6,
-    name: "Normal Apartments",
-    location: "210 Ngu Hanh Son",
-    price: "1.500.000",
-    type: "Apartment",
-  },
-];
+
 export const awards = [
   {
     icon: <i class="fa-solid fa-trophy"></i>,

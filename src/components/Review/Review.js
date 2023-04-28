@@ -6,7 +6,6 @@ import { selectEmail, selectUsername } from "../../redux/slice/authSlice";
 import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import { toast } from "react-toastify";
-import "./Review.css";
 import StarsRating from "react-star-rate";
 const Review = () => {
   const [rate, setRate] = useState(0);

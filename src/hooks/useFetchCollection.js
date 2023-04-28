@@ -1,7 +1,6 @@
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../firebase/firebase";
-import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 const useEffectCollection = (collectionName) => {
