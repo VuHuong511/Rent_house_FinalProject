@@ -7,22 +7,23 @@ const DepositSummary = () => {
   const wishItems = useSelector(selectWishItems);
   return (
     <div>
-      <h3>Checkout Summary</h3>
+      <h1 className="text-3xl text-center font-bold">Checkout Summary</h1>
       <div>
-        {wishItems.lenght === 0 ? (
+        {wishItems.length === 0 ? (
           <>
-            <p>No item in your cart.</p>
-            <button className="--btn">
-              <Link to="/#products">Back To Shop</Link>
-            </button>
+            <p className="m-auto w-max">No item in your wish list.</p>
+            <div className="m-auto w-max">
+              <button className="--btn">
+                <Link to="/homeLogin">Back To Home</Link>
+              </button>
+            </div>
           </>
         ) : (
-          <div>
+          <div className="m-auto w-max mt-7">
             {wishItems.map((price, index) => {
               const { regularPrice, discountedPrice } = price;
               return <p>Price: {regularPrice - discountedPrice}</p>;
             })}
-
             {wishItems.map((item, index) => {
               const {
                 id,
@@ -34,15 +35,17 @@ const DepositSummary = () => {
                 type,
               } = item;
               return (
-                <card key={id} cardClass="card">
+                <div
+                  key={id}
+                  className="justify-items max-content mb-[25px] border-1 border-solid"
+                >
                   <p>Room: {name}</p>
                   <img src={imgUrls} alt={name} style={{ width: "100px" }} />
                   <p> regularPrice: {regularPrice}</p>
                   <p> discount: {discountedPrice}</p>
                   <p> type: {type}</p>
-
                   <p> address: {address}</p>
-                </card>
+                </div>
               );
             })}
           </div>

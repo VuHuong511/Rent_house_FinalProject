@@ -1,21 +1,18 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { Link } from "react-router-dom";
+import { FaTrashAlt } from "react-icons/fa";
 import {
   CALCULATE_TOTAL_QUANTITY,
   CLEAR_WISH_LIST,
   REMOVE_FROM_WISHLIST,
   selectWishItems,
-  selectWishListTotalAmount,
   selectWishListTotalQuantity,
   CALCULATE_PRICE,
 } from "../../redux/slice/wishListSlice";
-import { FaTrashAlt } from "react-icons/fa";
 const WishList = () => {
   const dispatch = useDispatch();
-  const cartTotalQuantity = useSelector(selectWishListTotalQuantity);
-  const wishListTotalPrice = useSelector(selectWishListTotalAmount);
+  const wishListTotalQuantity = useSelector(selectWishListTotalQuantity);
 
   const wishItems = useSelector(selectWishItems);
   const removeFromWishList = (wishList) => {
@@ -31,14 +28,36 @@ const WishList = () => {
 
   return (
     <section>
-      <div className="">
-        <h2>Shopping Cart</h2>
+      <div className="mt-[50px]">
         {wishItems.length === 0 ? (
           <>
-            <p>Your cart is currently empty.</p>
+            <img
+              style={{
+                margin: "auto",
+                height: "5%",
+                width: "5%",
+                marginTop: 80,
+                justifyItems: "center",
+              }}
+              src="https://cdn-icons-png.flaticon.com/512/158/158398.png"
+              alt="example"
+            />
+            <p style={{ margin: "auto", width: "max-content", marginTop: 10 }}>
+              Your wish list is currently empty.
+            </p>
             <br />
-            <div>
-              <Link to="/homeLogin">&larr; Continue shopping</Link>
+            <div
+              style={{
+                margin: "auto",
+                width: "max-content",
+                marginBottom: 150,
+              }}
+            >
+              <button>
+                <Link className="text-white" to="/homeLogin">
+                  &larr; Back to Home
+                </Link>
+              </button>
             </div>
           </>
         ) : (
@@ -54,8 +73,6 @@ const WishList = () => {
                   <th>Price</th>
                   <th>Action</th>
                   <th>Checkout</th>
-
-                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -84,7 +101,6 @@ const WishList = () => {
                       <td>{type}</td>
                       <td>{regularPrice}</td>
                       <td>{discountedPrice}</td>
-
                       <td>{regularPrice - discountedPrice}</td>
                       <td>
                         <FaTrashAlt
@@ -103,20 +119,16 @@ const WishList = () => {
                 })}
               </tbody>
             </table>
-
-            <div>
-              <button onClick={clearWishList}>Clear Wish list</button>
-              <div>
+            <div className="mt-[20px] ml-[20px]">
+              <button onClick={clearWishList} className="bg-red">
+                Clear Wish list
+              </button>
+              <div className="mt-[10px]">
                 <div>
-                  <Link to="/#homeLogin"> Continue to view your wish list</Link>
+                  <Link to="/homeLogin"> &larr;Back to home</Link>
                 </div>
                 <br />
-                <cart>
-                  <p>
-                    <b> {`Cart item(s): ${cartTotalQuantity}`}</b>
-                    <b> {`Price: ${wishListTotalPrice}`}</b>
-                  </p>
-                </cart>
+                <b> {`Wish list item(s): ${wishListTotalQuantity}`}</b>
               </div>
             </div>
           </>

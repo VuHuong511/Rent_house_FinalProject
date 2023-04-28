@@ -24,16 +24,14 @@ import { selectBillingAddress } from "../../redux/slice/depositSlice";
 import { db } from "../../firebase/firebase";
 
 const CheckoutForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
-  const navigate = useNavigate();
-
-  const dispatch = useDispatch();
   const userName = useSelector(selectUsername);
   const userID = useSelector(selectUserID);
-
   const userEmail = useSelector(selectEmail);
   const wishListItems = useSelector(selectWishItems);
   const billingAddress = useSelector(selectBillingAddress);
@@ -54,7 +52,6 @@ const CheckoutForm = () => {
       billingAddress,
       timestamp: Timestamp.now().toDate(),
     };
-
     try {
       addDoc(collection(db, "reservation"), reservationConfig);
       toast.success("Reservation Saved");
@@ -68,11 +65,9 @@ const CheckoutForm = () => {
     if (!stripe) {
       return;
     }
-
     const clientSecret = new URLSearchParams(window.location.search).get(
       "payment_intent_client_secret"
     );
-
     if (!clientSecret) {
       return;
     }
@@ -81,13 +76,10 @@ const CheckoutForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage(null);
-
     if (!stripe || !elements) {
       return;
     }
-
     setIsLoading(true);
-
     const confirmPayment = await stripe
       .confirmPayment({
         elements,
@@ -99,7 +91,6 @@ const CheckoutForm = () => {
       .then((result) => {
         // ok - payment intent is bad - error
         if (result.error) {
-          console.log(result.error.message);
           toast.error(result.error.message);
           setMessage(result.error.message);
           return;
@@ -111,28 +102,34 @@ const CheckoutForm = () => {
           }
         }
       });
-
     setIsLoading(false);
   };
 
   return (
-    <section>
-      <div className="checkout">
-        <h2>Checkout</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <card className="card">
+    <section className="px-4 py-8 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4 m-auto w-max">
+          Checkout
+        </h2>
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2"
+        >
+          <div className="bg-white shadow overflow-hidden sm:rounded-md">
+            <div className="px-4 py-5 sm:p-6">
               <DepositSummary />
-            </card>
+            </div>
           </div>
-          <div>
-            <card className="pay">
-              <h3>Stripe checkout</h3>
+          <div className="bg-white shadow overflow-hidden sm:rounded-md">
+            <div className="px-4 py-5 sm:p-6">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">
+                Stripe checkout
+              </h3>
               <PaymentElement />
               <button
                 disabled={isLoading || !stripe || !elements}
                 id="submit"
-                className="button"
+                className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md disabled:bg-gray-400 disabled:cursor-not-allowed"
               >
                 <span id="button-text">
                   {isLoading ? (
@@ -142,8 +139,15 @@ const CheckoutForm = () => {
                   )}
                 </span>
               </button>
-              {message && <div id="payment-message">{message}</div>}
-            </card>
+              {message && (
+                <div
+                  id="payment-message"
+                  className="text-sm text-gray-500 mt-2"
+                >
+                  {message}
+                </div>
+              )}
+            </div>
           </div>
         </form>
       </div>
