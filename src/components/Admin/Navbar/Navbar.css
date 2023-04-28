@@ -9,19 +9,18 @@
   align-items: center;
   flex-direction: column;
   padding: 4rem;
-  background-color: blue;
+  background-color: #4a6fa5;
 }
 
 h4 {
   color: #fff;
 }
 
-li {
+.navbar li {
   border-bottom: 1px solid #ccc;
-
   position: relative;
 }
-a {
+.navbar a {
   display: block;
   width: 100%;
 }

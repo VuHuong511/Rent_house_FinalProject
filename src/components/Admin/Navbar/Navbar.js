@@ -1,12 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectEmail } from "../../../redux/slice/authSlice";
+import { selectUsername } from "../../../redux/slice/authSlice";
 import { FaUserCircle } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const userName = useSelector(selectEmail);
+  const userName = useSelector(selectUsername);
   return (
     <div className="navbar">
       <div className="user">

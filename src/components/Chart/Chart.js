@@ -11,7 +11,6 @@ import {
 import { Bar } from "react-chartjs-2";
 import { selectReservationHistory } from "../../redux/slice/reservationSlice";
 import { useSelector } from "react-redux";
-import { act } from "react-dom/test-utils";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -33,7 +32,6 @@ export const options = {
     },
   },
 };
-
 const Chart = () => {
   const reservations = useSelector(selectReservationHistory);
   // create a new array of reservation status
@@ -42,34 +40,31 @@ const Chart = () => {
     const { reservationStatus } = item;
     array.push(reservationStatus);
   });
-
   const getReservationCount = (a, value) => {
     return a.filter((n) => n === value).length;
   };
-
   const [q1, q2, q3] = ["Reservation Placed...", "Rented", "Check out"];
-
   const placed = getReservationCount(array, q1);
   const Rented = getReservationCount(array, q2);
   const checkedOut = getReservationCount(array, q3);
-
   const data = {
     labels: ["Reservation Placed", "Rented", "Checked out"],
     datasets: [
       {
         label: "Reservation count",
         data: [placed, Rented, checkedOut],
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        backgroundColor: "#1b4965",
       },
     ],
   };
   return (
-    <div>
-      <card>
-        <h3>
-          <Bar options={options} data={data} />;
+    <div className="charts">
+      <div className="card">
+        <h3 className="mx-auto" style={{ width: "max-content" }}>
+          Reservation Status Chart
         </h3>
-      </card>
+        <Bar options={options} data={data} />
+      </div>
     </div>
   );
 };

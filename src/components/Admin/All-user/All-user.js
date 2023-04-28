@@ -11,7 +11,6 @@ import { db } from "../../../firebase/firebase";
 import "./All-user.css";
 import { FaTrashAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { ref } from "firebase/storage";
 
 const All_user = () => {
   const [users, setUsers] = useState([]);
@@ -27,59 +26,62 @@ const All_user = () => {
           id: doc.id,
           ...doc.data(),
         }));
-        console.log(allUsers);
         setUsers(allUsers);
       });
     } catch (e) {
       console.log(e);
     }
   };
-
   const deleteProduct = async (id, imageURL) => {
     try {
       if (window.confirm("Are you sure you want to delete")) {
         await deleteDoc(doc(db, "users", id));
-
         toast.success("Users deleted successfully.");
       }
     } catch (error) {
       toast.error(error.message);
     }
   };
-
   return (
     <>
-      <div className="table">
-        <h2>All Products</h2>
+      <div className="table mx-auto">
         {users.length === 0 ? (
           <p>No user found</p>
         ) : (
-          <table>
-            <tr>
-              <th>No.</th>
-              <th>Id</th>
-              <th>Email</th>
-              <th>name</th>
-              <th>Action</th>
-            </tr>
-            {users.map((user, index) => {
-              const { id, email, name } = user;
-              return (
-                <tr key={id}>
-                  <td>{index + 1}</td>
-                  <td>{id}</td>
-                  <td>{email}</td>
-                  <td>{name}</td>
-                  <td>
-                    <FaTrashAlt
-                      size={18}
-                      color="red"
-                      onClick={() => deleteProduct(id)}
-                    />
-                  </td>
-                </tr>
-              );
-            })}
+          <table className="w-full border-collapse border border-gray-300">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="px-4 py-2 border border-gray-300">No.</th>
+                <th className="px-4 py-2 border border-gray-300">Id</th>
+                <th className="px-4 py-2 border border-gray-300">Email</th>
+                <th className="px-4 py-2 border border-gray-300">Name</th>
+                <th className="px-4 py-2 border border-gray-300">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user, index) => {
+                const { id, email, name } = user;
+                return (
+                  <tr key={id} className="border border-gray-300">
+                    <td className="px-4 py-2 border border-gray-300">
+                      {index + 1}
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300">{id}</td>
+                    <td className="px-4 py-2 border border-gray-300">
+                      {email}
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300">{name}</td>
+                    <td className="px-4 py-2 border border-gray-300">
+                      <FaTrashAlt
+                        size={18}
+                        color="red"
+                        onClick={() => deleteProduct(id)}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
           </table>
         )}
       </div>
