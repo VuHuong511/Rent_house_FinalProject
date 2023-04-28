@@ -10,10 +10,10 @@ import {
   startAfter,
   where,
 } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../firebase/firebase";
 import Spinner from "../components/Spinner/Spinner";
 import ListingItem from "../components/ListingItem/ListingItem";
-import { async } from "@firebase/util";
+import { ImSad } from "react-icons/im";
 
 export default function Offer() {
   const [listings, setlistings] = useState(null);
@@ -93,12 +93,21 @@ export default function Offer() {
           </main>
           {lastListing && (
             <div className="flex justify-center items-center">
-              <button onClick={onMoreListings}>Load more</button>
+              <button
+                className="text-black mb-2 mt-6"
+                style={{ backgroundColor: "#e5e5e5" }}
+                onClick={onMoreListings}
+              >
+                Load more
+              </button>
             </div>
           )}
         </>
       ) : (
-        <p> There are no current offers</p>
+        <div className="flex justify-center mb-3">
+          <ImSad className="mt-7 text-5xl  rounded-full" />
+          <h className="text-base mt-7 ml-3">There are no current offers</h>
+        </div>
       )}
     </div>
   );

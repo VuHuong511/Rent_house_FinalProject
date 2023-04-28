@@ -12,11 +12,9 @@ const Pagination = ({
   const [pageNumberLimit, setPageNumberLimit] = useState(3);
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(3);
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
-
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
   // GO to next page
   const paginateNext = () => {
     setCurrentPage(currentPage + 1);
@@ -26,7 +24,6 @@ const Pagination = ({
       setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
     }
   };
-
   // GO to prev page
   const paginatePrev = () => {
     setCurrentPage(currentPage - 1);
@@ -40,41 +37,47 @@ const Pagination = ({
     pageNumbers.push(i);
   }
   return (
-    <ul className="pagination">
+    <ul className="flex justify-center items-center space-x-3 mt-6 mb-2">
       <li
         onClick={paginatePrev}
-        className={currentPage === pageNumbers[0] ? "hidden" : null}
+        className={`border rounded-md py-2 px-3 cursor-pointer ${
+          currentPage === pageNumbers[0]
+            ? "text-gray-400 cursor-not-allowed"
+            : "text-gray-700 hover:bg-gray-200"
+        }`}
       >
         Prev
       </li>
-
       {pageNumbers.map((number) => {
         if (number < maxPageNumberLimit + 1 && number > minPageNumberLimit) {
           return (
             <li
               key={number}
               onClick={() => paginate(number)}
-              className={currentPage === number ? "active" : null}
+              className={`border rounded-md py-2 px-3 cursor-pointer ${
+                currentPage === number
+                  ? "bg-blue-500 text-white"
+                  : "text-gray-700 hover:bg-gray-200"
+              }`}
             >
               {number}
             </li>
           );
         }
       })}
-
       <li
         onClick={paginateNext}
-        className={
-          currentPage === pageNumbers[pageNumbers.length - 1] ? "hidden" : null
-        }
+        className={`border rounded-md py-2 px-3 cursor-pointer ${
+          currentPage === pageNumbers[pageNumbers.length - 1]
+            ? "text-gray-400 cursor-not-allowed"
+            : "text-gray-700 hover:bg-gray-200"
+        }`}
       >
         Next
       </li>
-
-      <p>
-        <b className="page">{`page ${currentPage}`}</b>
-        <span>{` of `}</span>
-        <b>{`${Math.ceil(totalPages)}`}</b>
+      <p className="text-gray-500 text-sm ml-4">
+        Page <span className="font-bold">{currentPage}</span> of{" "}
+        <span className="font-bold">{Math.ceil(totalPages)}</span>
       </p>
     </ul>
   );

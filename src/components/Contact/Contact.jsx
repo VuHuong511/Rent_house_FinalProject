@@ -31,66 +31,68 @@ const Contact = () => {
   };
 
   return (
-    <section>
-      <div className="contact">
-        <h2>Contact Us</h2>
-        <div className="section">
-          <form ref={form} onSubmit={sendEmail}>
-            <card className="card" style={{ backgroundColor: "blue" }}>
-              <label>Name</label>
-              <input
-                type="text"
-                name="user_name"
-                placeholder="Full Name"
-                required
-              />
-              <label>Email</label>
-              <input
-                type="email"
-                name="user_email"
-                placeholder="Your active email"
-                required
-              />
-              <label>Subject</label>
-              <input
-                type="text"
-                name="subject"
-                placeholder="Subject"
-                required
-              />
-              <label>Message</label>
-              <textarea name="message" cols="30" rows="10"></textarea>
-              <button>Send Message</button>
-            </card>
-          </form>
+    <div className="contact">
+      <form className="contentBox" ref={form} onSubmit={sendEmail}>
+        <div className="formBox" style={{ marginTop: 50 }}>
+          <h2>Contact</h2>
+          <div className="inputBox">
+            <label>Name</label>
+            <input
+              type="text"
+              name="user_name"
+              placeholder="Full Name"
+              required
+            />
+          </div>
+          <div className="inputBox">
+            <label>Email</label>
+            <input
+              type="email"
+              name="user_email"
+              placeholder="Your active email"
+              required
+            />
+          </div>
+          <div className="inputBox">
+            <label>Subject</label>
+            <input type="text" name="subject" placeholder="Subject" required />
+          </div>
+          <label>Message</label>
+          <textarea
+            name="message"
+            cols="30"
+            rows="4"
+            placeholder="Message"
+          ></textarea>
+          <button>Send Message</button>
+        </div>
+      </form>
 
-          <div style={{ backgroundColor: "blue" }} className="details">
-            <card className="card2">
-              <h3>Our Contact Information</h3>
-              <p>Fill the form or contact us via other channels listed below</p>
-              <div className="icons">
-                <span>
-                  <FaPhoneAlt />
-                  <p>+0123 456 7890</p>
-                </span>
-                <span>
-                  <FaEnvelope />
-                  <p>Support@rentRoom.com</p>
-                </span>
-                <span>
-                  <GoLocation />
-                  <p>Da Nang, Viet Nam</p>
-                </span>
-                <span>
-                  <FaTwitter />
-                  <p>@vuhuong</p>
-                </span>
-              </div>
-            </card>
+      <div className="contentBox bg-image">
+        <div className="formBox" style={{ marginLeft: 100, width: "100%" }}>
+          <h2>Contact Information</h2>
+          <h4>Fill the form or contact us via other channels listed below</h4>
+          <div className="icons mt-[80px]">
+            <span className="flex mb-[15px] ">
+              <FaPhoneAlt />
+              <p>+0123 456 7890</p>
+            </span>
+            <span className="flex mb-[15px]">
+              <FaEnvelope />
+              <p>Support@rentRoom.com</p>
+            </span>
+            <span className="flex mb-[15px]">
+              <GoLocation />
+              <p>Da Nang, Viet Nam</p>
+            </span>
+            <span className="flex mb-[15px]">
+              <FaTwitter />
+              <p>@vuhuong</p>
+            </span>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

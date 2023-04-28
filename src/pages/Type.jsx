@@ -10,11 +10,11 @@ import {
   startAfter,
   where,
 } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../firebase/firebase";
 import Spinner from "../components/Spinner/Spinner";
 import ListingItem from "../components/ListingItem/ListingItem";
-import { async } from "@firebase/util";
 import { useParams } from "react-router-dom";
+import { ImSad } from "react-icons/im";
 
 export default function Type() {
   const [listings, setlistings] = useState(null);
@@ -102,7 +102,10 @@ export default function Type() {
           )}
         </>
       ) : (
-        <p> There are no current offers</p>
+        <div className="flex justify-center mb-3">
+          <ImSad className="mt-7 text-5xl  rounded-full" />
+          <h className="text-base mt-7 ml-3">There are no current offers</h>
+        </div>
       )}
     </div>
   );

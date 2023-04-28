@@ -40,8 +40,8 @@ export const nav = [
     path: "/services",
   },
   {
-    text: "Offers",
-    path: "/blog",
+    text: "Property",
+    path: "/property",
   },
   {
     text: "contact",
@@ -56,12 +56,12 @@ export const nav = [
 export const featured = [
   {
     cover: hero1,
-    name: "Normal Apartments",
+    name: "Apartments",
     total: "34 Property",
   },
   {
     cover: hero2,
-    name: "Serviced Apartments",
+    name: "Houses",
     total: "52 Property",
   },
   {

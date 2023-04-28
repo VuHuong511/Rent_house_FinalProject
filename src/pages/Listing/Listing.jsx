@@ -23,25 +23,45 @@ import "./Listing.css";
 import Contact from "../../components/Contact";
 import { getAuth } from "firebase/auth";
 import "leaflet/dist/leaflet.css";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import useEffectCollection from "../../hooks/useFetchCollection";
 import StarsRating from "react-star-rate";
-const Listing = () => {
+import L from "leaflet";
+const Listing = (props) => {
+  const icon = L.icon({
+    iconUrl: "./placeholder.png",
+    iconSize: [38, 38],
+  });
+  const position = [51.505, -0.09];
+  function ResetCenterView(props) {
+    const { selectPosition } = props;
+    const map = useMap();
+    useEffect(() => {
+      if (selectPosition) {
+        map.setView(
+          L.latLng(selectPosition?.lat, selectPosition?.lon),
+          map.getZoom(),
+          {
+            animate: true,
+          }
+        );
+      }
+    }, [selectPosition]);
+    return null;
+  }
+
+  const { selectPosition } = props;
+  const locationSelection = [selectPosition?.lat, selectPosition?.lon];
   const auth = getAuth();
   const [shareLinkCopied, setShareLinkCopied] = useState(false);
   const params = useParams();
   const [listing, setListing] = useState(null);
   const { data } = useEffectCollection("reviews");
-
   const [loading, setLoading] = useState(true);
-  const [contactLandlord, setContactLandlord] = useState(true);
-
-  const { id } = useParams();
+  const [contactLandlord] = useState(true);
   const filteredReviews = data.filter(
     (review) => review.roomID === params.listingId
   );
-  console.log(filteredReviews);
-
   SwiperCore.use([Autoplay, Navigation, Pagination]);
   useEffect(() => {
     async function fetchListing() {
@@ -54,19 +74,18 @@ const Listing = () => {
     }
     fetchListing();
   }, [params.listingId]);
-
   if (loading) {
     return <ImSpinner />;
   }
 
   return (
     <div className="container-xl">
+      <Link className="mt-2 mx-9" to="/homeLogin">
+        &larr; Go Back
+      </Link>
       <div className="row" style={{ display: "flex" }}>
         <div className="w-2/4 mx-9">
           <div className="card">
-            <div>
-              <Link to="/homeLogin">Go Back</Link>
-            </div>
             <Swiper
               slidesPerView={1}
               navigation
@@ -82,6 +101,7 @@ const Listing = () => {
                     style={{
                       background: `url(${listing.imgUrls[index]}) center no-repeat`,
                       backgroundSize: "cover",
+                      borderRadius: 10,
                     }}
                   ></div>
                 </SwiperSlide>
@@ -141,7 +161,6 @@ const Listing = () => {
                   </p>
                 )}
               </div>
-
               <p style={{ marginLeft: 20 }} className="mt-3 mb-3">
                 <span className="font-semibold">Description - </span>
                 {listing.description}
@@ -173,28 +192,30 @@ const Listing = () => {
           </div>
         </div>
         <div className="w-2/4 mr-9">
-          <div
-            style={{ marginTop: 30 }}
-            className="w-full h-full md:h-[300px] z-10 overflow-x-hidden md:mt-0"
+          <MapContainer
+            center={position}
+            zoom={8}
+            style={{
+              width: "99%",
+              height: "55%",
+              position: "relative",
+              borderRadius: 13,
+              marginTop: 12,
+            }}
           >
-            <MapContainer
-              center={[51.505, -0.09]}
-              zoom={13}
-              scrollWheelZoom={false}
-              style={{ height: "100%", width: "100%" }}
-            >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://api.maptiler.com/maps/basic-v2/256/{z}/{x}/{y}.png?key=doDbCu5gDayvK33p1UYU"
-              />
-              <Marker position={[51.505, -0.09]}>
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://api.maptiler.com/maps/basic-v2/256/{z}/{x}/{y}.png?key=l841GjLkKJrlZ4sX3MhS"
+            />
+            {selectPosition && (
+              <Marker position={locationSelection} icon={icon}>
                 <Popup>
                   A pretty CSS3 popup. <br /> Easily customizable.
                 </Popup>
               </Marker>
-            </MapContainer>
-          </div>
-
+            )}
+            <ResetCenterView selectPosition={selectPosition} />
+          </MapContainer>
           <div className="card">
             {listing.userRef !== auth.currentUser?.uid && !contactLandlord && (
               <div className="mt-6">
@@ -205,33 +226,36 @@ const Listing = () => {
               <Contact userRef={listing.userRef} listing={listing} />
             )}
           </div>
-          <card className="card">
-            <h3>Product Reviews</h3>
-            <div>
-              {filteredReviews.length === 0 ? (
-                <p>There are no reviews for this product yet.</p>
-              ) : (
-                <>
-                  {filteredReviews.map((item, index) => {
-                    const { rate, review, reviewDate, userName } = item;
-                    return (
-                      <div key={index} className="review">
-                        <StarsRating value={rate} />
-                        <p>{review}</p>
-                        <span>
-                          <b>{reviewDate}</b>
-                        </span>
-                        <br />
-                        <span>
-                          <b>by: {userName}</b>
-                        </span>
-                      </div>
-                    );
-                  })}
-                </>
-              )}
-            </div>
-          </card>
+        </div>
+      </div>
+      <div className="card mx-9">
+        <h3 className="text-lg font-bold mb-4">Room Reviews</h3>
+        <div>
+          {filteredReviews.length === 0 ? (
+            <p className="text-gray-600">
+              There are no reviews for this room yet.
+            </p>
+          ) : (
+            <>
+              {filteredReviews.map((item, index) => {
+                const { rate, review, reviewDate, userName } = item;
+                return (
+                  <div key={index} className="review border-t-2 pt-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <StarsRating value={rate} />
+                      <span className="text-gray-600 text-sm">
+                        {reviewDate}
+                      </span>
+                    </div>
+                    <p className="text-gray-800">{review}</p>
+                    <span className="text-gray-600 text-sm">
+                      by: {userName}
+                    </span>
+                  </div>
+                );
+              })}
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import React from "react";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { db } from "../firebase";
+import { db } from "../firebase/firebase";
 
 export default function OAuth() {
   const navigate = useNavigate();
@@ -14,7 +14,6 @@ export default function OAuth() {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-
       //check for the user
       const docRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(docRef);

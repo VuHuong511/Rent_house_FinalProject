@@ -7,14 +7,9 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { SET_ACTIVE_USER } from "../../../redux/slice/authSlice";
 import { REMOVE_ACTIVE_USER } from "../../../redux/slice/authSlice";
-import AdminOnlyRoute, {
-  AdminOnlyLink,
-} from "../../AdminOnlyRoute/AdminOnlyRoute";
-import { FaShoppingCart } from "react-icons/fa";
-import {
-  CALCULATE_TOTAL_QUANTITY,
-  selectWishListTotalQuantity,
-} from "../../../redux/slice/wishListSlice";
+import { CALCULATE_TOTAL_QUANTITY } from "../../../redux/slice/wishListSlice";
+import { toast } from "react-toastify";
+import { FaSignOutAlt, FaUser } from "react-icons/fa";
 const Header = () => {
   const [pageState, setPageState] = useState("login");
   const [homeState, setHomeState] = useState("login");
@@ -28,18 +23,13 @@ const Header = () => {
   const navigate = useNavigate();
   const auth = getAuth();
   const [displayName, setDisplayName] = useState("");
-  const wishListTotalQuantity = useSelector(selectWishListTotalQuantity);
 
   useEffect(() => {
     dispatch(CALCULATE_TOTAL_QUANTITY());
   }, []);
   const wishList = (
     <span className="wishList">
-      <p className="text-black">{wishListTotalQuantity}</p>
-      <Link to="/wishlist">
-        Wish List
-        <FaShoppingCart size={20} />
-      </Link>
+      <Link to="/wishlist">Wish List</Link>
     </span>
   );
   useEffect(() => {
@@ -52,10 +42,9 @@ const Header = () => {
         } else {
           setDisplayName(user.displayName);
         }
-        console.log(user);
         setPageState(
           <img
-            className="w-[50px] h-[50px] ml-[300px]"
+            className="w-[50px] h-[50px]"
             onClick={() => setOpenProfile((prev) => !prev)}
             src={User}
           ></img>
@@ -86,7 +75,6 @@ const Header = () => {
             {wishList}
           </div>
         );
-
         setListState(
           <Link
             style={{ fontWeight: 600 }}
@@ -96,7 +84,6 @@ const Header = () => {
             Reservation history
           </Link>
         );
-
         setContactState(
           <Link
             style={{ fontWeight: 600 }}
@@ -119,7 +106,7 @@ const Header = () => {
         setPageState(
           <Link to="/login" style={{ fontWeight: 600 }}>
             <button style={{ marginLeft: 265 }}>
-              <i className="fa fa-sign-in"></i>Sign In
+              <i className="fa fa-sign-in"></i>Login
             </button>
           </Link>
         );
@@ -171,20 +158,17 @@ const Header = () => {
       }
     });
   }, [auth, dispatch, displayName]);
-
   function matchRoute(route) {
     if (route === location.pathname) {
       return true;
     }
   }
-
   const [open, setOpen] = useState(false);
-
   function onLogout() {
     auth.signOut();
+    toast.success("Logged out");
     navigate("/");
   }
-
   return (
     <div className="shadow-md w-full top-0 left-0">
       <div className="md:flex items-center justify-between bg-white py-2 px-10">
@@ -194,7 +178,9 @@ const Header = () => {
         >
           <span className="text-3xl text-indigo-600 mr-1 pt-2">
             <div className="logo">
-              <img src={Logo} alt="logo" />
+              <Link to="homeLogin">
+                <img src={Logo} alt="/logo" />
+              </Link>
             </div>
           </span>
         </div>
@@ -204,18 +190,12 @@ const Header = () => {
         >
           <ion-icon name={open ? "close" : "menu"}></ion-icon>
         </div>
-        <div style={{ marginLeft: 185 }} className="nav">
+        <div className="nav">
           <ul
             className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
               open ? "top-20 " : "top-[-490px]"
             }`}
           >
-            <AdminOnlyLink>
-              <Link to="/admin/dashboard">
-                <button>Admin</button>
-              </Link>
-            </AdminOnlyLink>
-
             {homeState}
             {aboutState}
             {addState}
@@ -228,9 +208,10 @@ const Header = () => {
               <ul className="flex flex-col gap-4 ">
                 <Link
                   onClick={() => setOpenProfile(false)}
-                  className="hover:text-blue-800"
+                  className="hover:text-blue-800 flex"
                   to="/profile"
                 >
+                  <FaUser className="mr-2" />
                   Profile
                 </Link>
                 <Link
@@ -238,9 +219,10 @@ const Header = () => {
                     setOpenProfile(false);
                     onLogout();
                   }}
-                  className="hover:text-blue-800"
+                  className="hover:text-blue-800 flex"
                   to="/"
                 >
+                  <FaSignOutAlt className="mr-2" />
                   Log out
                 </Link>
               </ul>
