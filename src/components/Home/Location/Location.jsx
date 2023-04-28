@@ -10,9 +10,8 @@ const Location = () => {
         <div className="container">
           <Heading
             title="Explore By Location"
-            subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+            subtitle="Discover properties in your desired location. Explore our collection of properties for sale and rent in your favorite neighborhoods, towns, and cities."
           />
-
           <div className="content grid3 mtop">
             {location.map((item, index) => (
               <div className="box" key={index}>

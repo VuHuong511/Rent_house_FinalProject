@@ -7,15 +7,14 @@ import {
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { db } from "../../../firebase";
-import { list } from "../../data";
+import { db } from "../../../firebase/firebase";
 import ListingItem from "../../ListingItem/ListingItem";
+import { useNavigate } from "react-router-dom";
 
 const RecentCard = () => {
+  const navigate = useNavigate();
   //offers
   const [offerListings, setOfferListings] = useState(null);
-
   useEffect(() => {
     async function fetchListings() {
       try {
@@ -44,14 +43,16 @@ const RecentCard = () => {
     }
     fetchListings();
   }, []);
-
+  const handleListingClick = () => {
+    navigate("/login");
+  };
   return (
     <>
-      <div className="max-w-6xl px-3 mt-6 mx-auto">
+      <div onClick={handleListingClick} className="max-w-6xl px-3 mt-6 mx-auto">
         {offerListings && offerListings.length > 0 && (
           <ul
-            style={{ margin: -30, alignItems: "center" }}
-            className="sm:grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5"
+            style={{ alignItems: "center", columnGap: 200 }}
+            className="sm:grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 justify-items-center"
           >
             {offerListings.map((listing) => (
               <ListingItem
@@ -63,30 +64,6 @@ const RecentCard = () => {
           </ul>
         )}
       </div>
-      {/* <div className='content grid3 mtop'>
-        {list.map((val, index) => {
-          const { cover, location, name, price, type } = val
-          return (
-            <div className='box shadow' key={index}>
-              <div className='img'>
-                <img src={cover} alt='' />
-              </div>
-              <div className='text'>
-                <h4>{name}</h4>
-                <p>
-                  <i className='fa fa-location-dot'></i> {location}
-                </p>
-              </div>
-              <div className='button flex'>
-                <div>
-                  <button className='btn2'>{price}</button> <label htmlFor=''>/Month</label>
-                </div>
-                <span>{type}</span>
-              </div>
-            </div>
-          )
-        })}
-      </div> */}
     </>
   );
 };

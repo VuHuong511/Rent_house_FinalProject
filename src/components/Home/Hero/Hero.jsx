@@ -1,16 +1,19 @@
-import React from "react"
-import Heading from "../../Common/Heading"
-import "./Hero.css"
+import React from "react";
+import Heading from "../../Common/Heading";
+import "./Hero.css";
 const Hero = () => {
   return (
     <>
-      <section className='hero'>
-        <div className='container'>
-          <Heading title='Rent Your Dream House with Us' subtitle='Find new & featured property located in your local city.' />
+      <section className="hero">
+        <div className="container">
+          <Heading
+            title="Rent Your Dream Room with Us"
+            subtitle="Find Your Perfect Space and Make It Your Own with Our Room Rentals"
+          />
         </div>
       </section>
     </>
-  )
-}
+  );
+};
 
-export default Hero
+export default Hero;

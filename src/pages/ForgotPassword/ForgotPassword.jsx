@@ -28,7 +28,6 @@ export default function ForgotPassword() {
           alt=""
         />
       </div>
-
       <form className="contentBox" onSubmit={onSubmit}>
         <div className="formBox">
           <h2>FORGOT PASSWORD</h2>
@@ -49,7 +48,6 @@ export default function ForgotPassword() {
                 Register
               </Link>
             </p>
-
             <Link className="text-green-500" to="/login">
               Sign in instead
             </Link>
@@ -57,7 +55,6 @@ export default function ForgotPassword() {
           <button className="w-full my-5 py-2 bg-teal-500 text-white font-bold">
             RESET PASSWORD
           </button>
-
           <OAuth />
         </div>
       </form>

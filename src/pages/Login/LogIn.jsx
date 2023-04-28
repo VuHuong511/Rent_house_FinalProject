@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import { toast } from "react-toastify";
@@ -30,11 +29,14 @@ export default function LogIn() {
         email,
         password
       );
-      if (userCredential.user) {
-        navigate("/");
+      const user = userCredential.user;
+      if (user && user.email === "admin2@gmail.com") {
+        toast.success("Welcome Admin");
+        navigate("/admin/dashboard");
+      } else {
+        toast.success("Login successfully");
+        navigate("/homeLogin");
       }
-      toast.success("Login was successfully");
-      navigate("/");
     } catch (error) {
       toast.error("Bad user credentials");
     }
@@ -48,7 +50,7 @@ export default function LogIn() {
         />
       </div>
       <form className="contentBox" onSubmit={onSubmit}>
-        <div className="formBox">
+        <div className="formBox" style={{ marginTop: 50 }}>
           <h2>Log in</h2>
           <div className="inputBox">
             <span>Email</span>
@@ -90,7 +92,6 @@ export default function LogIn() {
                 type="checkbox"
                 style={{ width: 20 }}
               />
-
               <label style={{ fontSize: 15, marginTop: 5, paddingLeft: 7 }}>
                 Remember me
               </label>
@@ -100,7 +101,7 @@ export default function LogIn() {
             </Link>
           </div>
           <button>LOG IN</button>
-          <div className="inputBox">
+          <div>
             <p style={{ fontSize: 15 }}>
               Don't have a account?
               <Link className="text-blue-500 pl-1" to="/register">

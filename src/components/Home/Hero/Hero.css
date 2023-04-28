@@ -1,5 +1,5 @@
 .hero {
-  background-image: url("../../../../public/images/banner1.png");
+  background-image: url("../../../../public/images/hero.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -7,15 +7,15 @@
   width: 100%;
 }
 .hero .container {
-  padding-top: 15%;
+  padding-top: 12%;
 }
 .hero h1 {
-  color: #fff;
+  color: #ffffff;
   font-size: 60px;
 }
 .hero p {
-  color: #fefefe;
-  opacity: 0.8;
+  color: #ffffff;
+  opacity: 1.5;
 }
 
 @media screen and (max-width: 800px) {

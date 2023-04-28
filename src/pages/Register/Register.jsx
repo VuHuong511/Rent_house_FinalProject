@@ -5,7 +5,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./Register.css";
-import { app, db } from "../../firebase";
+import { app, db } from "../../firebase/firebase";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -21,7 +21,6 @@ export default function Register() {
       [e.target.id]: e.target.value,
     }));
   }
-  console.log(name);
   async function onSubmit(e) {
     e.preventDefault();
     try {
@@ -39,6 +38,7 @@ export default function Register() {
       toast.success("Register was successfully");
       navigate("/login");
     } catch (error) {
+      console.log(error);
       toast.error("Something went wrong with the registration");
     }
   }
@@ -53,11 +53,17 @@ export default function Register() {
           />
         </div>
         <form className="contentBox" onSubmit={onSubmit}>
-          <div className="formBox">
+          <div className="formBox" style={{ marginTop: 50 }}>
             <h2>REGISTER</h2>
             <div className="inputBox">
               <span>User name</span>
-              <input type="text" value={name} id="name" onChange={onChange} />
+              <input
+                type="text"
+                value={name}
+                id="name"
+                onChange={onChange}
+                required
+              />
             </div>
             <div className="inputBox">
               <span>Email</span>
@@ -92,14 +98,14 @@ export default function Register() {
                 )}
               </div>
             </div>
-            <div style={{ margin: 5 }}>
+            <div style={{ marginTop: 5 }}>
               <input
                 className="form-control"
                 type="checkbox"
                 required
                 style={{ width: 20 }}
               />
-              <label style={{ fontSize: 17, marginTop: 5, paddingLeft: 7 }}>
+              <label style={{ fontSize: 15, paddingLeft: 7 }}>
                 I agree to <strong>terms</strong> and{" "}
                 <strong>conditions</strong>
               </label>
@@ -107,10 +113,10 @@ export default function Register() {
             <div className="inputBox">
               <input type="submit" value="REGISTER" />
             </div>
-            <div className="inputBox">
-              <p>
+            <div>
+              <p style={{ fontSize: 15 }}>
                 Have a account?
-                <Link className="pl-1" to="/login">
+                <Link className="text-blue-500 pl-1" to="/login">
                   <strong>Login</strong>
                 </Link>
               </p>
